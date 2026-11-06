@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>M1 mechanics animations</title>
+  <link rel="stylesheet" href="{{ root }}static/style.css">
+</head>
+<body>
+  <header class="top">
+    <h1>M1 mechanics animations</h1>
+    <p class="blurb">Pick a scene, change the numbers, and press Play. Every page keeps its numbers in the address, so a link or QR code always opens the same example.</p>
+  </header>
+  <div class="search">
+    <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke-width="2"/><path d="M13 13l4.5 4.5" stroke-width="2" stroke-linecap="round"/></svg>
+    <input id="search" type="search" placeholder="Search scenes: try “pulley”, “bounce” or a question type like 3.16" aria-label="Search scenes" autocomplete="off">
+    <span id="search-count" class="search-count" aria-live="polite"></span>
+  </div>
+  <nav class="chapter-nav" aria-label="Chapters">
+    {% for ch in chapters %}<a href="#ch{{ loop.index }}" style="--c: {{ ch.color }}">{{ ch.name.split(':')[0] }}</a>{% endfor %}
+  </nav>
+  <main class="chapters">
+    {% for ch in chapters %}
+    <section class="chapter" id="ch{{ loop.index }}" style="--c: {{ ch.color }}">
+      <h2 class="chapter-name">{{ ch.name }} <span class="chapter-count">{{ ch.scenes|length }} scene{{ "s" if ch.scenes|length != 1 else "" }}</span></h2>
+      <ul class="scene-grid">
+        {% for scene in ch.scenes %}
+        <li class="scene-card" data-search="{{ (scene.title ~ ' ' ~ scene.blurb ~ ' ' ~ ch.name ~ ' ' ~ (scene.covers or [])|join(' '))|lower }}">
+          <a class="scene-link" href="{{ root }}m1/{{ scene.id }}/">{{ scene.title }}</a>
+          <p class="scene-blurb">{{ scene.blurb }}</p>
+          {% if scene.covers %}<p class="scene-codes">{% for c in scene.covers %}<span>{{ c }}</span>{% endfor %}</p>{% endif %}
+          {% if scene.presets %}
+          <label class="scene-preset">
+            Jump to an example
+            <select data-goto>
+              <option value="">Choose…</option>
+              {% for preset in scene.presets %}
+              <option value="{{ root }}e/{{ scene.id }}-{{ loop.index }}/">{{ preset.label }}</option>
+              {% endfor %}
+            </select>
+          </label>
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+    </section>
+    {% endfor %}
+  </main>
+  <p id="no-results" class="no-results" hidden>No scenes match that search.</p>
+  <script>
+    const box = document.getElementById("search"), count = document.getElementById("search-count");
+    const cards = [...document.querySelectorAll(".scene-card")];
+    function filter() {
+      const words = box.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+      let shown = 0;
+      for (const card of cards) {
+        const hay = card.dataset.search;
+        // a question code like "3.16" must match a whole code, not part of "3.160"
+        const ok = words.every((w) => /^\d+\.\d+$/.test(w) ? hay.split(" ").includes(w) : hay.includes(w));
+        card.hidden = !ok; if (ok) shown++;
+      }
+      document.querySelectorAll(".chapter").forEach((ch) => { ch.hidden = !ch.querySelector(".scene-card:not([hidden])"); });
+      document.getElementById("no-results").hidden = shown > 0;
+      count.textContent = words.length ? `${shown} of ${cards.length}` : "";
+      try { sessionStorage.setItem("m1-search", box.value); } catch (e) {}
+    }
+    box.addEventListener("input", filter);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "/" && document.activeElement !== box) { e.preventDefault(); box.focus(); }
+      if (e.key === "Escape" && document.activeElement === box) { box.value = ""; filter(); }
+    });
+    try { box.value = sessionStorage.getItem("m1-search") || ""; } catch (e) {}
+    filter();
+    document.querySelectorAll("select[data-goto]").forEach((sel) => {
+      sel.addEventListener("change", () => { if (sel.value) window.location.href = sel.value; });
+    });
+  </script>
+</body>
+</html>

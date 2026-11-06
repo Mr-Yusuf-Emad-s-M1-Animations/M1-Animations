@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>A journey in three stages: From rest, cruise, back to rest | M1 animations</title>
+  <link rel="stylesheet" href="../../static/style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="back" href="../../">All examples</a>
+    <p class="chapter">Chapter 1: Constant acceleration</p>
+    <h1>A journey in three stages</h1>
+    <p class="blurb">A car speeds up, travels at constant speed, then slows down. The speed-time graph draws as it moves; the shaded area is the distance. Watch the mid-point trap: half the distance is not reached at half the time.</p>
+    <p class="example">Example: From rest, cruise, back to rest</p>
+    <noscript><p class="blurb">This page needs JavaScript to draw the animation.</p></noscript>
+    <p class="covers">Question types 1.1, 1.2, 1.3, 1.4, 1.6, 1.7, 1.8, 1.9, 1.10, 1.15</p>
+  </header>
+  <main class="layout">
+    <section class="stage">
+      <div class="canvas-wrap">
+        <canvas id="stage" role="img" aria-label="Animation: A journey in three stages"></canvas>
+        <p id="loading" class="loading" hidden>Loading…</p>
+      </div>
+      <div class="readout-strip" hidden>
+        <dl id="readout"></dl>
+      </div>
+      <div class="controls">
+        <button id="load" type="button" class="quiet" title="Recalculate and redraw everything from the numbers">Load</button>
+        <button id="play" type="button">Play</button>
+        <button id="restart" type="button" class="quiet">Restart</button>
+        <label class="speed">Speed
+          <select id="speed">
+            <option value="0.25">0.25×</option>
+            <option value="0.5">0.5×</option>
+            <option value="1" selected>1×</option>
+            <option value="2">2×</option>
+          </select>
+        </label>
+        <input id="scrub" type="range" min="0" max="0" value="0" aria-label="Scrub through the animation">
+        <p class="keys">Space: play / pause · R: restart · ← →: step one frame (Shift for 10) · Load: full reset</p>
+      </div>
+    </section>
+    <section class="panel">
+      <h2>Calculated values</h2>
+      <dl id="results"></dl>
+      <h2>Your numbers</h2>
+      <form id="params" autocomplete="off" onsubmit="return false">
+        
+        <label>
+          <span>Starting speed u <em>(m/s)</em></span>
+          
+          <input name="u" type="number" step="any" inputmode="decimal" value="0">
+          
+          
+        </label>
+        
+        <label>
+          <span>Acceleration in stage 1 <em>(m/s²)</em></span>
+          
+          <input name="a1" type="number" step="any" inputmode="decimal" value="2">
+          
+          
+        </label>
+        
+        <label>
+          <span>Time of stage 1 <em>(s)</em></span>
+          
+          <input name="t1" type="number" step="any" inputmode="decimal" value="5">
+          
+          
+        </label>
+        
+        <label>
+          <span>Time at constant speed <em>(s)</em></span>
+          
+          <input name="t2" type="number" step="any" inputmode="decimal" value="10">
+          
+          
+        </label>
+        
+        <label>
+          <span>Deceleration in stage 3 <em>(m/s²)</em></span>
+          
+          <input name="a3" type="number" step="any" inputmode="decimal" value="1.5">
+          
+          
+        </label>
+        
+        <label>
+          <span>Final speed <em>(m/s)</em></span>
+          
+          <input name="v_end" type="number" step="any" inputmode="decimal" value="0">
+          
+          
+        </label>
+        
+      </form>
+      <p id="error" role="alert"></p>
+      
+      <h2>Other examples</h2>
+      <ul class="presets">
+        
+        <li><a href="../../e/suvat-journey-1/">From rest, cruise, back to rest</a></li>
+        
+        <li><a href="../../e/suvat-journey-2/">Train passing through: 12 m/s up to 20 m/s, then down to 8 m/s</a></li>
+        
+        <li><a href="../../e/suvat-journey-3/">Speeds up then brakes at once (no cruise)</a></li>
+        
+      </ul>
+      
+    </section>
+  </main>
+  <script>window.SCENE_ID = "suvat-journey";</script>
+  <script src="../../static/solvers.js"></script>
+  <script src="../../static/catalog.js"></script>
+  <script src="../../static/scenes.js"></script>
+  <script src="../../static/app.js"></script>
+</body>
+</html>

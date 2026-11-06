@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Person in a lift: Going up: 1.5 m/s² for 2 s, then 3 s steady, then slowing at 2 m/s² | M1 animations</title>
+  <link rel="stylesheet" href="../../static/style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="back" href="../../">All examples</a>
+    <p class="chapter">Chapter 3: Dynamics</p>
+    <h1>Person in a lift</h1>
+    <p class="blurb">The lift speeds up, moves at constant speed, then slows to rest. The force from the floor R = m(g + a), with a positive upwards: R is biggest when the acceleration points up and smallest when it points down.</p>
+    <p class="example">Example: Going up: 1.5 m/s² for 2 s, then 3 s steady, then slowing at 2 m/s²</p>
+    <noscript><p class="blurb">This page needs JavaScript to draw the animation.</p></noscript>
+    <p class="covers">Question types 3.10, 3.13</p>
+  </header>
+  <main class="layout">
+    <section class="stage">
+      <div class="canvas-wrap">
+        <canvas id="stage" role="img" aria-label="Animation: Person in a lift"></canvas>
+        <p id="loading" class="loading" hidden>Loading…</p>
+      </div>
+      <div class="readout-strip" hidden>
+        <dl id="readout"></dl>
+      </div>
+      <div class="controls">
+        <button id="load" type="button" class="quiet" title="Recalculate and redraw everything from the numbers">Load</button>
+        <button id="play" type="button">Play</button>
+        <button id="restart" type="button" class="quiet">Restart</button>
+        <label class="speed">Speed
+          <select id="speed">
+            <option value="0.25">0.25×</option>
+            <option value="0.5">0.5×</option>
+            <option value="1" selected>1×</option>
+            <option value="2">2×</option>
+          </select>
+        </label>
+        <input id="scrub" type="range" min="0" max="0" value="0" aria-label="Scrub through the animation">
+        <p class="keys">Space: play / pause · R: restart · ← →: step one frame (Shift for 10) · Load: full reset</p>
+      </div>
+    </section>
+    <section class="panel">
+      <h2>Calculated values</h2>
+      <dl id="results"></dl>
+      <h2>Your numbers</h2>
+      <form id="params" autocomplete="off" onsubmit="return false">
+        
+        <label class="wide">
+          <span>The lift goes</span>
+          
+          <select name="dir">
+            
+            <option value="up" selected>Up</option>
+            
+            <option value="down" >Down</option>
+            
+          </select>
+          
+        </label>
+        
+        <label>
+          <span>Mass of the person <em>(kg)</em></span>
+          
+          <input name="m" type="number" step="any" inputmode="decimal" value="70">
+          
+          
+        </label>
+        
+        <label>
+          <span>Mass of the lift <em>(kg)</em></span>
+          
+          <input name="M" type="number" step="any" inputmode="decimal" value="400">
+          
+          
+        </label>
+        
+        <label>
+          <span>Acceleration (speeding up) <em>(m/s²)</em></span>
+          
+          <input name="a1" type="number" step="any" inputmode="decimal" value="1.5">
+          
+          
+        </label>
+        
+        <label>
+          <span>Time speeding up <em>(s)</em></span>
+          
+          <input name="t1" type="number" step="any" inputmode="decimal" value="2">
+          
+          
+        </label>
+        
+        <label>
+          <span>Time at constant speed <em>(s)</em></span>
+          
+          <input name="t2" type="number" step="any" inputmode="decimal" value="3">
+          
+          
+        </label>
+        
+        <label>
+          <span>Deceleration (slowing down) <em>(m/s²)</em></span>
+          
+          <input name="a3" type="number" step="any" inputmode="decimal" value="2">
+          
+          
+        </label>
+        
+        <label>
+          <span>Gravity g <em>(m/s²)</em></span>
+          
+          <input name="g" type="number" step="any" inputmode="decimal" value="9.8">
+          
+          
+        </label>
+        
+      </form>
+      <p id="error" role="alert"></p>
+      
+      <h2>Other examples</h2>
+      <ul class="presets">
+        
+        <li><a href="../../e/lift-1/">Going up: 1.5 m/s² for 2 s, then 3 s steady, then slowing at 2 m/s²</a></li>
+        
+        <li><a href="../../e/lift-2/">Going down</a></li>
+        
+      </ul>
+      
+    </section>
+  </main>
+  <script>window.SCENE_ID = "lift";</script>
+  <script src="../../static/solvers.js"></script>
+  <script src="../../static/catalog.js"></script>
+  <script src="../../static/scenes.js"></script>
+  <script src="../../static/app.js"></script>
+</body>
+</html>

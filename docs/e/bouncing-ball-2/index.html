@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bouncing ball: Thrown down at 3 m/s from 1.8 m | M1 animations</title>
+  <link rel="stylesheet" href="../../static/style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="back" href="../../">All examples</a>
+    <p class="chapter">Chapter 1: Constant acceleration</p>
+    <h1>Bouncing ball</h1>
+    <p class="blurb">A ball falls onto the floor and bounces. On the velocity-time graph (up is positive) each bounce is a sudden jump from a negative to a positive velocity.</p>
+    <p class="example">Example: Thrown down at 3 m/s from 1.8 m</p>
+    <noscript><p class="blurb">This page needs JavaScript to draw the animation.</p></noscript>
+    <p class="covers">Question types 1.22, 1.24, 4.11, 4.13</p>
+  </header>
+  <main class="layout">
+    <section class="stage">
+      <div class="canvas-wrap">
+        <canvas id="stage" role="img" aria-label="Animation: Bouncing ball"></canvas>
+        <p id="loading" class="loading" hidden>Loading…</p>
+      </div>
+      <div class="readout-strip" hidden>
+        <dl id="readout"></dl>
+      </div>
+      <div class="controls">
+        <button id="load" type="button" class="quiet" title="Recalculate and redraw everything from the numbers">Load</button>
+        <button id="play" type="button">Play</button>
+        <button id="restart" type="button" class="quiet">Restart</button>
+        <label class="speed">Speed
+          <select id="speed">
+            <option value="0.25">0.25×</option>
+            <option value="0.5">0.5×</option>
+            <option value="1" selected>1×</option>
+            <option value="2">2×</option>
+          </select>
+        </label>
+        <input id="scrub" type="range" min="0" max="0" value="0" aria-label="Scrub through the animation">
+        <p class="keys">Space: play / pause · R: restart · ← →: step one frame (Shift for 10) · Load: full reset</p>
+      </div>
+    </section>
+    <section class="panel">
+      <h2>Calculated values</h2>
+      <dl id="results"></dl>
+      <h2>Your numbers</h2>
+      <form id="params" autocomplete="off" onsubmit="return false">
+        
+        <label>
+          <span>Starting height above the floor <em>(m)</em></span>
+          
+          <input name="h" type="number" step="any" inputmode="decimal" value="1.8">
+          
+          
+        </label>
+        
+        <label>
+          <span>Starting velocity (+ up, − down) <em>(m/s)</em></span>
+          
+          <input name="u" type="number" step="any" inputmode="decimal" value="-3">
+          
+          
+        </label>
+        
+        <label class="wide">
+          <span>Rebound speed ÷ impact speed (e)</span>
+          
+          <input name="e" type="number" step="any" inputmode="decimal" value="0.5">
+          
+          <input type="range" data-for="e" min="0" max="0.95" step="0.05" value="0.5" aria-label="Rebound speed ÷ impact speed (e) slider">
+          
+          
+        </label>
+        
+        <label>
+          <span>Mass of the ball <em>(kg)</em></span>
+          
+          <input name="m" type="number" step="any" inputmode="decimal" value="0.15">
+          
+          
+        </label>
+        
+        <label>
+          <span>Gravity g <em>(m/s²)</em></span>
+          
+          <input name="g" type="number" step="any" inputmode="decimal" value="9.8">
+          
+          
+        </label>
+        
+      </form>
+      <p id="error" role="alert"></p>
+      
+      <h2>Other examples</h2>
+      <ul class="presets">
+        
+        <li><a href="../../e/bouncing-ball-1/">Dropped from 2.5 m, rebounds at 0.6 × the speed</a></li>
+        
+        <li><a href="../../e/bouncing-ball-2/">Thrown down at 3 m/s from 1.8 m</a></li>
+        
+        <li><a href="../../e/bouncing-ball-3/">Thrown up at 5 m/s from 1 m</a></li>
+        
+      </ul>
+      
+    </section>
+  </main>
+  <script>window.SCENE_ID = "bouncing-ball";</script>
+  <script src="../../static/solvers.js"></script>
+  <script src="../../static/catalog.js"></script>
+  <script src="../../static/scenes.js"></script>
+  <script src="../../static/app.js"></script>
+</body>
+</html>

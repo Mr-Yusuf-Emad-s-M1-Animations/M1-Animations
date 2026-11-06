@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projected up a rough slope: Projected at 8 m/s up a 25° slope, μ = 0.25 | M1 animations</title>
+  <link rel="stylesheet" href="../../static/style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="back" href="../../">All examples</a>
+    <p class="chapter">Chapter 3: Dynamics</p>
+    <h1>Projected up a rough slope</h1>
+    <p class="blurb">A particle is projected up a rough slope. Friction acts down the slope while it moves up, then flips to act up the slope when it slides back, so the two accelerations are different.</p>
+    <p class="example">Example: Projected at 8 m/s up a 25° slope, μ = 0.25</p>
+    <noscript><p class="blurb">This page needs JavaScript to draw the animation.</p></noscript>
+    <p class="covers">Question types 3.11, 3.12</p>
+  </header>
+  <main class="layout">
+    <section class="stage">
+      <div class="canvas-wrap">
+        <canvas id="stage" role="img" aria-label="Animation: Projected up a rough slope"></canvas>
+        <p id="loading" class="loading" hidden>Loading…</p>
+      </div>
+      <div class="readout-strip" hidden>
+        <dl id="readout"></dl>
+      </div>
+      <div class="controls">
+        <button id="load" type="button" class="quiet" title="Recalculate and redraw everything from the numbers">Load</button>
+        <button id="play" type="button">Play</button>
+        <button id="restart" type="button" class="quiet">Restart</button>
+        <label class="speed">Speed
+          <select id="speed">
+            <option value="0.25">0.25×</option>
+            <option value="0.5">0.5×</option>
+            <option value="1" selected>1×</option>
+            <option value="2">2×</option>
+          </select>
+        </label>
+        <input id="scrub" type="range" min="0" max="0" value="0" aria-label="Scrub through the animation">
+        <p class="keys">Space: play / pause · R: restart · ← →: step one frame (Shift for 10) · Load: full reset</p>
+      </div>
+    </section>
+    <section class="panel">
+      <h2>Calculated values</h2>
+      <dl id="results"></dl>
+      <h2>Your numbers</h2>
+      <form id="params" autocomplete="off" onsubmit="return false">
+        
+        <label>
+          <span>Slope angle θ <em>(°)</em></span>
+          
+          <input name="angle" type="number" step="any" inputmode="decimal" value="25">
+          
+          
+        </label>
+        
+        <label>
+          <span>Speed projected up the slope <em>(m/s)</em></span>
+          
+          <input name="u" type="number" step="any" inputmode="decimal" value="8">
+          
+          
+        </label>
+        
+        <label class="wide">
+          <span>Coefficient of friction μ</span>
+          
+          <input name="mu" type="number" step="any" inputmode="decimal" value="0.25">
+          
+          <input type="range" data-for="mu" min="0" max="1.5" step="0.01" value="0.25" aria-label="Coefficient of friction μ slider">
+          
+          
+        </label>
+        
+        <label>
+          <span>Mass <em>(kg)</em></span>
+          
+          <input name="m" type="number" step="any" inputmode="decimal" value="2">
+          
+          
+        </label>
+        
+        <label>
+          <span>Gravity g <em>(m/s²)</em></span>
+          
+          <input name="g" type="number" step="any" inputmode="decimal" value="9.8">
+          
+          
+        </label>
+        
+      </form>
+      <p id="error" role="alert"></p>
+      
+      <h2>Other examples</h2>
+      <ul class="presets">
+        
+        <li><a href="../../e/slope-up-and-back-1/">Projected at 8 m/s up a 25° slope, μ = 0.25</a></li>
+        
+        <li><a href="../../e/slope-up-and-back-2/">Too rough to slide back (μ = 0.6 on 20°)</a></li>
+        
+      </ul>
+      
+    </section>
+  </main>
+  <script>window.SCENE_ID = "slope-up-and-back";</script>
+  <script src="../../static/solvers.js"></script>
+  <script src="../../static/catalog.js"></script>
+  <script src="../../static/scenes.js"></script>
+  <script src="../../static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+{
+  "_help": "Give an example in the notes its own short, permanent id. Add entries like the one below (without the leading underscore), then run: python build.py. 'scene' is a scene id, 'preset' (optional) starts from that preset number, 'params' (optional) changes numbers, 'title' is shown under the heading. Never change or delete an id after it is printed.",
+  "_example": { "scene": "overtaking", "preset": 1, "params": { "u": 12 }, "title": "Example 4.3 in the notes" }
+}

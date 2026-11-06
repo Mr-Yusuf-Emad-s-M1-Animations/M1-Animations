@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ scene.title }}{% if example %}: {{ example.label }}{% endif %} | M1 animations</title>
+  <link rel="stylesheet" href="{{ root }}static/style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="back" href="{{ root }}">All examples</a>
+    <p class="chapter">{{ scene.chapter }}</p>
+    <h1>{{ scene.title }}</h1>
+    <p class="blurb">{{ scene.blurb }}</p>
+    {% if example %}<p class="example">Example: {{ example.label }}</p>{% endif %}
+    <noscript><p class="blurb">This page needs JavaScript to draw the animation.</p></noscript>
+    {% if scene.covers %}<p class="covers">Question types {{ scene.covers|join(", ") }}</p>{% endif %}
+  </header>
+  <main class="layout">
+    <section class="stage">
+      <div class="canvas-wrap">
+        <canvas id="stage" role="img" aria-label="Animation: {{ scene.title }}"></canvas>
+        <p id="loading" class="loading" hidden>Loading…</p>
+      </div>
+      <div class="readout-strip" hidden>
+        <dl id="readout"></dl>
+      </div>
+      <div class="controls">
+        <button id="load" type="button" class="quiet" title="Recalculate and redraw everything from the numbers">Load</button>
+        <button id="play" type="button">Play</button>
+        <button id="restart" type="button" class="quiet">Restart</button>
+        <label class="speed">Speed
+          <select id="speed">
+            <option value="0.25">0.25×</option>
+            <option value="0.5">0.5×</option>
+            <option value="1" selected>1×</option>
+            <option value="2">2×</option>
+          </select>
+        </label>
+        <input id="scrub" type="range" min="0" max="0" value="0" aria-label="Scrub through the animation">
+        <p class="keys">Space: play / pause · R: restart · ← →: step one frame (Shift for 10) · Load: full reset</p>
+      </div>
+    </section>
+    <section class="panel">
+      <h2>Calculated values</h2>
+      <dl id="results"></dl>
+      <h2>Your numbers</h2>
+      <form id="params" autocomplete="off" onsubmit="return false">
+        {% for sp in scene.params %}
+        <label{% if sp.type == 'select' or sp.slider or sp.label|length > 34 %} class="wide"{% endif %}>
+          <span>{{ sp.label }}{% if sp.unit %} <em>({{ sp.unit }})</em>{% endif %}</span>
+          {% if sp.type == 'select' %}
+          <select name="{{ sp.key }}">
+            {% for val, text in sp.options %}
+            <option value="{{ val }}" {% if values[sp.key] == val %}selected{% endif %}>{{ text }}</option>
+            {% endfor %}
+          </select>
+          {% else %}
+          <input name="{{ sp.key }}" type="number" step="any" inputmode="decimal" value="{{ values[sp.key]|num }}">
+          {% if sp.slider %}
+          <input type="range" data-for="{{ sp.key }}" min="{{ sp.slider.lo }}" max="{{ sp.slider.hi }}" step="{{ sp.slider.step }}" value="{{ values[sp.key]|num }}" aria-label="{{ sp.label }} slider">
+          {% endif %}
+          {% endif %}
+        </label>
+        {% endfor %}
+      </form>
+      <p id="error" role="alert"></p>
+      {% if scene.presets|length > 1 %}
+      <h2>Other examples</h2>
+      <ul class="presets">
+        {% for preset in scene.presets %}
+        <li><a href="{{ root }}e/{{ scene.id }}-{{ loop.index }}/">{{ preset.label }}</a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </section>
+  </main>
+  <script>window.SCENE_ID = {{ scene.id|tojson }};</script>
+  <script src="{{ root }}static/solvers.js"></script>
+  <script src="{{ root }}static/catalog.js"></script>
+  <script src="{{ root }}static/scenes.js"></script>
+  <script src="{{ root }}static/app.js"></script>
+</body>
+</html>

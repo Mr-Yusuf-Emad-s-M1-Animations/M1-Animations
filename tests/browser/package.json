@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "description": "Optional browser-side tests. Run: npm install, then node e2e_pages.js, node e2e_more.js, node render_check.js 720 ../../previews",
+  "dependencies": { "canvas": "^2.11.2", "jsdom": "^24.0.0" }
+}

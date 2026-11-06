@@ -1,0 +1,949 @@
+[
+ {
+  "id": "suvat-journey",
+  "url": "m1/suvat-journey/",
+  "scene": "suvat-journey",
+  "title": "A journey in three stages",
+  "kind": "scene"
+ },
+ {
+  "id": "suvat-journey-1",
+  "url": "e/suvat-journey-1/",
+  "scene": "suvat-journey",
+  "title": "From rest, cruise, back to rest",
+  "kind": "preset",
+  "params": {
+   "u": 0,
+   "a1": 2,
+   "t1": 5,
+   "t2": 10,
+   "a3": 1.5,
+   "v_end": 0
+  }
+ },
+ {
+  "id": "suvat-journey-2",
+  "url": "e/suvat-journey-2/",
+  "scene": "suvat-journey",
+  "title": "Train passing through: 12 m/s up to 20 m/s, then down to 8 m/s",
+  "kind": "preset",
+  "params": {
+   "u": 12,
+   "a1": 0.8,
+   "t1": 10,
+   "t2": 15,
+   "a3": 1.2,
+   "v_end": 8
+  }
+ },
+ {
+  "id": "suvat-journey-3",
+  "url": "e/suvat-journey-3/",
+  "scene": "suvat-journey",
+  "title": "Speeds up then brakes at once (no cruise)",
+  "kind": "preset",
+  "params": {
+   "u": 0,
+   "a1": 3,
+   "t1": 6,
+   "t2": 0,
+   "a3": 4.5,
+   "v_end": 0
+  }
+ },
+ {
+  "id": "overtaking",
+  "url": "m1/overtaking/",
+  "scene": "overtaking",
+  "title": "Speed-time graphs: overtaking",
+  "kind": "scene"
+ },
+ {
+  "id": "overtaking-1",
+  "url": "e/overtaking-1/",
+  "scene": "overtaking",
+  "title": "Cyclist catches the car during the cruise",
+  "kind": "preset",
+  "params": {
+   "u": 15,
+   "a": 2,
+   "v": 20
+  }
+ },
+ {
+  "id": "overtaking-2",
+  "url": "e/overtaking-2/",
+  "scene": "overtaking",
+  "title": "Cyclist catches the car while still speeding up",
+  "kind": "preset",
+  "params": {
+   "u": 8,
+   "a": 2.5,
+   "v": 20
+  }
+ },
+ {
+  "id": "vertical-projection",
+  "url": "m1/vertical-projection/",
+  "scene": "vertical-projection",
+  "title": "Vertical projection",
+  "kind": "scene"
+ },
+ {
+  "id": "vertical-projection-1",
+  "url": "e/vertical-projection-1/",
+  "scene": "vertical-projection",
+  "title": "Stone thrown up at 17.5 m/s, lands back at A",
+  "kind": "preset",
+  "params": {
+   "u": 17.5,
+   "h": 0,
+   "g": 9.8,
+   "level": 6.6
+  }
+ },
+ {
+  "id": "vertical-projection-2",
+  "url": "e/vertical-projection-2/",
+  "scene": "vertical-projection",
+  "title": "Thrown up at 14 m/s from a 25 m cliff",
+  "kind": "preset",
+  "params": {
+   "u": 14,
+   "h": 25,
+   "g": 9.8,
+   "level": 0
+  }
+ },
+ {
+  "id": "vertical-projection-3",
+  "url": "e/vertical-projection-3/",
+  "scene": "vertical-projection",
+  "title": "Ball thrown up at 4.9 m/s from a 1.5 m high window",
+  "kind": "preset",
+  "params": {
+   "u": 4.9,
+   "h": 1.5,
+   "g": 9.8,
+   "level": 1
+  }
+ },
+ {
+  "id": "bouncing-ball",
+  "url": "m1/bouncing-ball/",
+  "scene": "bouncing-ball",
+  "title": "Bouncing ball",
+  "kind": "scene"
+ },
+ {
+  "id": "bouncing-ball-1",
+  "url": "e/bouncing-ball-1/",
+  "scene": "bouncing-ball",
+  "title": "Dropped from 2.5 m, rebounds at 0.6 × the speed",
+  "kind": "preset",
+  "params": {
+   "h": 2.5,
+   "u": 0,
+   "e": 0.6,
+   "m": 0.2,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "bouncing-ball-2",
+  "url": "e/bouncing-ball-2/",
+  "scene": "bouncing-ball",
+  "title": "Thrown down at 3 m/s from 1.8 m",
+  "kind": "preset",
+  "params": {
+   "h": 1.8,
+   "u": -3,
+   "e": 0.5,
+   "m": 0.15,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "bouncing-ball-3",
+  "url": "e/bouncing-ball-3/",
+  "scene": "bouncing-ball",
+  "title": "Thrown up at 5 m/s from 1 m",
+  "kind": "preset",
+  "params": {
+   "h": 1,
+   "u": 5,
+   "e": 0.7,
+   "m": 0.3,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "vertical-meeting",
+  "url": "m1/vertical-meeting/",
+  "scene": "vertical-meeting",
+  "title": "Two particles meet in mid-air",
+  "kind": "scene"
+ },
+ {
+  "id": "vertical-meeting-1",
+  "url": "e/vertical-meeting-1/",
+  "scene": "vertical-meeting",
+  "title": "P thrown up at 20 m/s as Q is dropped from 30 m",
+  "kind": "preset",
+  "params": {
+   "u1": 20,
+   "h": 30,
+   "u2": 0,
+   "delay": 0,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "vertical-meeting-2",
+  "url": "e/vertical-meeting-2/",
+  "scene": "vertical-meeting",
+  "title": "Q thrown down at 5 m/s, 1 s after P",
+  "kind": "preset",
+  "params": {
+   "u1": 25,
+   "h": 40,
+   "u2": -5,
+   "delay": 1,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "vertical-meeting-3",
+  "url": "e/vertical-meeting-3/",
+  "scene": "vertical-meeting",
+  "title": "Both thrown up, Q from a 10 m tower",
+  "kind": "preset",
+  "params": {
+   "u1": 18,
+   "h": 10,
+   "u2": 6,
+   "delay": 0,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "parachutist",
+  "url": "m1/parachutist/",
+  "scene": "parachutist",
+  "title": "Parachutist",
+  "kind": "scene"
+ },
+ {
+  "id": "parachutist-1",
+  "url": "e/parachutist-1/",
+  "scene": "parachutist",
+  "title": "Free fall for 3 s, slows at 4 m/s² to 5 m/s",
+  "kind": "preset",
+  "params": {
+   "H": 200,
+   "t1": 3,
+   "d": 4,
+   "V": 5,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "parachutist-2",
+  "url": "e/parachutist-2/",
+  "scene": "parachutist",
+  "title": "Free fall for 2 s from 150 m, slows at 6 m/s² to 4 m/s",
+  "kind": "preset",
+  "params": {
+   "H": 150,
+   "t1": 2,
+   "d": 6,
+   "V": 4,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "slope-limiting",
+  "url": "m1/slope-limiting/",
+  "scene": "slope-limiting",
+  "title": "On the point of sliding",
+  "kind": "scene"
+ },
+ {
+  "id": "slope-limiting-1",
+  "url": "e/slope-limiting-1/",
+  "scene": "slope-limiting",
+  "title": "P parallel to a 30° slope, μ = 0.3",
+  "kind": "preset",
+  "params": {
+   "angle": 30,
+   "m": 5,
+   "mu": 0.3,
+   "dir": "parallel",
+   "g": 9.8
+  }
+ },
+ {
+  "id": "slope-limiting-2",
+  "url": "e/slope-limiting-2/",
+  "scene": "slope-limiting",
+  "title": "Horizontal force on a 25° slope, μ = 0.4",
+  "kind": "preset",
+  "params": {
+   "angle": 25,
+   "m": 2,
+   "mu": 0.4,
+   "dir": "horizontal",
+   "g": 9.8
+  }
+ },
+ {
+  "id": "slope-limiting-3",
+  "url": "e/slope-limiting-3/",
+  "scene": "slope-limiting",
+  "title": "Rough enough to rest without P (μ = 0.8)",
+  "kind": "preset",
+  "params": {
+   "angle": 20,
+   "m": 4,
+   "mu": 0.8,
+   "dir": "parallel",
+   "g": 9.8
+  }
+ },
+ {
+  "id": "inclined-plane",
+  "url": "m1/inclined-plane/",
+  "scene": "inclined-plane",
+  "title": "Rough inclined plane",
+  "kind": "scene"
+ },
+ {
+  "id": "inclined-plane-1",
+  "url": "e/inclined-plane-1/",
+  "scene": "inclined-plane",
+  "title": "Lifeboat on a ramp (15°, 50 m)",
+  "kind": "preset",
+  "params": {
+   "angle": 15,
+   "mass": 800,
+   "mu": 0.1,
+   "length": 50,
+   "u0": 0,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "inclined-plane-2",
+  "url": "e/inclined-plane-2/",
+  "scene": "inclined-plane",
+  "title": "Holding force removed: starts from rest and slides",
+  "kind": "preset",
+  "params": {
+   "angle": 30,
+   "mass": 4,
+   "mu": 0.35,
+   "length": 6,
+   "u0": 0,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "inclined-plane-3",
+  "url": "e/inclined-plane-3/",
+  "scene": "inclined-plane",
+  "title": "Too rough to slide (μ = 0.4)",
+  "kind": "preset",
+  "params": {
+   "angle": 15,
+   "mass": 10,
+   "mu": 0.4,
+   "length": 5,
+   "u0": 0,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "slope-up-and-back",
+  "url": "m1/slope-up-and-back/",
+  "scene": "slope-up-and-back",
+  "title": "Projected up a rough slope",
+  "kind": "scene"
+ },
+ {
+  "id": "slope-up-and-back-1",
+  "url": "e/slope-up-and-back-1/",
+  "scene": "slope-up-and-back",
+  "title": "Projected at 8 m/s up a 25° slope, μ = 0.25",
+  "kind": "preset",
+  "params": {
+   "angle": 25,
+   "u": 8,
+   "mu": 0.25,
+   "m": 2,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "slope-up-and-back-2",
+  "url": "e/slope-up-and-back-2/",
+  "scene": "slope-up-and-back",
+  "title": "Too rough to slide back (μ = 0.6 on 20°)",
+  "kind": "preset",
+  "params": {
+   "angle": 20,
+   "u": 6,
+   "mu": 0.6,
+   "m": 1.5,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "towing",
+  "url": "m1/towing/",
+  "scene": "towing",
+  "title": "Car and trailer",
+  "kind": "scene"
+ },
+ {
+  "id": "towing-1",
+  "url": "e/towing-1/",
+  "scene": "towing",
+  "title": "Accelerating: the connection is in tension",
+  "kind": "preset",
+  "params": {
+   "M": 1000,
+   "m": 400,
+   "D": 2400,
+   "Rc": 400,
+   "Rt": 200,
+   "u0": 0,
+   "time": 6,
+   "link": "rod"
+  }
+ },
+ {
+  "id": "towing-2",
+  "url": "e/towing-2/",
+  "scene": "towing",
+  "title": "Slowing down: the rod is in thrust",
+  "kind": "preset",
+  "params": {
+   "M": 1000,
+   "m": 400,
+   "D": 0,
+   "Rc": 1000,
+   "Rt": 150,
+   "u0": 15,
+   "time": 6,
+   "link": "rod"
+  }
+ },
+ {
+  "id": "towing-3",
+  "url": "e/towing-3/",
+  "scene": "towing",
+  "title": "String goes slack: the car stops, the trailer rolls on",
+  "kind": "preset",
+  "params": {
+   "M": 1000,
+   "m": 400,
+   "D": 0,
+   "Rc": 1000,
+   "Rt": 100,
+   "u0": 4,
+   "time": 6,
+   "link": "string"
+  }
+ },
+ {
+  "id": "lift",
+  "url": "m1/lift/",
+  "scene": "lift",
+  "title": "Person in a lift",
+  "kind": "scene"
+ },
+ {
+  "id": "lift-1",
+  "url": "e/lift-1/",
+  "scene": "lift",
+  "title": "Going up: 1.5 m/s² for 2 s, then 3 s steady, then slowing at 2 m/s²",
+  "kind": "preset",
+  "params": {
+   "dir": "up",
+   "m": 70,
+   "M": 400,
+   "a1": 1.5,
+   "t1": 2,
+   "t2": 3,
+   "a3": 2,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "lift-2",
+  "url": "e/lift-2/",
+  "scene": "lift",
+  "title": "Going down",
+  "kind": "preset",
+  "params": {
+   "dir": "down",
+   "m": 60,
+   "M": 500,
+   "a1": 1.2,
+   "t1": 2.5,
+   "t2": 4,
+   "a3": 1.5,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "pulley-hanging",
+  "url": "m1/pulley-hanging/",
+  "scene": "pulley-hanging",
+  "title": "Two particles over a pulley",
+  "kind": "scene"
+ },
+ {
+  "id": "pulley-hanging-1",
+  "url": "e/pulley-hanging-1/",
+  "scene": "pulley-hanging",
+  "title": "A (5 kg) and B (3 kg), A starts 2 m up",
+  "kind": "preset",
+  "params": {
+   "m1": 5,
+   "m2": 3,
+   "h": 2,
+   "cor": 0.5,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "pulley-hanging-2",
+  "url": "e/pulley-hanging-2/",
+  "scene": "pulley-hanging",
+  "title": "No bounce (comes to rest immediately)",
+  "kind": "preset",
+  "params": {
+   "m1": 5,
+   "m2": 3,
+   "h": 2,
+   "cor": 0,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "pulley-table",
+  "url": "m1/pulley-table/",
+  "scene": "pulley-table",
+  "title": "Table and pulley",
+  "kind": "scene"
+ },
+ {
+  "id": "pulley-table-1",
+  "url": "e/pulley-table-1/",
+  "scene": "pulley-table",
+  "title": "4 kg on the table, 2 kg hanging (μ = 0.2)",
+  "kind": "preset",
+  "params": {
+   "m1": 4,
+   "m2": 2,
+   "mu": 0.2,
+   "d": 4,
+   "h": 1.5,
+   "cor": 0.5,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "pulley-table-2",
+  "url": "e/pulley-table-2/",
+  "scene": "pulley-table",
+  "title": "Smooth table (μ = 0)",
+  "kind": "preset",
+  "params": {
+   "m1": 3,
+   "m2": 2,
+   "mu": 0,
+   "d": 4,
+   "h": 1,
+   "cor": 0.5,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "pulley-slope",
+  "url": "m1/pulley-slope/",
+  "scene": "pulley-slope",
+  "title": "Pulley and rough slope",
+  "kind": "scene"
+ },
+ {
+  "id": "pulley-slope-1",
+  "url": "e/pulley-slope-1/",
+  "scene": "pulley-slope",
+  "title": "Hanging mass pulls the slope particle up (4 kg and 3 kg)",
+  "kind": "preset",
+  "params": {
+   "angle": 30,
+   "m1": 3,
+   "m2": 4,
+   "mu": 0.3,
+   "run": 2,
+   "h": 1.2,
+   "cor": 0.5,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "pulley-slope-2",
+  "url": "e/pulley-slope-2/",
+  "scene": "pulley-slope",
+  "title": "Slope particle slides down (6 kg and 2 kg)",
+  "kind": "preset",
+  "params": {
+   "angle": 30,
+   "m1": 6,
+   "m2": 2,
+   "mu": 0.1,
+   "run": 2,
+   "h": 1.2,
+   "cor": 0.5,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "pulley-slope-3",
+  "url": "e/pulley-slope-3/",
+  "scene": "pulley-slope",
+  "title": "Everything stays still (limiting friction is enough)",
+  "kind": "preset",
+  "params": {
+   "angle": 30,
+   "m1": 4,
+   "m2": 2.5,
+   "mu": 0.4,
+   "run": 2,
+   "h": 1.2,
+   "cor": 0.5,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "pulley-extra-mass",
+  "url": "m1/pulley-extra-mass/",
+  "scene": "pulley-extra-mass",
+  "title": "Pulley: an extra mass falls away",
+  "kind": "scene"
+ },
+ {
+  "id": "pulley-extra-mass-1",
+  "url": "e/pulley-extra-mass-1/",
+  "scene": "pulley-extra-mass",
+  "title": "A slows down after the extra mass is removed",
+  "kind": "preset",
+  "params": {
+   "mA": 3,
+   "mx": 1.5,
+   "mB": 3.5,
+   "d": 1.2,
+   "hA": 3,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "pulley-extra-mass-2",
+  "url": "e/pulley-extra-mass-2/",
+  "scene": "pulley-extra-mass",
+  "title": "A keeps speeding up, but more slowly",
+  "kind": "preset",
+  "params": {
+   "mA": 4,
+   "mx": 2,
+   "mB": 2,
+   "d": 1,
+   "hA": 2.5,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "collision",
+  "url": "m1/collision/",
+  "scene": "collision",
+  "title": "Direct collision",
+  "kind": "scene"
+ },
+ {
+  "id": "collision-1",
+  "url": "e/collision-1/",
+  "scene": "collision",
+  "title": "P (4 kg) and Q (1 kg) move towards each other",
+  "kind": "preset",
+  "params": {
+   "m1": 4,
+   "u1": 2,
+   "m2": 1,
+   "u2": -5,
+   "mode": "given",
+   "v1": -0.5
+  }
+ },
+ {
+  "id": "collision-2",
+  "url": "e/collision-2/",
+  "scene": "collision",
+  "title": "Particles coalesce",
+  "kind": "preset",
+  "params": {
+   "m1": 3,
+   "u1": 4,
+   "m2": 2,
+   "u2": -1,
+   "mode": "coalesce",
+   "v1": 0
+  }
+ },
+ {
+  "id": "string-jerk",
+  "url": "m1/string-jerk/",
+  "scene": "string-jerk",
+  "title": "String jerks taut",
+  "kind": "scene"
+ },
+ {
+  "id": "string-jerk-1",
+  "url": "e/string-jerk-1/",
+  "scene": "string-jerk",
+  "title": "3 kg at 5 m/s jerks a 2 kg particle",
+  "kind": "preset",
+  "params": {
+   "m1": 3,
+   "m2": 2,
+   "u": 5,
+   "L": 1.5
+  }
+ },
+ {
+  "id": "string-jerk-2",
+  "url": "e/string-jerk-2/",
+  "scene": "string-jerk",
+  "title": "Light particle jerks a heavy one",
+  "kind": "preset",
+  "params": {
+   "m1": 1,
+   "m2": 4,
+   "u": 6,
+   "L": 1
+  }
+ },
+ {
+  "id": "wall-bounce",
+  "url": "m1/wall-bounce/",
+  "scene": "wall-bounce",
+  "title": "Ball bounces off a wall",
+  "kind": "scene"
+ },
+ {
+  "id": "wall-bounce-1",
+  "url": "e/wall-bounce-1/",
+  "scene": "wall-bounce",
+  "title": "0.4 kg at 6 m/s, rebounds at 4 m/s",
+  "kind": "preset",
+  "params": {
+   "m": 0.4,
+   "u": 6,
+   "mode": "speed",
+   "v": 4,
+   "I": 3
+  }
+ },
+ {
+  "id": "wall-bounce-2",
+  "url": "e/wall-bounce-2/",
+  "scene": "wall-bounce",
+  "title": "Impulse of 3 N s given, find the rebound speed",
+  "kind": "preset",
+  "params": {
+   "m": 0.25,
+   "u": 8,
+   "mode": "impulse",
+   "v": 0,
+   "I": 3
+  }
+ },
+ {
+  "id": "soft-ground",
+  "url": "m1/soft-ground/",
+  "scene": "soft-ground",
+  "title": "Sinking into soft ground",
+  "kind": "scene"
+ },
+ {
+  "id": "soft-ground-1",
+  "url": "e/soft-ground-1/",
+  "scene": "soft-ground",
+  "title": "2 kg falls 5 m and sinks 15 cm",
+  "kind": "preset",
+  "params": {
+   "m": 2,
+   "h": 5,
+   "depth": 0.15,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "soft-ground-2",
+  "url": "e/soft-ground-2/",
+  "scene": "soft-ground",
+  "title": "Pile driver: 500 kg falls 2.5 m, sinks 0.1 m",
+  "kind": "preset",
+  "params": {
+   "m": 500,
+   "h": 2.5,
+   "depth": 0.1,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "plank",
+  "url": "m1/plank/",
+  "scene": "plank",
+  "title": "Plank on two supports",
+  "kind": "scene"
+ },
+ {
+  "id": "plank-1",
+  "url": "e/plank-1/",
+  "scene": "plank",
+  "title": "Plank AB, supports at C and D",
+  "kind": "preset",
+  "params": {
+   "L": 8,
+   "M": 20,
+   "AC": 1.5,
+   "DB": 2,
+   "m": 8,
+   "x_from": 1.5,
+   "x_to": 4,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "tilting-rod",
+  "url": "m1/tilting-rod/",
+  "scene": "tilting-rod",
+  "title": "Rod that tips over",
+  "kind": "scene"
+ },
+ {
+  "id": "tilting-rod-1",
+  "url": "e/tilting-rod-1/",
+  "scene": "tilting-rod",
+  "title": "Heavy package at end B: rod tips towards B",
+  "kind": "preset",
+  "params": {
+   "L": 8,
+   "M": 20,
+   "P": 3,
+   "m": 30,
+   "x": 8,
+   "maxang": 20,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "tilting-rod-2",
+  "url": "e/tilting-rod-2/",
+  "scene": "tilting-rod",
+  "title": "Heavy package at end A: rod tips towards A",
+  "kind": "preset",
+  "params": {
+   "L": 8,
+   "M": 20,
+   "P": 5,
+   "m": 30,
+   "x": 0,
+   "maxang": 20,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "vectors",
+  "url": "m1/vectors/",
+  "scene": "vectors",
+  "title": "Position vectors: closest approach",
+  "kind": "scene"
+ },
+ {
+  "id": "vectors-1",
+  "url": "e/vectors-1/",
+  "scene": "vectors",
+  "title": "Paths cross but they miss each other",
+  "kind": "preset",
+  "params": {
+   "x0a": 0,
+   "y0a": 0,
+   "vxa": 3,
+   "vya": 4,
+   "x0b": 30,
+   "y0b": 0,
+   "vxb": -2,
+   "vyb": 3
+  }
+ },
+ {
+  "id": "vectors-2",
+  "url": "e/vectors-2/",
+  "scene": "vectors",
+  "title": "The particles collide",
+  "kind": "preset",
+  "params": {
+   "x0a": 0,
+   "y0a": 0,
+   "vxa": 4,
+   "vya": 2,
+   "x0b": 20,
+   "y0b": 20,
+   "vxb": -1,
+   "vyb": -3
+  }
+ },
+ {
+  "id": "vector-acceleration",
+  "url": "m1/vector-acceleration/",
+  "scene": "vector-acceleration",
+  "title": "Velocity changing with constant acceleration",
+  "kind": "scene"
+ },
+ {
+  "id": "vector-acceleration-1",
+  "url": "e/vector-acceleration-1/",
+  "scene": "vector-acceleration",
+  "title": "u = 4i − 3j, a = −0.5i + j",
+  "kind": "preset",
+  "params": {
+   "x0": 0,
+   "y0": 0,
+   "ux": 4,
+   "uy": -3,
+   "ax": -0.5,
+   "ay": 1,
+   "T": 6
+  }
+ },
+ {
+  "id": "vector-acceleration-2",
+  "url": "e/vector-acceleration-2/",
+  "scene": "vector-acceleration",
+  "title": "Starts moving east, turns north-east",
+  "kind": "preset",
+  "params": {
+   "x0": 2,
+   "y0": 1,
+   "ux": 3,
+   "uy": 0,
+   "ax": 0,
+   "ay": 1.5,
+   "T": 4
+  }
+ }
+]
