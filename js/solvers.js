@@ -19,9 +19,9 @@ function r(x, n = 4) {
   const keep = fp.slice(0, n), tail = fp.slice(n);
   if (/^50*$/.test(tail)) {                       // exactly half way
     const lastDigit = Number((n > 0 ? keep : ip).slice(-1));
-    if (lastDigit % 2 === 0) return sign * Number(n > 0 ? ip + "." + keep : ip);
+    if (lastDigit % 2 === 0) return sign * Number(n > 0 ? ip + "." + keep : ip) + 0;
   }
-  return sign * Number(ax.toFixed(n));
+  return sign * Number(ax.toFixed(n)) + 0;
 }
 function pyround(x) {   // Python round() to an integer
   const fl = Math.floor(x);
@@ -52,6 +52,15 @@ function sample(T, fn, fps = FPS) {   // frames at fps from t = 0 to t = T
   const frames = [];
   for (let i = 0; i <= n; i++) frames.push(fn((T * i) / n));
   return [frames, T / n];
+}
+
+const LAPSE_PLAYBACK = 30, LAPSE_MAX = 600;   // a long motion is played as a time-lapse of at most 30 s
+function sampleLapse(T, fn) {
+  check(T <= LAPSE_MAX, `The motion lasts ${T.toFixed(0)} s, more than ${LAPSE_MAX} s. Change the numbers.`);
+  if (T <= LAPSE_PLAYBACK) { const [frames, dt] = sample(T, fn); return [frames, dt, 1.0]; }
+  const n = LAPSE_PLAYBACK * FPS, frames = [];
+  for (let i = 0; i <= n; i++) frames.push(fn((T * i) / n));
+  return [frames, 1 / FPS, T / LAPSE_PLAYBACK];
 }
 
 function bounceHops(vImpact, g, cor, tStart = 0.0, minV = 0.15, maxBounces = 6) {
@@ -102,12 +111,13 @@ SOLVERS["suvat-journey"] = function (p) {
     if (state(mid)[0] < D / 2) lo = mid; else hi = mid;
   }
   const tHalfD = (lo + hi) / 2, xHalfT = state(T / 2)[0];
-  const [frames, dt] = sample(T, (t) => { const [x, v] = state(t); return { t: r(t), x: r(x), v: r(v) }; });
+  const [frames, dt, speedup] = sampleLapse(T, (t) => { const [x, v] = state(t); return { t: r(t), x: r(x), v: r(v) }; });
   const res = [result("Top speed V", r(V, 3), "m/s"), result("Distance in stage 1", r(s1, 3), "m"),
     result("Distance at constant speed", r(s2, 3), "m"), result("Time of stage 3", r(t3, 3), "s"),
     result("Distance in stage 3", r(s3, 3), "m"), result("Total distance", r(D, 3), "m"),
     result("Total time", r(T, 3), "s"), result("Average speed", r(D / T, 3), "m/s"),
     result("Half the distance reached at", r(tHalfD, 3), "s"), result("Distance at half the time", r(xHalfT, 3), "m")];
+  if (speedup > 1) res.push(result("Playback", `time-lapse, ${pyf(r(speedup, 1))} times faster than real time`));
   return { dt, frames, results: res, meta: { T: r(T), D: r(D), V: r(V), t1, t2, t3: r(t3), tHalfD: r(tHalfD), xHalfT: r(xHalfT) } };
 };
 
@@ -823,6 +833,293 @@ SOLVERS["vector-acceleration"] = function (p) {
   const bearing = pymod(90 - degrees(Math.atan2(vy, vx)), 360);
   res.push(result("Bearing of motion at the end", r(bearing, 1), "°"));
   return { dt, frames, results: res, meta: { ax, ay, x0, y0 } };
+};
+
+
+// ---------------------------------------------------------------- Added scenes
+SOLVERS["hanging-strings"] = function (p) {
+  const W = p.W, al = radians(p.alpha), be = radians(p.beta), force = p.second === "force";
+  check(W > 0, "W must be greater than 0.");
+  check(0 < p.alpha && p.alpha < 90 && 0 < p.beta && p.beta < 90, "Both angles must be between 0° and 90°.");
+  const s = sin(al + be), T1 = (W * cos(be)) / s, T2 = (W * cos(al)) / s;
+  const second = force ? "Force F" : "Tension in BC", N_FRAMES = 90, frames = [];
+  for (let i = 0; i < N_FRAMES; i++) frames.push({ k: r(i / (N_FRAMES - 1)) });
+  const res = [result("Tension in AC", r(T1, 3), "N"), result("Tension in AC as a multiple of W", r(T1 / W, 4)),
+    result(second, r(T2, 3), "N"), result(second + " as a multiple of W", r(T2 / W, 4)),
+    result("Horizontal parts (equal)", r(T1 * cos(al), 3), "N"),
+    result("Vertical parts add up to W", r(T1 * sin(al) + T2 * sin(be), 3), "N")];
+  return { dt: 1 / 45, frames, results: res, meta: { W, alpha: p.alpha, beta: p.beta, T1: r(T1), T2: r(T2), second: p.second } };
+};
+
+SOLVERS["rough-surface"] = function (p) {
+  const { angle: ang, m, mu, g, F1, th1: t1, F2, th2: t2 } = p, N = 300;
+  check(0 <= ang && ang < 90, "The angle of the surface must be at least 0° (flat ground) and less than 90°.");
+  check(m > 0 && g > 0 && mu >= 0, "m and g must be greater than 0, and μ cannot be negative.");
+  check(F1 >= 0 && F2 >= 0, "A force cannot be negative: turn it round with its angle instead.");
+  const a = radians(ang), W = m * g;
+  const c1 = cos(radians(t1)), s1 = sin(radians(t1)), c2 = cos(radians(t2)), s2 = sin(radians(t2));
+  const a0 = W * sin(a) - F2 * c2, r0 = W * cos(a) - F2 * s2;
+  const at = (F) => [r0 - F * s1, a0 - F * c1];
+  let lower = 0.0, upper = Infinity, empty = false;
+  for (const [k, c] of [[s1, -r0], [-c1 + mu * s1, a0 - mu * r0], [c1 + mu * s1, -a0 - mu * r0]]) {
+    if (Math.abs(k) < 1e-12) { if (c > 1e-9) empty = true; }
+    else if (k > 0) upper = Math.min(upper, -c / k);
+    else lower = Math.max(lower, -c / k);
+  }
+  if (lower > upper + 1e-9) empty = true;
+  const [R, need] = at(F1), lim = mu * Math.max(R, 0.0), tol = Math.max(0.005 * lim, 1e-6);
+  let state;
+  if (R < -1e-9) state = "lifts off the surface";
+  else if (Math.abs(need) < lim - tol) state = "stays at rest";
+  else if (Math.abs(Math.abs(need) - lim) <= tol) state = "is on the point of sliding " + (need > 0 ? "down" : "up");
+  else state = "slides " + (need > 0 ? "down" : "up");
+  const top = empty ? Math.max(F1, W) : upper !== Infinity ? upper : lower * 1.6 + 0.6 * W + 1;
+  const Fmax = Math.max(1.3 * top, 1.15 * F1, 1.0), frames = [];
+  for (let i = 0; i <= N; i++) {
+    const F = (Fmax * i) / N, [Rf, nd] = at(F);
+    let fr, st, lm;
+    if (Rf < -1e-9) { fr = 0.0; st = "lift"; lm = 0.0; }
+    else {
+      lm = mu * Rf;
+      if (Math.abs(nd) <= lm + 1e-9) { fr = nd; st = "rest"; }
+      else if (nd > 0) { fr = lm; st = "down"; }
+      else { fr = -lm; st = "up"; }
+    }
+    frames.push({ P: r(F, 3), F: r(fr, 3), R: r(Rf, 3), lim: r(lm, 3), state: st });
+  }
+  const res = [result("Normal reaction R", r(R, 3), "N"), result("Friction needed (+ is up the surface)", r(need, 3), "N"),
+    result("Greatest friction μR", r(lim, 3), "N"), result("The particle", state)];
+  if (empty) res.push(result("Equilibrium", "no value of F1 keeps the particle at rest"));
+  else {
+    res.push(result("Smallest force F1 for equilibrium", lower > 1e-9 ? r(lower, 3) : "0 (it stays at rest without F1)", lower > 1e-9 ? "N" : ""));
+    res.push(result("Greatest force F1 for equilibrium", upper !== Infinity ? r(upper, 3) : "no limit", upper !== Infinity ? "N" : ""));
+  }
+  return { dt: 6 / N, frames, results: res,
+    meta: { angle: ang, W: r(W), lo: empty ? null : r(lower), hi: empty || upper === Infinity ? null : r(upper), Fmax: r(Fmax), F1, th1: t1, F2, th2: t2, empty } };
+};
+
+// ---- stages
+const STAGE_NUM = /^[+-]?(\d+\.?\d*|\.\d+)$/;
+const STAGE_HELP = "write each stage as duration:acceleration, for example 5:2, 15:0, 4:-2.5";
+function parseStages(s, name) {
+  const out = [];
+  for (let piece of s.trim().split(",")) {
+    piece = piece.trim();
+    if (piece === "") continue;
+    const parts = piece.split(":").map((x) => x.trim());
+    check(parts.length === 2 && parts.every((x) => STAGE_NUM.test(x)), `${name}: ${STAGE_HELP}.`);
+    const d = Number(parts[0]), a = Number(parts[1]);
+    check(d > 0, `${name}: every stage must last more than 0 s.`);
+    out.push([d, a]);
+  }
+  check(out.length <= 8, `${name}: use at most 8 stages.`);
+  return out;
+}
+function buildVehicle(stages, start, u, xBefore) {
+  const segs = []; let t = start, v = u, x = xBefore;
+  for (const [d, a] of stages) { segs.push([t, t + d, a, v, x]); x += v * d + 0.5 * a * d * d; v += a * d; t += d; }
+  return { segs, start, x0: xBefore, end: t, vend: v, xend: x };
+}
+function vehicleState(veh, t) {
+  if (t < veh.start) return [veh.x0, 0.0, 0.0];
+  const n = veh.segs.length;
+  for (let i = 0; i < n; i++) {
+    const [t0, t1, a, v0, x0] = veh.segs[i];
+    if (t < t1 || (i === n - 1 && t <= t1)) { const tau = t - t0; return [x0 + v0 * tau + 0.5 * a * tau * tau, v0 + a * tau, a]; }
+  }
+  const tau = t - veh.end;
+  return [veh.xend + veh.vend * tau, veh.vend, 0.0];
+}
+function pathLength(veh) {
+  let total = 0.0;
+  for (const [t0, t1, a, v0] of veh.segs) {
+    const d = t1 - t0, xe = v0 * d + 0.5 * a * d * d;
+    if (Math.abs(a) > 1e-12 && v0 * (v0 + a * d) < 0) { const ts = -v0 / a, xt = v0 * ts + 0.5 * a * ts * ts; total += Math.abs(xt) + Math.abs(xe - xt); }
+    else total += Math.abs(xe);
+  }
+  return total;
+}
+function turnTimes(veh) {
+  const out = []; let prev = 0;
+  for (const [t0, t1, a, v0] of veh.segs) {
+    const v1 = v0 + a * (t1 - t0);
+    const s0 = Math.abs(v0) < 1e-9 ? 0 : v0 > 0 ? 1 : -1, s1 = Math.abs(v1) < 1e-9 ? 0 : v1 > 0 ? 1 : -1;
+    if (s0 !== 0) { if (prev !== 0 && s0 !== prev) out.push(t0); prev = s0; }
+    if (s0 * s1 < 0 && Math.abs(a) > 1e-12) { out.push(t0 - v0 / a); prev = s1; }
+    else if (s1 !== 0) { if (prev !== 0 && s1 !== prev) out.push(t0); prev = s1; }
+  }
+  return out;
+}
+function timesAtSpeed(veh, vm) {
+  const ts = [];
+  for (const [t0, t1, a, v0] of veh.segs) {
+    if (Math.abs(a) > 1e-12) { const t = t0 + (vm - v0) / a; if (t0 - 1e-9 <= t && t <= t1 + 1e-9) ts.push(Math.min(Math.max(t, t0), t1)); }
+  }
+  ts.sort((x, y) => x - y);
+  const out = [];
+  for (const t of ts) if (!out.length || Math.abs(t - out[out.length - 1]) > 1e-7) out.push(t);
+  return out;
+}
+function signCrossings(fn, T, steps = 4000, tol = 1e-9) {
+  const roots = []; let tl = 0.0, dl = 0.0;
+  for (let k = 0; k <= steps; k++) {
+    const t = (T * k) / steps, d = fn(t);
+    if (Math.abs(d) < tol) continue;
+    if (dl !== 0.0 && d > 0 !== dl > 0) {
+      let lo = tl, hi = t; const pos = dl > 0;
+      for (let i = 0; i < 60; i++) { const mid = (lo + hi) / 2, dm = fn(mid); if (dm !== 0 && dm > 0 === pos) lo = mid; else hi = mid; }
+      roots.push([(lo + hi) / 2, pos ? 1 : -1]);
+    }
+    tl = t; dl = d;
+  }
+  return roots;
+}
+const joinTimes = (ts) => ts.map((t) => `${pyf(r(t, 3))} s`).join(" and ");
+
+SOLVERS["stages"] = function (p) {
+  const A = parseStages(p.A_stages, "Vehicle A"), B = parseStages(p.B_stages, "Vehicle B");
+  check(A.length >= 1, "Vehicle A needs at least one stage.");
+  const { startB, x0B, vmark: vm, tmark: tm } = p;
+  check(startB >= 0, "Vehicle B cannot start before t = 0.");
+  check(vm >= 0 && tm >= 0, "The marks cannot be negative.");
+  const hasB = B.length > 0, veh = { A: buildVehicle(A, 0.0, p.uA, 0.0) };
+  if (hasB) veh.B = buildVehicle(B, startB, p.uB, x0B);
+  const T = Math.max(...Object.values(veh).map((v) => v.end));
+  const frame = (t) => {
+    const [xa, va, aa] = vehicleState(veh.A, t), [xb, vb, ab] = hasB ? vehicleState(veh.B, t) : [0.0, 0.0, 0.0];
+    return { t: r(t), xA: r(xa), vA: r(va), aA: r(aa), xB: r(xb), vB: r(vb), aB: r(ab) };
+  };
+  const [frames, dt, speedup] = sampleLapse(T, frame);
+  const res = [];
+  for (const [name, v] of Object.entries(veh)) {
+    v.segs.forEach(([t0, t1, a, v0], i) => res.push(result(`${name}: stage ${i + 1} ends`, `t = ${fmtg(r(t1, 3))} s, speed ${pyf(r(v0 + a * (t1 - t0), 3))} m/s`)));
+    res.push(result(`${name}: total time`, r(v.end - v.start, 3), "s"));
+    res.push(result(`${name}: distance travelled`, r(pathLength(v), 3), "m"));
+    res.push(result(`${name}: displacement`, r(v.xend - v.x0, 3), "m"));
+    for (const tt of turnTimes(v)) res.push(result(`${name}: turns round at t`, r(tt, 3), "s"));
+    if (vm > 0) { const ts = timesAtSpeed(v, vm); res.push(result(`${name} has speed ${fmtg(vm)} m/s at t`, ts.length ? joinTimes(ts) : "never")); }
+  }
+  if (hasB) {
+    for (const [root, was] of signCrossings((t) => vehicleState(veh.B, t)[0] - vehicleState(veh.A, t)[0], T)) {
+      const [who, other] = was < 0 ? ["B", "A"] : ["A", "B"];
+      res.push(result(`${who} overtakes ${other} at t`, r(root, 3), "s"));
+      res.push(result("Speeds of A and B then", `${pyf(r(vehicleState(veh.A, root)[1], 3))} and ${pyf(r(vehicleState(veh.B, root)[1], 3))} m/s`));
+    }
+    const eq = signCrossings((t) => vehicleState(veh.A, t)[1] - vehicleState(veh.B, t)[1], T)
+      .map(([t]) => t).filter((t) => Math.abs(vehicleState(veh.A, t)[1]) > 1e-9 && Math.abs(vehicleState(veh.B, t)[1]) > 1e-9);
+    if (eq.length) res.push(result("The speeds are equal at t", joinTimes(eq)));
+  }
+  if (tm > 0) {
+    for (const [name, v] of Object.entries(veh)) {
+      const [x, s] = vehicleState(v, tm);
+      res.push(result(`${name} at t = ${fmtg(tm)} s`, `${pyf(r(x, 3))} m from the start, speed ${pyf(r(s, 3))} m/s`));
+    }
+    if (hasB) res.push(result("Distance between the vehicles", r(Math.abs(vehicleState(veh.B, tm)[0] - vehicleState(veh.A, tm)[0]), 3), "m"));
+  }
+  if (speedup > 1) res.push(result("Playback", `time-lapse, ${pyf(r(speedup, 1))} times faster than real time`));
+  const xs = frames.map((f) => f.xA).concat(hasB ? frames.map((f) => f.xB) : []);
+  return { dt, frames, results: res,
+    meta: { hasB, T: r(T), graph: p.graph, vmark: vm, tmark: tm, xmin: r(Math.min(...xs)), xmax: r(Math.max(...xs)), startB } };
+};
+
+// ---- beam
+function leq(cons) {
+  let lo = -Infinity, hi = Infinity, empty = false;
+  for (const [k, c] of cons) {
+    if (Math.abs(k) < 1e-12) { if (c > 1e-9) empty = true; }
+    else if (k > 0) hi = Math.min(hi, -c / k);
+    else lo = Math.max(lo, -c / k);
+  }
+  return [lo, hi, empty || lo > hi + 1e-9];
+}
+SOLVERS["beam"] = function (p) {
+  const { L, M, G, g, m1, x_from: xa, x_to: xb, m2, x2, m3, x3, limit, pivot } = p, N = 150;
+  const sup = [[p.n1, p.s1, p.k1], [p.n2, p.s2, p.k2]].filter(([, , k]) => k !== "none").map(([name, pos, kind]) => ({ name, pos, kind }));
+  check(L > 0 && g > 0, "L and g must be greater than 0.");
+  check(M >= 0, "The mass of the beam cannot be negative.");
+  check(0 <= G && G <= L, "The centre of mass of the beam must be on the beam (0 to L).");
+  check(sup.every((s) => 0 <= s.pos && s.pos <= L), "Every support must be on the beam (0 to L).");
+  check([xa, xb, x2, x3].every((x) => 0 <= x && x <= L), "Every load must be on the beam (0 to L).");
+  check(limit >= 0, "The most force a rope can take cannot be negative.");
+  check(pivot < 0 || pivot <= L, "The point for moments must be on the beam (0 to L), or -1 for none.");
+  check(M > 0 || m1 !== 0 || m2 !== 0 || m3 !== 0, "Put at least one weight on the beam.");
+  if (sup.length === 2) {
+    check(sup[0].pos !== sup[1].pos, "The two supports must be at different places.");
+    if (sup[0].pos > sup[1].pos) sup.reverse();
+  }
+  const n = sup.length;
+  const loads = (x, moving = true) => [[M * g, G], [moving ? m1 * g : 0.0, x], [m2 * g, x2], [m3 * g, x3]].filter(([w]) => w !== 0);
+  const sum = (arr) => arr.reduce((s, v) => s + v, 0);
+  const eq = (x) => {
+    const ld = loads(x), Wt = sum(ld.map(([w]) => w)), tol = 1e-9 * Math.max(1.0, Math.abs(Wt));
+    if (n === 0) return { R: [], Wt, tip: "", lim: "" };
+    if (n === 1) {
+      const tau = sum(ld.map(([w, pos]) => w * (pos - sup[0].pos)));
+      return { R: [Wt], Wt, tip: Math.abs(tau) <= 1e-9 * Math.max(1.0, Math.abs(Wt) * L) ? "" : tau > 0 ? "B" : "A", lim: "" };
+    }
+    const s1p = sup[0].pos, s2p = sup[1].pos;
+    let R2 = sum(ld.map(([w, pos]) => w * (pos - s1p))) / (s2p - s1p), R1 = Wt - R2;
+    if (Math.abs(R1) <= tol) R1 = 0.0;
+    if (Math.abs(R2) <= tol) R2 = 0.0;
+    let tip = "", atlim = "";
+    if (R1 < 0 && sup[0].kind !== "bolt") { tip = sup[0].name; R1 = 0.0; R2 = Wt; }
+    else if (R2 < 0 && sup[1].kind !== "bolt") { tip = sup[1].name; R1 = Wt; R2 = 0.0; }
+    else if (R1 === 0 && sup[0].kind !== "bolt") atlim = sup[0].name;
+    else if (R2 === 0 && sup[1].kind !== "bolt") atlim = sup[1].name;
+    return { R: [R1, R2], Wt, tip, lim: atlim };
+  };
+  const frames = []; let fmax = 0.0;
+  for (let i = 0; i <= N; i++) {
+    const x = xa + ((xb - xa) * i) / N, e = eq(x);
+    const R1 = n > 0 ? e.R[0] : 0.0, R2 = n > 1 ? e.R[1] : 0.0;
+    const over = limit > 0 && e.R.some((v, j) => Math.abs(v) > limit + 1e-9 && sup[j].kind !== "support");
+    fmax = Math.max(fmax, Math.abs(R1), Math.abs(R2), ...loads(x).map(([w]) => Math.abs(w)), 0.0);
+    frames.push({ x: r(x), R1: r(R1, 3), R2: r(R2, 3), tip: e.tip, over });
+  }
+  const e = eq(xb), res = [];
+  sup.forEach((s, j) => {
+    const R = e.R[j];
+    const label = s.kind === "rope" ? `Tension in the rope at ${s.name}` : s.kind === "bolt" ? `Force at ${s.name} (bolt)` : `Reaction at ${s.name}`;
+    if (s.kind === "bolt" && R < -1e-9) res.push(result(label, `${pyf(r(-R, 2))} N downwards`));
+    else res.push(result(label, r(R, 2), "N"));
+  });
+  if (n === 1) res.push(result(`Moments about ${sup[0].name}`, !e.tip ? "balanced" : `not balanced: end ${e.tip} goes down`));
+  if (e.tip && n === 2) res.push(result("The beam", `tips: it lifts off at ${e.tip}`));
+  else if (e.lim) res.push(result("The beam", `is on the point of lifting off at ${e.lim}`));
+  res.push(result("Total weight on the supports", r(e.Wt, 2), "N"));
+  if (pivot >= 0) {
+    let tot = 0.0;
+    for (const [w, pos] of loads(xb)) {
+      const mom = w * (pos - pivot); tot += mom;
+      res.push(result(`Moment of the ${fmtg(r(Math.abs(w), 3))} N ${w > 0 ? "downward" : "upward"} force at ${fmtg(r(pos, 3))} m`, r(mom, 3), "N m"));
+    }
+    res.push(result(`Resultant moment about ${fmtg(pivot)} m from A (clockwise is +)`, r(tot, 3), "N m"));
+  }
+  if (m1 !== 0 && n === 2) {
+    const s1p = sup[0].pos, s2p = sup[1].pos, others = loads(xb, false);
+    const W0 = sum(others.map(([w]) => w)), F0 = sum(others.map(([w, pos]) => w * (pos - s1p))), W1 = m1 * g, gap = s2p - s1p;
+    const constraints = (a2, b2, a1, b1) => {
+      const out = [];
+      for (const [[a, b], s] of [[[a1, b1], sup[0]], [[a2, b2], sup[1]]]) {
+        if (s.kind !== "bolt") out.push([-b, -a]);
+        if (limit > 0 && s.kind !== "support") { out.push([b, a - limit]); if (s.kind === "bolt") out.push([-b, -a - limit]); }
+      }
+      return out;
+    };
+    let b2 = W1 / gap, a2 = (F0 - W1 * s1p) / gap;
+    let [lo, hi, empty] = leq(constraints(a2, b2, W0 + W1 - a2, -b2).concat([[1.0, -L], [-1.0, 0.0]]));
+    res.push(result("Moving load is safe for x between", empty ? "never" : `${pyf(r(lo, 3))} m and ${pyf(r(hi, 3))} m`));
+    if (m1 > 0) {
+      b2 = (g * (xb - s1p)) / gap; a2 = F0 / gap;
+      [lo, hi, empty] = leq(constraints(a2, b2, W0 - a2, g - b2).concat([[-1.0, 0.0]]));
+      if (empty) res.push(result("Greatest mass of the moving load", "none"));
+      else if (hi === Infinity) res.push(result("Greatest mass of the moving load", "no limit"));
+      else res.push(result("Greatest mass of the moving load", r(hi, 3), "kg"));
+    }
+  }
+  return { dt: 1 / 60, frames, results: res,
+    meta: { L, G, M, g, n, limit, fmax: r(fmax, 3), sup: sup.map((s) => ({ name: s.name, pos: s.pos, kind: s.kind })),
+      loads: [[m2, x2], [m3, x3]].filter(([m]) => m !== 0).map(([m, x]) => ({ m, x })), m1, pivot } };
 };
 
 // One entry point for the page and for the tests.

@@ -52,7 +52,7 @@ button.quiet { background: transparent; color: var(--ink); }
 #load { border-color: var(--muted); color: var(--muted); }
 #load:hover { border-color: var(--ink); color: var(--ink); }
 .speed { margin-left: auto; font-size: .9rem; color: var(--muted); }
-select, input[type=number] { font: inherit; padding: 8px; border: 1px solid var(--line); border-radius: 4px; background: #fff; color: var(--ink); width: 100%; min-height: 40px; }
+select, input[type=number], form input[type=text] { font: inherit; padding: 8px; border: 1px solid var(--line); border-radius: 4px; background: #fff; color: var(--ink); width: 100%; min-height: 40px; }
 .speed select { width: auto; }
 form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 12px; align-items: end; }
 form label.wide { grid-column: 1 / -1; }

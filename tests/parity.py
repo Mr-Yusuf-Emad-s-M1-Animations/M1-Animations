@@ -20,6 +20,9 @@ for sid, sc in SCENES.items():
         for p in sc["params"]:
             if p.get("type") == "select":
                 q[p["key"]] = random.choice([o[0] for o in p["options"]])
+            elif p.get("type") == "text":
+                q[p["key"]] = random.choice([p["default"], pre["params"].get(p["key"], p["default"]), "", "3:1, 2:0, 4:-1",
+                                             "10:0.5", "5:2,5:-2, 6:1", "abc", "4:", "5:2, 0:1", "2:1:3", "6:-1.5, 8:0, 3:2.5", "20:0.3,"])
             else:
                 v = float(pre["params"].get(p["key"], p["default"])) if sc["presets"] else float(p["default"])
                 v = v * random.choice([0.5, 0.8, 1, 1, 1.2, 1.7, 3]) + random.choice([0, 0, 0.3, -0.3])

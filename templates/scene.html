@@ -47,7 +47,7 @@
       <h2>Your numbers</h2>
       <form id="params" autocomplete="off" onsubmit="return false">
         {% for sp in scene.params %}
-        <label{% if sp.type == 'select' or sp.slider or sp.label|length > 34 %} class="wide"{% endif %}>
+        <label{% if sp.type == 'select' or sp.type == 'text' or sp.slider or sp.label|length > 34 %} class="wide"{% endif %}>
           <span>{{ sp.label }}{% if sp.unit %} <em>({{ sp.unit }})</em>{% endif %}</span>
           {% if sp.type == 'select' %}
           <select name="{{ sp.key }}">
@@ -55,6 +55,8 @@
             <option value="{{ val }}" {% if values[sp.key] == val %}selected{% endif %}>{{ text }}</option>
             {% endfor %}
           </select>
+          {% elif sp.type == 'text' %}
+          <input name="{{ sp.key }}" type="text" spellcheck="false" autocapitalize="off" value="{{ values[sp.key] }}" placeholder="for example 5:2, 15:0, 4:-2.5">
           {% else %}
           <input name="{{ sp.key }}" type="number" step="any" inputmode="decimal" value="{{ values[sp.key]|num }}">
           {% if sp.slider %}

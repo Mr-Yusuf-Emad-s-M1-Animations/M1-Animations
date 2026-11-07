@@ -221,10 +221,11 @@ const SCENES = {
       const k = Math.min((W * 0.5) / 1, (H - top - 110) / y), ax = (W - k) / 2, bx = ax + k;
       const cx = ax + xC * k, cy = top + y * k;
       line(g, ax - 40, top, bx + 40, top, INK, 3);
-      line(g, ax, top, cx, cy, INK, 2); line(g, bx, top, cx, cy, INK, 2);
-      text(g, "A", ax, top - 14, { bold: true, align: "center" }); text(g, "B", bx, top - 14, { bold: true, align: "center" });
+      const isForce = m.second === "force";
+      line(g, ax, top, cx, cy, INK, 2); if (!isForce) line(g, bx, top, cx, cy, INK, 2);
+      text(g, "A", ax, top - 14, { bold: true, align: "center" }); if (!isForce) text(g, "B", bx, top - 14, { bold: true, align: "center" });
       text(g, `${nf(m.alpha, 1)}°`, ax + 46, top + 14, { color: MUTED, align: "center" });
-      text(g, `${nf(m.beta, 1)}°`, bx - 46, top + 14, { color: MUTED, align: "center" });
+      if (!isForce) text(g, `${nf(m.beta, 1)}°`, bx - 46, top + 14, { color: MUTED, align: "center" });
       circle(g, cx, cy, 10, BLUE_FILL); text(g, "C", cx + 20, cy + 12, { bold: true });
       const s = (100 / Math.max(m.T1, m.T2, m.W)) * f.k;
       const t1 = [cx - m.T1 * Math.cos(al) * s, cy - m.T1 * Math.sin(al) * s];
@@ -232,8 +233,9 @@ const SCENES = {
       line(g, cx, cy, t1[0], cy, MUTED, 1.2, [4, 4]); line(g, t1[0], cy, t1[0], t1[1], MUTED, 1.2, [4, 4]);
       line(g, cx, cy, t2[0], cy, MUTED, 1.2, [4, 4]); line(g, t2[0], cy, t2[0], t2[1], MUTED, 1.2, [4, 4]);
       arrow(g, cx, cy, t1[0], t1[1], RED, `T1 = ${nf(m.T1 * f.k, 1)} N`);
-      arrow(g, cx, cy, t2[0], t2[1], RED, `T2 = ${nf(m.T2 * f.k, 1)} N`);
+      arrow(g, cx, cy, t2[0], t2[1], RED, `${isForce ? "F" : "T2"} = ${nf(m.T2 * f.k, 1)} N`);
       arrow(g, cx, cy, cx, cy + m.W * s, INK, `W = ${nf(m.W * f.k, 1)} N`);
+      readout(g, [`pulling ${nf(f.k * 100, 0)}% of the way to the full weight`, `T1 = ${nf(m.T1 * f.k, 1)} N`, `${isForce ? "F" : "T2"} = ${nf(m.T2 * f.k, 1)} N`]);
     },
   },
 
@@ -786,3 +788,136 @@ Object.assign(SCENES, {
 
 // Scenes with a picture on top and a graph underneath need a taller canvas on a phone.
 ["bouncing-ball", "vertical-meeting", "parachutist", "lift", "pulley-extra-mass"].forEach((id) => { SCENES[id].aspectNarrow = 1.3; });
+
+// ======================================================================
+// Four more scenes: stages, rough-surface, beam (hanging-strings is above).
+// ======================================================================
+Object.assign(SCENES, {
+  // ---------------------------------------------------------------- Chapter 1
+  "stages": {
+    draw(g, f, m, data) {
+      const { ctx, W, H } = g, left = 44, right = W - 36, lanes = m.hasB ? 2 : 1, y1 = 52, gap = 46, trackBottom = y1 + (lanes - 1) * gap + 24;
+      const span = m.xmax - m.xmin || 1, X = (x) => left + ((x - m.xmin) / span) * (right - left);
+      const lane = (y, name, x, started, fill) => {
+        line(g, left, y, right, y, INK, 2);
+        line(g, X(m.xmin), y - 6, X(m.xmin), y + 6, MUTED, 1.5); line(g, X(m.xmax), y - 6, X(m.xmax), y + 6, MUTED, 1.5);
+        const cx = X(x);
+        ctx.globalAlpha = started ? 1 : 0.45; ctx.fillStyle = fill; ctx.strokeStyle = INK; ctx.lineWidth = 2;
+        ctx.fillRect(cx - 17, y - 24, 34, 16); ctx.strokeRect(cx - 17, y - 24, 34, 16);
+        circle(g, cx - 9, y - 6, 4.5, "#fff"); circle(g, cx + 9, y - 6, 4.5, "#fff");
+        ctx.globalAlpha = 1;
+        text(g, name, cx, y - 16, { bold: true, align: "center", size: 11 });
+        text(g, name, left - 12, y, { bold: true, align: "right", color: MUTED });
+      };
+      lane(y1, "A", f.xA, true, BLUE_FILL);
+      if (m.hasB) lane(y1 + gap, "B", f.xB, f.t >= m.startB, RED_FILL);
+      text(g, `${nf(m.xmin, 0)} m`, left, y1 - 40, { align: "center", color: MUTED, size: fontSize(W) - 1 });
+      text(g, `${nf(m.xmax, 0)} m`, right, y1 - 40, { align: "center", color: MUTED, size: fontSize(W) - 1 });
+      const acc = m.graph === "acceleration", kA = acc ? "aA" : "vA", kB = acc ? "aB" : "vB";
+      const series = [{ key: kA, color: BLUE, fill: !m.hasB && !acc }];
+      if (m.hasB) series.push({ key: kB, color: RED });
+      const gb = { x: 0, y: trackBottom + 8, w: W, h: H - trackBottom - 8 };
+      graph(g, gb, data.frames, frameNo(data, f), {
+        series, yLabel: (acc ? "acceleration (m/s²)" : "speed (m/s)") + (m.hasB ? ":  A blue, B red" : ""),
+        refs: m.vmark > 0 && !acc ? [{ y: m.vmark, label: `${nf(m.vmark, 1)} m/s`, color: MUTED }] : [],
+        vlines: m.tmark > 0 ? [{ x: m.tmark, label: `t = ${nf(m.tmark, 1)} s`, color: MUTED }] : [],
+      });
+      readout(g, [`t = ${nf(f.t)} s`, `A: ${nf(f.xA)} m, ${nf(f.vA)} m/s`].concat(m.hasB ? [`B: ${nf(f.xB)} m, ${nf(f.vB)} m/s`] : []));
+    },
+  },
+
+  // ---------------------------------------------------------------- Chapter 2
+  "rough-surface": {
+    draw(g, f, m) {
+      const { ctx, W, H } = g, th = (m.angle * Math.PI) / 180, cs = Math.cos(th), sn = Math.sin(th), pad = 34, by = Math.round(H * 0.64);
+      let px, py;
+      if (m.angle > 0) {
+        const Lp = Math.min((W - 2 * pad) / cs, (H * 0.5) / sn), ax = pad, apx = ax + Lp * cs, apy = by - Lp * sn;
+        ctx.fillStyle = "#e6eef6"; ctx.strokeStyle = INK; ctx.lineWidth = 2;
+        ctx.beginPath(); ctx.moveTo(ax, by); ctx.lineTo(apx, apy); ctx.lineTo(apx, by); ctx.closePath(); ctx.fill(); ctx.stroke();
+        ctx.strokeStyle = MUTED; ctx.beginPath(); ctx.arc(apx, by, 34, Math.PI, Math.PI + th); ctx.stroke();
+        text(g, `${nf(m.angle, 1)}°`, apx - 46, by - 8, { color: MUTED, align: "center" });
+        px = ax + Lp * 0.5 * cs; py = by - Lp * 0.5 * sn;
+      } else {
+        ctx.fillStyle = "#e6eef6"; ctx.fillRect(10, by, W - 20, 14); line(g, 10, by, W - 10, by, INK, 3);
+        text(g, "rough ground", 16, by + 28, { color: MUTED, size: fontSize(W) - 1 });
+        px = W / 2; py = by;
+      }
+      const u = [cs, -sn], n = [-sn, -cs], bs = 34;
+      ctx.save(); ctx.translate(px, py); ctx.rotate(-th);
+      ctx.fillStyle = BLUE_FILL; ctx.strokeStyle = INK; ctx.lineWidth = 2; ctx.fillRect(-bs / 2, -bs, bs, bs); ctx.strokeRect(-bs / 2, -bs, bs, bs);
+      ctx.restore();
+      const cx = px + n[0] * bs / 2, cy = py + n[1] * bs / 2, ws = 100 / Math.max(m.W, m.Fmax, m.F2 || 0, 1);
+      const arr = (dx, dy, len, col, lab) => { if (len * ws > 3) arrow(g, cx, cy, cx + dx * len * ws, cy + dy * len * ws, col, lab); };
+      const dir = (t) => { const a = (t * Math.PI) / 180; return [Math.cos(a) * u[0] + Math.sin(a) * n[0], Math.cos(a) * u[1] + Math.sin(a) * n[1]]; };
+      arr(0, 1, m.W, INK, "W");
+      arr(n[0], n[1], f.R, INK, "R");
+      const d1 = dir(m.th1); arr(d1[0], d1[1], f.P, BLUE, "F1");
+      if (m.F2 > 0) { const d2 = dir(m.th2); arr(d2[0], d2[1], m.F2, BLUE, "F2"); }
+      arr(f.F >= 0 ? u[0] : -u[0], f.F >= 0 ? u[1] : -u[1], Math.abs(f.F), RED, "F");
+      const msg = f.state === "rest" ? "Everything balances: it stays at rest"
+        : f.state === "down" ? "About to slide DOWN: friction acts up the surface"
+        : f.state === "up" ? "About to slide UP: friction acts down the surface" : "R would be negative: the particle lifts off";
+      text(g, msg, W / 2, 20, { bold: true, align: "center", color: f.state === "rest" ? INK : RED, size: fontSize(W) + 1 });
+      const x0 = pad, x1 = W - pad, yb = H - 26, PX = (v) => x0 + (v / m.Fmax) * (x1 - x0), RED_Z = "#f3c6c3", GREEN_Z = "#c6e5cf";
+      ctx.fillStyle = RED_Z; ctx.fillRect(x0, yb - 7, x1 - x0, 14);
+      if (!m.empty && m.lo != null) { ctx.fillStyle = GREEN_Z; ctx.fillRect(PX(m.lo), yb - 7, PX(m.hi == null ? m.Fmax : m.hi) - PX(m.lo), 14); }
+      ctx.strokeStyle = INK; ctx.lineWidth = 1.5; ctx.strokeRect(x0, yb - 7, x1 - x0, 14);
+      line(g, PX(m.F1), yb - 11, PX(m.F1), yb + 11, BLUE, 2);
+      line(g, PX(f.P), yb - 13, PX(f.P), yb + 13, RED, 3);
+      text(g, "F1 (N):  green = stays at rest,  red = slides,  blue tick = the F1 in your numbers", x0, yb - 20, { color: MUTED, size: fontSize(W) - 1 });
+      readout(g, [`F1 = ${nf(f.P, 1)} N`, `friction F = ${nf(f.F, 1)} N (+ is up the surface)`, `largest friction μR = ${nf(f.lim, 1)} N`]);
+    },
+  },
+
+  // ---------------------------------------------------------------- Chapter 5
+  "beam": {
+    draw(g, f, m) {
+      const { ctx, W, H } = g, left = 50, right = W - 50, X = (x) => left + (x / m.L) * (right - left), py = Math.round(H * 0.5), th = 14;
+      const sc = (H * 0.2) / (m.fmax || 1), sup = m.sup;
+      const lab = (str, x, y, o) => { const w = str.length * 7.8; text(g, str, Math.min(Math.max(x, w / 2 + 6), W - w / 2 - 6), y, o); };
+      // which way does the beam tip?
+      let ang = 0, pv = null;
+      if (f.tip) {
+        if (m.n === 2) { const lift = sup[0].name === f.tip ? 0 : 1; ang = lift === 0 ? 0.1 : -0.1; pv = X(sup[1 - lift].pos); }
+        else if (m.n === 1) { ang = f.tip === "B" ? 0.1 : -0.1; pv = X(sup[0].pos); }
+      }
+      if (m.pivot >= 0) { line(g, X(m.pivot), py - 30, X(m.pivot), py + th + 30, MUTED, 1.5, [4, 4]); lab("moments about here", X(m.pivot), py - 38, { align: "center", color: MUTED, size: fontSize(W) - 1 }); }
+      // supports (not tilted)
+      sup.forEach((s) => {
+        const x = X(s.pos);
+        if (s.kind === "support") { ctx.fillStyle = INK; ctx.beginPath(); ctx.moveTo(x, py + th); ctx.lineTo(x - 15, py + th + 22); ctx.lineTo(x + 15, py + th + 22); ctx.closePath(); ctx.fill(); }
+        else if (s.kind === "rope") line(g, x, py, x, 16, MUTED, 1.5);
+        else { ctx.fillStyle = INK; ctx.fillRect(x - 4, py - 8, 8, th + 24); }
+        text(g, s.name, x + 18, py + th + 18, { bold: true });
+        text(g, `${nf(s.pos, 2)} m`, x, py + th + 38, { align: "center", color: MUTED, size: fontSize(W) - 1 });
+      });
+      ctx.save();
+      if (pv != null) { ctx.translate(pv, py + th / 2); ctx.rotate(ang); ctx.translate(-pv, -(py + th / 2)); }
+      ctx.fillStyle = "#e6eef6"; ctx.strokeStyle = INK; ctx.lineWidth = 2; ctx.fillRect(left, py, right - left, th); ctx.strokeRect(left, py, right - left, th);
+      text(g, "A", left - 14, py + 7, { bold: true, align: "center" }); text(g, "B", right + 14, py + 7, { bold: true, align: "center" });
+      circle(g, X(m.G), py + th / 2, 4, INK); text(g, "G", X(m.G), py - 10, { align: "center", color: MUTED, size: fontSize(W) - 1 });
+      // weights: arrows pointing down from the beam
+      const down = (x, w, col, txt) => { arrow(g, X(x), py + th, X(x), py + th + Math.abs(w) * sc, col, ""); lab(txt, X(x), py + th + Math.abs(w) * sc + 14, { align: "center", color: col === INK ? MUTED : col, size: fontSize(W) - 1 }); };
+      const up = (x, w, col, txt) => { arrow(g, X(x), py, X(x), py - Math.abs(w) * sc, col, ""); lab(txt, X(x), py - Math.abs(w) * sc - 8, { align: "center", color: col, size: fontSize(W) - 1 }); };
+      if (m.M > 0) down(m.G, m.M * m.g, INK, `${nf(m.M * m.g, 1)} N`);
+      m.loads.forEach((ld) => (ld.m > 0 ? down(ld.x, ld.m * m.g, INK, `${nf(ld.m * m.g, 1)} N`) : up(ld.x, ld.m * m.g, INK, `${nf(-ld.m * m.g, 1)} N up`)));
+      if (m.m1 !== 0) (m.m1 > 0 ? down : up)(f.x, m.m1 * m.g, BLUE, `${nf(Math.abs(m.m1 * m.g), 1)} N`);
+      ctx.restore();
+      // reactions: pointing up from the beam
+      const Rs = [f.R1, f.R2];
+      sup.forEach((s, j) => {
+        const R = Rs[j], x = X(s.pos), col = f.over && s.kind !== "support" ? "#b00020" : RED;
+        const name = s.kind === "rope" ? `T at ${s.name}` : s.kind === "bolt" ? `force at ${s.name}` : `R at ${s.name}`;
+        if (R >= 0) { if (R * sc > 3) arrow(g, x, py, x, py - R * sc, col, ""); lab(`${name}: ${nf(R, 1)} N`, x, py - R * sc - 8, { align: "center", color: col, bold: true, size: fontSize(W) - 1 }); }
+        else { arrow(g, x, py + th, x, py + th - R * sc, col, ""); lab(`${name}: ${nf(-R, 1)} N down`, x, py + th - R * sc + 14, { align: "center", color: col, bold: true, size: fontSize(W) - 1 }); }
+      });
+      const msg = f.over ? `A rope or bolt is over its limit of ${nf(m.limit, 0)} N`
+        : f.tip ? (m.n === 2 ? `The beam tips: it lifts off at ${f.tip}` : `The beam turns: end ${f.tip} goes down`)
+        : (() => { const z = sup.find((sp, j) => sp.kind !== "bolt" && m.n === 2 && Math.abs(Rs[j]) < 1e-6); return z ? `The beam is on the point of lifting off at ${z.name}` : m.n === 1 ? "The beam balances on its support" : ""; })();
+      if (msg) text(g, msg, W / 2, 22, { bold: true, align: "center", color: RED, size: fontSize(W) + 1 });
+      readout(g, (m.m1 !== 0 ? [`moving load at ${nf(f.x)} m from A`] : []).concat(sup.map((s, j) => `${s.name}: ${nf(Rs[j], 1)} N`)));
+    },
+  },
+});
+SCENES["stages"].aspectNarrow = 1.3;

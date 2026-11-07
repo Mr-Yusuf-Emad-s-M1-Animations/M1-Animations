@@ -98,6 +98,7 @@
     const v = {};
     for (const sp of spec.params) {
       const raw = String(field(sp.key).value).trim();
+      if (sp.type === "text") { v[sp.key] = raw; continue; }
       if (sp.type === "select") { v[sp.key] = sp.options.some((o) => o[0] === raw) ? raw : sp.default; continue; }
       const x = raw === "" ? Number(sp.default) : Number(raw);
       if (!Number.isFinite(x)) throw new InputError(`${sp.label} must be a number.`);

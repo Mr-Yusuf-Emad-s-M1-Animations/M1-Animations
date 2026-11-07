@@ -52,6 +52,67 @@
   }
  },
  {
+  "id": "stages",
+  "url": "m1/stages/",
+  "scene": "stages",
+  "title": "Journeys in stages: speed-time and acceleration-time graphs",
+  "kind": "scene"
+ },
+ {
+  "id": "stages-1",
+  "url": "e/stages-1/",
+  "scene": "stages",
+  "title": "Scooter and cyclist (acceleration-time graph)",
+  "kind": "preset",
+  "params": {
+   "graph": "acceleration",
+   "A_stages": "5:2, 15:0, 4:-2.5",
+   "uA": 0,
+   "B_stages": "24:1.5",
+   "startB": 0,
+   "uB": 0,
+   "x0B": 0,
+   "vmark": 0,
+   "tmark": 0
+  }
+ },
+ {
+  "id": "stages-2",
+  "url": "e/stages-2/",
+  "scene": "stages",
+  "title": "Two trains leave a station",
+  "kind": "preset",
+  "params": {
+   "graph": "speed",
+   "A_stages": "25:0.64, 100:0, 25:-0.64",
+   "uA": 0,
+   "B_stages": "50:0.48, 75:-0.32",
+   "startB": 25,
+   "uB": 0,
+   "x0B": 0,
+   "vmark": 0,
+   "tmark": 0
+  }
+ },
+ {
+  "id": "stages-3",
+  "url": "e/stages-3/",
+  "scene": "stages",
+  "title": "Car B starts 13 m behind car A",
+  "kind": "preset",
+  "params": {
+   "graph": "speed",
+   "A_stages": "5:2, 20:0",
+   "uA": 0,
+   "B_stages": "20:1.5",
+   "startB": 0,
+   "uB": 0,
+   "x0B": -13,
+   "vmark": 0,
+   "tmark": 0
+  }
+ },
+ {
   "id": "overtaking",
   "url": "m1/overtaking/",
   "scene": "overtaking",
@@ -262,6 +323,52 @@
   }
  },
  {
+  "id": "hanging-strings",
+  "url": "m1/hanging-strings/",
+  "scene": "hanging-strings",
+  "title": "Particle on two strings",
+  "kind": "scene"
+ },
+ {
+  "id": "hanging-strings-1",
+  "url": "e/hanging-strings-1/",
+  "scene": "hanging-strings",
+  "title": "Strings at 30° and 45°",
+  "kind": "preset",
+  "params": {
+   "W": 100,
+   "alpha": 30,
+   "beta": 45,
+   "second": "string"
+  }
+ },
+ {
+  "id": "hanging-strings-2",
+  "url": "e/hanging-strings-2/",
+  "scene": "hanging-strings",
+  "title": "Symmetric strings at 60°",
+  "kind": "preset",
+  "params": {
+   "W": 100,
+   "alpha": 60,
+   "beta": 60,
+   "second": "string"
+  }
+ },
+ {
+  "id": "hanging-strings-3",
+  "url": "e/hanging-strings-3/",
+  "scene": "hanging-strings",
+  "title": "String and a force F",
+  "kind": "preset",
+  "params": {
+   "W": 29.4,
+   "alpha": 60,
+   "beta": 20,
+   "second": "force"
+  }
+ },
+ {
   "id": "slope-limiting",
   "url": "m1/slope-limiting/",
   "scene": "slope-limiting",
@@ -307,6 +414,64 @@
    "m": 4,
    "mu": 0.8,
    "dir": "parallel",
+   "g": 9.8
+  }
+ },
+ {
+  "id": "rough-surface",
+  "url": "m1/rough-surface/",
+  "scene": "rough-surface",
+  "title": "Particle on a rough surface with an angled force",
+  "kind": "scene"
+ },
+ {
+  "id": "rough-surface-1",
+  "url": "e/rough-surface-1/",
+  "scene": "rough-surface",
+  "title": "Pulled up a rough plane: about to slip up",
+  "kind": "preset",
+  "params": {
+   "angle": 20,
+   "m": 4,
+   "mu": 0.4,
+   "F1": 26.837,
+   "th1": 35,
+   "F2": 0,
+   "th2": 0,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "rough-surface-2",
+  "url": "e/rough-surface-2/",
+  "scene": "rough-surface",
+  "title": "Crate on flat ground, two forces",
+  "kind": "preset",
+  "params": {
+   "angle": 0,
+   "m": 25,
+   "mu": 0.35,
+   "F1": 105.87,
+   "th1": 30,
+   "F2": 150,
+   "th2": 160,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "rough-surface-3",
+  "url": "e/rough-surface-3/",
+  "scene": "rough-surface",
+  "title": "Pushed into the plane",
+  "kind": "preset",
+  "params": {
+   "angle": 30,
+   "m": 3,
+   "mu": 0.2,
+   "F1": 11.322,
+   "th1": -45,
+   "F2": 0,
+   "th2": 0,
    "g": 9.8
   }
  },
@@ -828,6 +993,125 @@
   }
  },
  {
+  "id": "beam",
+  "url": "m1/beam/",
+  "scene": "beam",
+  "title": "Beam on supports, ropes or a bolt",
+  "kind": "scene"
+ },
+ {
+  "id": "beam-1",
+  "url": "e/beam-1/",
+  "scene": "beam",
+  "title": "Man walks along a beam on two supports",
+  "kind": "preset",
+  "params": {
+   "L": 6,
+   "M": 40,
+   "G": 3,
+   "g": 9.8,
+   "n1": "C",
+   "s1": 1,
+   "k1": "support",
+   "n2": "D",
+   "s2": 4,
+   "k2": "support",
+   "m1": 80,
+   "x_from": 2,
+   "x_to": 4.5,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 0,
+   "pivot": -1
+  }
+ },
+ {
+  "id": "beam-2",
+  "url": "e/beam-2/",
+  "scene": "beam",
+  "title": "Beam hanging from two ropes, man standing on it",
+  "kind": "preset",
+  "params": {
+   "L": 5,
+   "M": 24,
+   "G": 2.5,
+   "g": 9.8,
+   "n1": "C",
+   "s1": 1,
+   "k1": "rope",
+   "n2": "B",
+   "s2": 5,
+   "k2": "rope",
+   "m1": 50,
+   "x_from": 3,
+   "x_to": 3,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 0,
+   "pivot": -1
+  }
+ },
+ {
+  "id": "beam-3",
+  "url": "e/beam-3/",
+  "scene": "beam",
+  "title": "Platform held down by a bolt at A",
+  "kind": "preset",
+  "params": {
+   "L": 3,
+   "M": 20,
+   "G": 1.5,
+   "g": 9.8,
+   "n1": "A",
+   "s1": 0,
+   "k1": "bolt",
+   "n2": "C",
+   "s2": 0.5,
+   "k2": "support",
+   "m1": 40,
+   "x_from": 3,
+   "x_to": 3,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 3000,
+   "pivot": -1
+  }
+ },
+ {
+  "id": "beam-4",
+  "url": "e/beam-4/",
+  "scene": "beam",
+  "title": "Non-uniform rod on two strings, particle moves",
+  "kind": "preset",
+  "params": {
+   "L": 5,
+   "M": 10.204,
+   "G": 2,
+   "g": 9.8,
+   "n1": "A",
+   "s1": 0,
+   "k1": "rope",
+   "n2": "B",
+   "s2": 5,
+   "k2": "rope",
+   "m1": 5.102,
+   "x_from": 0,
+   "x_to": 5,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 80,
+   "pivot": -1
+  }
+ },
+ {
   "id": "tilting-rod",
   "url": "m1/tilting-rod/",
   "scene": "tilting-rod",
@@ -944,6 +1228,1536 @@
    "ax": 0,
    "ay": 1.5,
    "T": 4
+  }
+ },
+ {
+  "id": "1-2-1",
+  "url": "e/1-2-1/",
+  "scene": "suvat-journey",
+  "title": "Notes 1.2, example 1: Train from rest to 144 km/h",
+  "kind": "example",
+  "params": {
+   "u": 0,
+   "a1": 0.25,
+   "t1": 160,
+   "t2": 0,
+   "a3": 1,
+   "v_end": 40
+  }
+ },
+ {
+  "id": "1-3-2",
+  "url": "e/1-3-2/",
+  "scene": "suvat-journey",
+  "title": "Notes 1.3, example 2: Car passes A at 5 m/s and B at 21 m/s",
+  "kind": "example",
+  "params": {
+   "u": 5,
+   "a1": 2,
+   "t1": 8,
+   "t2": 0,
+   "a3": 1,
+   "v_end": 21
+  }
+ },
+ {
+  "id": "1-3-3",
+  "url": "e/1-3-3/",
+  "scene": "suvat-journey",
+  "title": "Notes 1.3, example 3: Lorry from A to B, mid-point of AB",
+  "kind": "example",
+  "params": {
+   "u": 8,
+   "a1": 1,
+   "t1": 12,
+   "t2": 0,
+   "a3": 1,
+   "v_end": 20
+  }
+ },
+ {
+  "id": "1-4-1",
+  "url": "e/1-4-1/",
+  "scene": "suvat-journey",
+  "title": "Notes 1.4, example 1: Tram between two stops",
+  "kind": "example",
+  "params": {
+   "u": 0,
+   "a1": 0.5,
+   "t1": 20,
+   "t2": 90,
+   "a3": 0.4,
+   "v_end": 0
+  }
+ },
+ {
+  "id": "1-4-2",
+  "url": "e/1-4-2/",
+  "scene": "stages",
+  "title": "Notes 1.4, example 2: Car: five stages",
+  "kind": "example",
+  "params": {
+   "graph": "speed",
+   "A_stages": "12:1.5, 40:0, 8:-1.5, 20:0, 8:1.5",
+   "uA": 0,
+   "B_stages": "",
+   "startB": 0,
+   "uB": 0,
+   "x0B": 0,
+   "vmark": 0,
+   "tmark": 0
+  }
+ },
+ {
+  "id": "1-4-3",
+  "url": "e/1-4-3/",
+  "scene": "stages",
+  "title": "Notes 1.4, example 3: Two trains leave a station",
+  "kind": "example",
+  "params": {
+   "graph": "speed",
+   "A_stages": "25:0.64, 100:0, 25:-0.64",
+   "uA": 0,
+   "B_stages": "50:0.48, 75:-0.32",
+   "startB": 25,
+   "uB": 0,
+   "x0B": 0,
+   "vmark": 0,
+   "tmark": 0
+  }
+ },
+ {
+  "id": "1-5-2",
+  "url": "e/1-5-2/",
+  "scene": "suvat-journey",
+  "title": "Notes 1.5, example 2: Train with deceleration twice as long",
+  "kind": "example",
+  "params": {
+   "u": 0,
+   "a1": 0.5,
+   "t1": 40,
+   "t2": 240,
+   "a3": 0.25,
+   "v_end": 0
+  }
+ },
+ {
+  "id": "1-5-3",
+  "url": "e/1-5-3/",
+  "scene": "suvat-journey",
+  "title": "Notes 1.5, example 3: Train: V^2 - 80V + 1200 = 0 (V = 20)",
+  "kind": "example",
+  "params": {
+   "u": 0,
+   "a1": 0.8,
+   "t1": 25,
+   "t2": 75,
+   "a3": 0.4,
+   "v_end": 0
+  }
+ },
+ {
+  "id": "1-6-2",
+  "url": "e/1-6-2/",
+  "scene": "stages",
+  "title": "Notes 1.6, example 2: Particle with acceleration -2 m/s^2",
+  "kind": "example",
+  "params": {
+   "graph": "speed",
+   "A_stages": "5:-2",
+   "uA": 6,
+   "B_stages": "",
+   "startB": 0,
+   "uB": 0,
+   "x0B": 0,
+   "vmark": 0,
+   "tmark": 0
+  }
+ },
+ {
+  "id": "1-7-1",
+  "url": "e/1-7-1/",
+  "scene": "stages",
+  "title": "Notes 1.7, example 1: Scooter and cyclist (acceleration-time graph)",
+  "kind": "example",
+  "params": {
+   "graph": "acceleration",
+   "A_stages": "5:2, 15:0, 4:-2.5",
+   "uA": 0,
+   "B_stages": "24:1.5",
+   "startB": 0,
+   "uB": 0,
+   "x0B": 0,
+   "vmark": 0,
+   "tmark": 0
+  }
+ },
+ {
+  "id": "1-7-2",
+  "url": "e/1-7-2/",
+  "scene": "stages",
+  "title": "Notes 1.7, example 2: Car from an acceleration-time graph",
+  "kind": "example",
+  "params": {
+   "graph": "acceleration",
+   "A_stages": "4:2.5, 12:0.5, 4:-3",
+   "uA": 0,
+   "B_stages": "",
+   "startB": 0,
+   "uB": 0,
+   "x0B": 0,
+   "vmark": 0,
+   "tmark": 0
+  }
+ },
+ {
+  "id": "1-8-2",
+  "url": "e/1-8-2/",
+  "scene": "stages",
+  "title": "Notes 1.8, example 2: Trains P and Q pass a signal together",
+  "kind": "example",
+  "params": {
+   "graph": "speed",
+   "A_stages": "10:0, 40:-0.75",
+   "uA": 30,
+   "B_stages": "40:0, 10:-2",
+   "startB": 0,
+   "uB": 20,
+   "x0B": 0,
+   "vmark": 0,
+   "tmark": 0
+  }
+ },
+ {
+  "id": "1-8-3",
+  "url": "e/1-8-3/",
+  "scene": "overtaking",
+  "title": "Notes 1.8, example 3: Jogger and cyclist",
+  "kind": "example",
+  "params": {
+   "u": 3,
+   "a": 1,
+   "v": 8
+  }
+ },
+ {
+  "id": "1-8-4",
+  "url": "e/1-8-4/",
+  "scene": "stages",
+  "title": "Notes 1.8, example 4: Car B starts 13 m behind car A",
+  "kind": "example",
+  "params": {
+   "graph": "speed",
+   "A_stages": "5:2, 20:0",
+   "uA": 0,
+   "B_stages": "25:1.5",
+   "startB": 0,
+   "uB": 0,
+   "x0B": -13,
+   "vmark": 0,
+   "tmark": 0
+  }
+ },
+ {
+  "id": "1-8-5",
+  "url": "e/1-8-5/",
+  "scene": "stages",
+  "title": "Notes 1.8, example 5: Two trains: equal speeds",
+  "kind": "example",
+  "params": {
+   "graph": "speed",
+   "A_stages": "40:0.5, 100:0, 40:-0.5",
+   "uA": 0,
+   "B_stages": "90:0.25, 90:-0.25",
+   "startB": 0,
+   "uB": 0,
+   "x0B": 0,
+   "vmark": 6,
+   "tmark": 0
+  }
+ },
+ {
+  "id": "1-8-6",
+  "url": "e/1-8-6/",
+  "scene": "stages",
+  "title": "Notes 1.8, example 6: Distance between the trains at t = 120 s",
+  "kind": "example",
+  "params": {
+   "graph": "speed",
+   "A_stages": "40:0.5, 100:0, 40:-0.5",
+   "uA": 0,
+   "B_stages": "90:0.25, 90:-0.25",
+   "startB": 0,
+   "uB": 0,
+   "x0B": 0,
+   "vmark": 0,
+   "tmark": 120
+  }
+ },
+ {
+  "id": "1-9-1",
+  "url": "e/1-9-1/",
+  "scene": "vertical-projection",
+  "title": "Notes 1.9, example 1: Ball thrown up, 1.6 m above the ground",
+  "kind": "example",
+  "params": {
+   "u": 16.8,
+   "h": 0,
+   "g": 9.8,
+   "level": 0
+  }
+ },
+ {
+  "id": "1-9-2",
+  "url": "e/1-9-2/",
+  "scene": "vertical-projection",
+  "title": "Notes 1.9, example 2: Stone passes A (7.5 m up) going up at 7 m/s",
+  "kind": "example",
+  "params": {
+   "u": 14,
+   "h": 0,
+   "g": 9.8,
+   "level": 7.5
+  }
+ },
+ {
+  "id": "1-9-3",
+  "url": "e/1-9-3/",
+  "scene": "vertical-projection",
+  "title": "Notes 1.9, example 3: Ball thrown up from 34.3 m above the ground",
+  "kind": "example",
+  "params": {
+   "u": 24.5,
+   "h": 34.3,
+   "g": 9.8,
+   "level": 29.4
+  }
+ },
+ {
+  "id": "1-9-4",
+  "url": "e/1-9-4/",
+  "scene": "vertical-projection",
+  "title": "Notes 1.9, example 4: Stone returns to A after 3.5 s",
+  "kind": "example",
+  "params": {
+   "u": 17.15,
+   "h": 0,
+   "g": 9.8,
+   "level": 7.35
+  }
+ },
+ {
+  "id": "1-10-1",
+  "url": "e/1-10-1/",
+  "scene": "vertical-projection",
+  "title": "Notes 1.10, example 1: Stone thrown up from 29.4 m above the ground",
+  "kind": "example",
+  "params": {
+   "u": 4.9,
+   "h": 29.4,
+   "g": 9.8,
+   "level": 0
+  }
+ },
+ {
+  "id": "1-10-2",
+  "url": "e/1-10-2/",
+  "scene": "vertical-projection",
+  "title": "Notes 1.10, example 2: Ball thrown up, hits the ground after 2 s",
+  "kind": "example",
+  "params": {
+   "u": 4.2,
+   "h": 11.2,
+   "g": 9.8,
+   "level": 0
+  }
+ },
+ {
+  "id": "1-10-3",
+  "url": "e/1-10-3/",
+  "scene": "vertical-projection",
+  "title": "Notes 1.10, example 3: Total distance from a 12 m high point",
+  "kind": "example",
+  "params": {
+   "u": 8.4,
+   "h": 12,
+   "g": 9.8,
+   "level": 0
+  }
+ },
+ {
+  "id": "1-11-2",
+  "url": "e/1-11-2/",
+  "scene": "vertical-projection",
+  "title": "Notes 1.11, example 2: Stone passes A going up at 4.9 m/s",
+  "kind": "example",
+  "params": {
+   "u": 14.7,
+   "h": 0,
+   "g": 9.8,
+   "level": 9.8
+  }
+ },
+ {
+  "id": "1-11-3",
+  "url": "e/1-11-3/",
+  "scene": "bouncing-ball",
+  "title": "Notes 1.11, example 3: Ball released from 22.5 m, speed reduced by 40%",
+  "kind": "example",
+  "params": {
+   "h": 22.5,
+   "u": 0,
+   "e": 0.6,
+   "m": 0.2,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "1-11-4",
+  "url": "e/1-11-4/",
+  "scene": "bouncing-ball",
+  "title": "Notes 1.11, example 4: Ball thrown up from 4.9 m, rebounds to rest at B",
+  "kind": "example",
+  "params": {
+   "h": 4.9,
+   "u": 7.35,
+   "e": 0.4,
+   "m": 0.2,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "1-12-3",
+  "url": "e/1-12-3/",
+  "scene": "vertical-meeting",
+  "title": "Notes 1.12, example 3: Two particles from the same point (U = 14 m/s)",
+  "kind": "example",
+  "params": {
+   "u1": 14,
+   "h": 10,
+   "u2": 0,
+   "delay": 0,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "1-13-1",
+  "url": "e/1-13-1/",
+  "scene": "parachutist",
+  "title": "Notes 1.13, example 1: Free fall, then deceleration, then constant speed",
+  "kind": "example",
+  "params": {
+   "H": 266.7,
+   "t1": 3,
+   "d": 4.2,
+   "V": 12.6,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "2-1-1",
+  "url": "e/2-1-1/",
+  "scene": "hanging-strings",
+  "title": "Notes 2.1, example 1: Lamp on two strings (30 deg and 60 deg)",
+  "kind": "example",
+  "params": {
+   "W": 39.2,
+   "alpha": 30,
+   "beta": 60,
+   "second": "string"
+  }
+ },
+ {
+  "id": "2-1-2",
+  "url": "e/2-1-2/",
+  "scene": "hanging-strings",
+  "title": "Notes 2.1, example 2: Sign on two ropes",
+  "kind": "example",
+  "params": {
+   "W": 49,
+   "alpha": 36.86989764584402,
+   "beta": 45,
+   "second": "string"
+  }
+ },
+ {
+  "id": "2-1-3",
+  "url": "e/2-1-3/",
+  "scene": "hanging-strings",
+  "title": "Notes 2.1, example 3: Triangle of forces: weight 80 N",
+  "kind": "example",
+  "params": {
+   "W": 80,
+   "alpha": 50,
+   "beta": 25,
+   "second": "string"
+  }
+ },
+ {
+  "id": "2-2-1",
+  "url": "e/2-2-1/",
+  "scene": "hanging-strings",
+  "title": "Notes 2.2, example 1: String and a force at 20 deg above horizontal",
+  "kind": "example",
+  "params": {
+   "W": 29.4,
+   "alpha": 60,
+   "beta": 20,
+   "second": "force"
+  }
+ },
+ {
+  "id": "2-2-2",
+  "url": "e/2-2-2/",
+  "scene": "hanging-strings",
+  "title": "Notes 2.2, example 2: String and a force perpendicular to it",
+  "kind": "example",
+  "params": {
+   "W": 39,
+   "alpha": 67.38013505195958,
+   "beta": 22.619864948040416,
+   "second": "force"
+  }
+ },
+ {
+  "id": "2-4-1",
+  "url": "e/2-4-1/",
+  "scene": "rough-surface",
+  "title": "Notes 2.4, example 1: Box pulled at constant speed on rough ground",
+  "kind": "example",
+  "params": {
+   "angle": 0,
+   "m": 10,
+   "mu": 0.3,
+   "F1": 28.206,
+   "th1": 20,
+   "F2": 0,
+   "th2": 0,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "2-4-2",
+  "url": "e/2-4-2/",
+  "scene": "rough-surface",
+  "title": "Notes 2.4, example 2: Crate with two forces on rough ground",
+  "kind": "example",
+  "params": {
+   "angle": 0,
+   "m": 25,
+   "mu": 0.35,
+   "F1": 105.87,
+   "th1": 30,
+   "F2": 150,
+   "th2": 160,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "2-6-1",
+  "url": "e/2-6-1/",
+  "scene": "rough-surface",
+  "title": "Notes 2.6, example 1: Parcel held by a force up a plane",
+  "kind": "example",
+  "params": {
+   "angle": 36.86989764584402,
+   "m": 5,
+   "mu": 0.5,
+   "F1": 20,
+   "th1": 0,
+   "F2": 0,
+   "th2": 0,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "2-6-2",
+  "url": "e/2-6-2/",
+  "scene": "rough-surface",
+  "title": "Notes 2.6, example 2: Force at 20 deg to a plane",
+  "kind": "example",
+  "params": {
+   "angle": 25,
+   "m": 6,
+   "mu": 0.5,
+   "F1": 40,
+   "th1": 20,
+   "F2": 0,
+   "th2": 0,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "2-6-3",
+  "url": "e/2-6-3/",
+  "scene": "slope-limiting",
+  "title": "Notes 2.6, example 3: Smooth plane held by a horizontal force",
+  "kind": "example",
+  "params": {
+   "angle": 22.61986494804043,
+   "m": 4,
+   "mu": 0,
+   "dir": "horizontal",
+   "g": 9.8
+  }
+ },
+ {
+  "id": "2-7-2",
+  "url": "e/2-7-2/",
+  "scene": "slope-limiting",
+  "title": "Notes 2.7, example 2: Coefficient of friction: horizontal force 12 N",
+  "kind": "example",
+  "params": {
+   "angle": 40,
+   "m": 4,
+   "mu": 0.424,
+   "dir": "horizontal",
+   "g": 9.8
+  }
+ },
+ {
+  "id": "2-7-3",
+  "url": "e/2-7-3/",
+  "scene": "rough-surface",
+  "title": "Notes 2.7, example 3: Particle pulled up a plane at constant speed",
+  "kind": "example",
+  "params": {
+   "angle": 20,
+   "m": 5,
+   "mu": 0.479,
+   "F1": 35,
+   "th1": 25,
+   "F2": 0,
+   "th2": 0,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "2-8-2",
+  "url": "e/2-8-2/",
+  "scene": "slope-limiting",
+  "title": "Notes 2.8, example 2: Weight W with horizontal force 16 N (W = 38 N)",
+  "kind": "example",
+  "params": {
+   "angle": 36.86989764584402,
+   "m": 3.8776,
+   "mu": 0.25,
+   "dir": "horizontal",
+   "g": 9.8
+  }
+ },
+ {
+  "id": "2-8-3",
+  "url": "e/2-8-3/",
+  "scene": "rough-surface",
+  "title": "Notes 2.8, example 3: Rope pulls a box up a plane, about to slip",
+  "kind": "example",
+  "params": {
+   "angle": 20,
+   "m": 4,
+   "mu": 0.4,
+   "F1": 26.837,
+   "th1": 35,
+   "F2": 0,
+   "th2": 0,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "2-9-1",
+  "url": "e/2-9-1/",
+  "scene": "slope-limiting",
+  "title": "Notes 2.9, example 1: Greatest and least force up the plane",
+  "kind": "example",
+  "params": {
+   "angle": 16.26020470831196,
+   "m": 6,
+   "mu": 0.2,
+   "dir": "parallel",
+   "g": 9.8
+  }
+ },
+ {
+  "id": "2-9-2",
+  "url": "e/2-9-2/",
+  "scene": "rough-surface",
+  "title": "Notes 2.9, example 2: Particle pushed into a plane",
+  "kind": "example",
+  "params": {
+   "angle": 30,
+   "m": 3,
+   "mu": 0.2,
+   "F1": 11.322,
+   "th1": -45,
+   "F2": 0,
+   "th2": 0,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "3-3-1",
+  "url": "e/3-3-1/",
+  "scene": "suvat-journey",
+  "title": "Notes 3.3, example 1: Car: driving force 3000 N, resistance 600 N",
+  "kind": "example",
+  "params": {
+   "u": 0,
+   "a1": 2,
+   "t1": 10,
+   "t2": 0,
+   "a3": 1,
+   "v_end": 20
+  }
+ },
+ {
+  "id": "3-4-1",
+  "url": "e/3-4-1/",
+  "scene": "inclined-plane",
+  "title": "Notes 3.4, example 1: Particle released on a rough plane (25 deg)",
+  "kind": "example",
+  "params": {
+   "angle": 25,
+   "mass": 5,
+   "mu": 0.2,
+   "length": 4,
+   "u0": 0,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "3-4-2",
+  "url": "e/3-4-2/",
+  "scene": "inclined-plane",
+  "title": "Notes 3.4, example 2: Held by a horizontal force, then released",
+  "kind": "example",
+  "params": {
+   "angle": 36.86989764584402,
+   "mass": 2,
+   "mu": 0.5,
+   "length": 3,
+   "u0": 0,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "3-6-1",
+  "url": "e/3-6-1/",
+  "scene": "slope-up-and-back",
+  "title": "Notes 3.6, example 1: Projected up a rough plane",
+  "kind": "example",
+  "params": {
+   "angle": 22.61986494804043,
+   "u": 6,
+   "mu": 0.3,
+   "m": 4,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "3-7-2",
+  "url": "e/3-7-2/",
+  "scene": "towing",
+  "title": "Notes 3.7, example 2: Van towing a trailer with a tow-bar",
+  "kind": "example",
+  "params": {
+   "M": 1800,
+   "m": 500,
+   "D": 1880,
+   "Rc": 350,
+   "Rt": 150,
+   "u0": 0,
+   "time": 6,
+   "link": "rod"
+  }
+ },
+ {
+  "id": "3-9-3",
+  "url": "e/3-9-3/",
+  "scene": "lift",
+  "title": "Notes 3.9, example 3: Lift with 5 occupants (350 kg)",
+  "kind": "example",
+  "params": {
+   "dir": "up",
+   "m": 350,
+   "M": 300,
+   "a1": 2.5,
+   "t1": 2,
+   "t2": 2,
+   "a3": 2,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "3-12-2",
+  "url": "e/3-12-2/",
+  "scene": "pulley-table",
+  "title": "Notes 3.12, example 2: Particle on a smooth table joined to a hanging particle",
+  "kind": "example",
+  "params": {
+   "m1": 3,
+   "m2": 2,
+   "mu": 0,
+   "d": 4,
+   "h": 1.5,
+   "cor": 0,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "3-12-3",
+  "url": "e/3-12-3/",
+  "scene": "pulley-slope",
+  "title": "Notes 3.12, example 3: Smooth plane (30 deg) with a hanging particle",
+  "kind": "example",
+  "params": {
+   "angle": 30,
+   "m1": 4,
+   "m2": 3,
+   "mu": 0,
+   "run": 2,
+   "h": 1.2,
+   "cor": 0,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "3-13-2",
+  "url": "e/3-13-2/",
+  "scene": "pulley-hanging",
+  "title": "Notes 3.13, example 2: Two particles, Q hits the ground after 1.5 s",
+  "kind": "example",
+  "params": {
+   "m1": 3,
+   "m2": 2,
+   "h": 2.205,
+   "cor": 0,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "3-14-1",
+  "url": "e/3-14-1/",
+  "scene": "pulley-extra-mass",
+  "title": "Notes 3.14, example 1: A particle falls away",
+  "kind": "example",
+  "params": {
+   "mA": 1,
+   "mx": 2,
+   "mB": 2,
+   "d": 0.4,
+   "hA": 2,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "4-1-2",
+  "url": "e/4-1-2/",
+  "scene": "collision",
+  "title": "Notes 4.1, example 2: Particles of mass 5m and 2m collide (u = 1 m/s)",
+  "kind": "example",
+  "params": {
+   "m1": 5,
+   "u1": 2,
+   "m2": 2,
+   "u2": -3,
+   "mode": "given",
+   "v1": 0.4
+  }
+ },
+ {
+  "id": "4-2-2",
+  "url": "e/4-2-2/",
+  "scene": "collision",
+  "title": "Notes 4.2, example 2: Impulse when A is reversed",
+  "kind": "example",
+  "params": {
+   "m1": 5,
+   "u1": 1,
+   "m2": 2,
+   "u2": -2,
+   "mode": "given",
+   "v1": -0.5
+  }
+ },
+ {
+  "id": "4-3-2",
+  "url": "e/4-3-2/",
+  "scene": "collision",
+  "title": "Notes 4.3, example 2: Finding k: both particles reversed and halved",
+  "kind": "example",
+  "params": {
+   "m1": 1,
+   "u1": 3,
+   "m2": 3,
+   "u2": -1,
+   "mode": "given",
+   "v1": -1.5
+  }
+ },
+ {
+  "id": "4-4-1",
+  "url": "e/4-4-1/",
+  "scene": "collision",
+  "title": "Notes 4.4, example 1: Two trucks join together",
+  "kind": "example",
+  "params": {
+   "m1": 3000,
+   "u1": 4,
+   "m2": 5000,
+   "u2": -2,
+   "mode": "coalesce",
+   "v1": -0.5
+  }
+ },
+ {
+  "id": "4-5-1",
+  "url": "e/4-5-1/",
+  "scene": "collision",
+  "title": "Notes 4.5, example 1: Impulse of 3.6 N s on P",
+  "kind": "example",
+  "params": {
+   "m1": 0.6,
+   "u1": 5,
+   "m2": 0.8,
+   "u2": -2,
+   "mode": "given",
+   "v1": -1
+  }
+ },
+ {
+  "id": "4-5-2",
+  "url": "e/4-5-2/",
+  "scene": "collision",
+  "title": "Notes 4.5, example 2: Impulse of (9/2)mu: speed and direction of each",
+  "kind": "example",
+  "params": {
+   "m1": 3,
+   "u1": 2,
+   "m2": 1,
+   "u2": -2,
+   "mode": "given",
+   "v1": 0.5
+  }
+ },
+ {
+  "id": "4-6-3",
+  "url": "e/4-6-3/",
+  "scene": "collision",
+  "title": "Notes 4.6, example 3: Same direction after, speeds differ by 2.5 m/s",
+  "kind": "example",
+  "params": {
+   "m1": 3,
+   "u1": 4,
+   "m2": 2,
+   "u2": -1,
+   "mode": "given",
+   "v1": 1
+  }
+ },
+ {
+  "id": "4-8-2",
+  "url": "e/4-8-2/",
+  "scene": "bouncing-ball",
+  "title": "Notes 4.8, example 2: Ball dropped from 2.5 m, rebounds to 1.6 m",
+  "kind": "example",
+  "params": {
+   "h": 2.5,
+   "u": 0,
+   "e": 0.8,
+   "m": 0.25,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "4-8-5",
+  "url": "e/4-8-5/",
+  "scene": "wall-bounce",
+  "title": "Notes 4.8, example 5: Particle hits a wall, then slides to rest on rough ground",
+  "kind": "example",
+  "params": {
+   "m": 0.5,
+   "u": 6,
+   "mode": "speed",
+   "v": 2.8,
+   "I": 3
+  }
+ },
+ {
+  "id": "4-9-3",
+  "url": "e/4-9-3/",
+  "scene": "soft-ground",
+  "title": "Notes 4.9, example 3: Blocks sink into soft ground after an impact",
+  "kind": "example",
+  "params": {
+   "m": 8,
+   "h": 2.025,
+   "depth": 0.15,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "5-1-1",
+  "url": "e/5-1-1/",
+  "scene": "beam",
+  "title": "Notes 5.1, example 1: Moments of three forces on a light rod",
+  "kind": "example",
+  "params": {
+   "L": 6,
+   "M": 0,
+   "G": 3,
+   "g": 9.8,
+   "n1": "C",
+   "s1": 0,
+   "k1": "none",
+   "n2": "D",
+   "s2": 0,
+   "k2": "none",
+   "m1": 1.020408,
+   "x_from": 0,
+   "x_to": 0,
+   "m2": -2.55102,
+   "x2": 2,
+   "m3": 0.816327,
+   "x3": 6,
+   "limit": 0,
+   "pivot": 2
+  }
+ },
+ {
+  "id": "5-2-1",
+  "url": "e/5-2-1/",
+  "scene": "beam",
+  "title": "Notes 5.2, example 1: Beam hanging from two ropes, man on it",
+  "kind": "example",
+  "params": {
+   "L": 5,
+   "M": 24,
+   "G": 2.5,
+   "g": 9.8,
+   "n1": "C",
+   "s1": 1,
+   "k1": "rope",
+   "n2": "B",
+   "s2": 5,
+   "k2": "rope",
+   "m1": 50,
+   "x_from": 3,
+   "x_to": 3,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 0,
+   "pivot": -1
+  }
+ },
+ {
+  "id": "5-2-2",
+  "url": "e/5-2-2/",
+  "scene": "beam",
+  "title": "Notes 5.2, example 2: Platform held down by a bolt",
+  "kind": "example",
+  "params": {
+   "L": 3,
+   "M": 20,
+   "G": 1.5,
+   "g": 9.8,
+   "n1": "A",
+   "s1": 0,
+   "k1": "bolt",
+   "n2": "C",
+   "s2": 0.5,
+   "k2": "support",
+   "m1": 40,
+   "x_from": 3,
+   "x_to": 3,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 0,
+   "pivot": -1
+  }
+ },
+ {
+  "id": "5-3-1",
+  "url": "e/5-3-1/",
+  "scene": "beam",
+  "title": "Notes 5.3, example 1: Rod on two supports, reaction ratio 2 : 1",
+  "kind": "example",
+  "params": {
+   "L": 4,
+   "M": 6,
+   "G": 2,
+   "g": 9.8,
+   "n1": "P",
+   "s1": 0.5,
+   "k1": "support",
+   "n2": "B",
+   "s2": 4,
+   "k2": "support",
+   "m1": 3,
+   "x_from": 1,
+   "x_to": 1,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 0,
+   "pivot": -1
+  }
+ },
+ {
+  "id": "5-4-1",
+  "url": "e/5-4-1/",
+  "scene": "beam",
+  "title": "Notes 5.4, example 1: Plank with a girl and two boys",
+  "kind": "example",
+  "params": {
+   "L": 6,
+   "M": 30,
+   "G": 3,
+   "g": 9.8,
+   "n1": "A",
+   "s1": 0,
+   "k1": "support",
+   "n2": "C",
+   "s2": 4,
+   "k2": "support",
+   "m1": 50,
+   "x_from": 1.4,
+   "x_to": 1.4,
+   "m2": 40,
+   "x2": 2.5,
+   "m3": 40,
+   "x3": 5,
+   "limit": 0,
+   "pivot": -1
+  }
+ },
+ {
+  "id": "5-5-2",
+  "url": "e/5-5-2/",
+  "scene": "beam",
+  "title": "Notes 5.5, example 2: Non-uniform plank, weight 80 N",
+  "kind": "example",
+  "params": {
+   "L": 6,
+   "M": 8.1633,
+   "G": 2.5,
+   "g": 9.8,
+   "n1": "A",
+   "s1": 0,
+   "k1": "support",
+   "n2": "C",
+   "s2": 4,
+   "k2": "support",
+   "m1": 2.0408,
+   "x_from": 6,
+   "x_to": 6,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 0,
+   "pivot": -1
+  }
+ },
+ {
+  "id": "5-5-3",
+  "url": "e/5-5-3/",
+  "scene": "beam",
+  "title": "Notes 5.5, example 3: Non-uniform beam on one support",
+  "kind": "example",
+  "params": {
+   "L": 12,
+   "M": 30,
+   "G": 4,
+   "g": 9.8,
+   "n1": "P",
+   "s1": 5,
+   "k1": "support",
+   "n2": "Q",
+   "s2": 0,
+   "k2": "none",
+   "m1": 80,
+   "x_from": 1,
+   "x_to": 1,
+   "m2": 70,
+   "x2": 10,
+   "m3": 0,
+   "x3": 0,
+   "limit": 0,
+   "pivot": -1
+  }
+ },
+ {
+  "id": "5-6-2",
+  "url": "e/5-6-2/",
+  "scene": "beam",
+  "title": "Notes 5.6, example 2: Two ropes: tension at C is four times the tension at A",
+  "kind": "example",
+  "params": {
+   "L": 6,
+   "M": 10.2041,
+   "G": 3,
+   "g": 9.8,
+   "n1": "A",
+   "s1": 0,
+   "k1": "rope",
+   "n2": "C",
+   "s2": 5,
+   "k2": "rope",
+   "m1": 5.102,
+   "x_from": 6,
+   "x_to": 6,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 0,
+   "pivot": -1
+  }
+ },
+ {
+  "id": "5-7-2",
+  "url": "e/5-7-2/",
+  "scene": "plank",
+  "title": "Notes 5.7, example 2: Man walks along the beam towards B",
+  "kind": "example",
+  "params": {
+   "L": 6,
+   "M": 40,
+   "AC": 1,
+   "DB": 2,
+   "m": 80,
+   "x_from": 2,
+   "x_to": 4.5,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "5-7-3",
+  "url": "e/5-7-3/",
+  "scene": "beam",
+  "title": "Notes 5.7, example 3: Child at A and at B: tilting",
+  "kind": "example",
+  "params": {
+   "L": 7.5,
+   "M": 30,
+   "G": 3,
+   "g": 9.8,
+   "n1": "P",
+   "s1": 1,
+   "k1": "support",
+   "n2": "Q",
+   "s2": 6,
+   "k2": "support",
+   "m1": 60,
+   "x_from": 0,
+   "x_to": 7.5,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 0,
+   "pivot": -1
+  }
+ },
+ {
+  "id": "5-8-1",
+  "url": "e/5-8-1/",
+  "scene": "beam",
+  "title": "Notes 5.8, example 1: Beam on two ropes: block at A, particle at B",
+  "kind": "example",
+  "params": {
+   "L": 6,
+   "M": 20,
+   "G": 3.5,
+   "g": 9.8,
+   "n1": "A",
+   "s1": 0,
+   "k1": "rope",
+   "n2": "C",
+   "s2": 5,
+   "k2": "rope",
+   "m1": 45,
+   "x_from": 6,
+   "x_to": 6,
+   "m2": 3,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 0,
+   "pivot": -1
+  }
+ },
+ {
+  "id": "5-8-2",
+  "url": "e/5-8-2/",
+  "scene": "beam",
+  "title": "Notes 5.8, example 2: Platform: greatest child at B before the bolt breaks",
+  "kind": "example",
+  "params": {
+   "L": 3,
+   "M": 20,
+   "G": 1.5,
+   "g": 9.8,
+   "n1": "A",
+   "s1": 0,
+   "k1": "bolt",
+   "n2": "C",
+   "s2": 0.5,
+   "k2": "support",
+   "m1": 53,
+   "x_from": 3,
+   "x_to": 3,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 3000,
+   "pivot": -1
+  }
+ },
+ {
+  "id": "5-8-3",
+  "url": "e/5-8-3/",
+  "scene": "beam",
+  "title": "Notes 5.8, example 3: Rod on two strings: range of x before a string breaks",
+  "kind": "example",
+  "params": {
+   "L": 5,
+   "M": 10.2041,
+   "G": 2,
+   "g": 9.8,
+   "n1": "A",
+   "s1": 0,
+   "k1": "rope",
+   "n2": "B",
+   "s2": 5,
+   "k2": "rope",
+   "m1": 5.102,
+   "x_from": 0,
+   "x_to": 5,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 80,
+   "pivot": -1
+  }
+ },
+ {
+  "id": "6-2-2",
+  "url": "e/6-2-2/",
+  "scene": "vector-acceleration",
+  "title": "Notes 6.2, example 2: Boat on a bearing of 120 deg",
+  "kind": "example",
+  "params": {
+   "x0": 0,
+   "y0": 0,
+   "ux": 25.981,
+   "uy": -15,
+   "ax": 0,
+   "ay": 0,
+   "T": 2
+  }
+ },
+ {
+  "id": "6-7-1",
+  "url": "e/6-7-1/",
+  "scene": "vector-acceleration",
+  "title": "Notes 6.7, example 1: Particle with constant acceleration (-i + 3j)",
+  "kind": "example",
+  "params": {
+   "x0": 0,
+   "y0": 0,
+   "ux": 5,
+   "uy": -7,
+   "ax": -1,
+   "ay": 3,
+   "T": 4
+  }
+ },
+ {
+  "id": "6-7-2",
+  "url": "e/6-7-2/",
+  "scene": "vector-acceleration",
+  "title": "Notes 6.7, example 2: Find T and u from the velocity",
+  "kind": "example",
+  "params": {
+   "x0": 0,
+   "y0": 0,
+   "ux": 3,
+   "uy": -6,
+   "ax": 2,
+   "ay": 1,
+   "T": 4
+  }
+ },
+ {
+  "id": "6-7-3",
+  "url": "e/6-7-3/",
+  "scene": "vector-acceleration",
+  "title": "Notes 6.7, example 3: Constant acceleration from A to B",
+  "kind": "example",
+  "params": {
+   "x0": 0,
+   "y0": 0,
+   "ux": -2,
+   "uy": -5,
+   "ax": 1.5,
+   "ay": 2,
+   "T": 4
+  }
+ },
+ {
+  "id": "6-8-1",
+  "url": "e/6-8-1/",
+  "scene": "vector-acceleration",
+  "title": "Notes 6.8, example 1: When is the particle moving parallel to i or j?",
+  "kind": "example",
+  "params": {
+   "x0": 0,
+   "y0": 0,
+   "ux": 6,
+   "uy": -8,
+   "ax": -1,
+   "ay": 2,
+   "T": 7
+  }
+ },
+ {
+  "id": "6-8-3",
+  "url": "e/6-8-3/",
+  "scene": "vector-acceleration",
+  "title": "Notes 6.8, example 3: Particle P and a particle Q moving the same way",
+  "kind": "example",
+  "params": {
+   "x0": 0,
+   "y0": 0,
+   "ux": 3,
+   "uy": -1,
+   "ax": -1,
+   "ay": 2,
+   "T": 8
+  }
+ },
+ {
+  "id": "6-9-1",
+  "url": "e/6-9-1/",
+  "scene": "vector-acceleration",
+  "title": "Notes 6.9, example 1: Ship moving with constant velocity (4i + j) km/h",
+  "kind": "example",
+  "params": {
+   "x0": 3,
+   "y0": -2,
+   "ux": 4,
+   "uy": 1,
+   "ax": 0,
+   "ay": 0,
+   "T": 5
+  }
+ },
+ {
+  "id": "6-10-1",
+  "url": "e/6-10-1/",
+  "scene": "vectors",
+  "title": "Notes 6.10, example 1: Ships P and Q",
+  "kind": "example",
+  "params": {
+   "x0a": 1,
+   "y0a": 4,
+   "vxa": 3,
+   "vya": -2,
+   "x0b": 5,
+   "y0b": -2,
+   "vxb": -2,
+   "vyb": 9
+  }
+ },
+ {
+  "id": "6-10-2",
+  "url": "e/6-10-2/",
+  "scene": "vector-acceleration",
+  "title": "Notes 6.10, example 2: P moves until it is north-west of O",
+  "kind": "example",
+  "params": {
+   "x0": 12,
+   "y0": 3,
+   "ux": -4,
+   "uy": 2,
+   "ax": 0,
+   "ay": 0,
+   "T": 7.5
+  }
+ },
+ {
+  "id": "6-11-1",
+  "url": "e/6-11-1/",
+  "scene": "vectors",
+  "title": "Notes 6.11, example 1: Distance between two ships",
+  "kind": "example",
+  "params": {
+   "x0a": 2,
+   "y0a": 1,
+   "vxa": 3,
+   "vya": 5,
+   "x0b": 8,
+   "y0b": 9,
+   "vxb": -5,
+   "vyb": 1
+  }
+ },
+ {
+  "id": "6-11-3",
+  "url": "e/6-11-3/",
+  "scene": "vectors",
+  "title": "Notes 6.11, example 3: Two robots: closest distance",
+  "kind": "example",
+  "params": {
+   "x0a": 1,
+   "y0a": 2,
+   "vxa": 3,
+   "vya": 1,
+   "x0b": 7,
+   "y0b": -2,
+   "vxb": 1,
+   "vyb": 3
+  }
+ },
+ {
+  "id": "6-12-2",
+  "url": "e/6-12-2/",
+  "scene": "vector-acceleration",
+  "title": "Notes 6.12, example 2: Ship at 1 pm",
+  "kind": "example",
+  "params": {
+   "x0": -3,
+   "y0": 2,
+   "ux": 8,
+   "uy": 6,
+   "ax": 0,
+   "ay": 0,
+   "T": 1
+  }
+ },
+ {
+  "id": "6-12-3",
+  "url": "e/6-12-3/",
+  "scene": "vectors",
+  "title": "Notes 6.12, example 3: Boy intercepts a kicked ball",
+  "kind": "example",
+  "params": {
+   "x0a": -1,
+   "y0a": 2,
+   "vxa": 3,
+   "vya": 2,
+   "x0b": 5,
+   "y0b": -4,
+   "vxb": 0,
+   "vyb": 5
   }
  }
 ]

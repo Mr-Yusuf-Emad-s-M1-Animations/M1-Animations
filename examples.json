@@ -1,4 +1,2667 @@
 {
-  "_help": "Give an example in the notes its own short, permanent id. Add entries like the one below (without the leading underscore), then run: python build.py. 'scene' is a scene id, 'preset' (optional) starts from that preset number, 'params' (optional) changes numbers, 'title' is shown under the heading. Never change or delete an id after it is printed.",
-  "_example": { "scene": "overtaking", "preset": 1, "params": { "u": 12 }, "title": "Example 4.3 in the notes" }
+ "_help": "One entry per example in the notes that has an animation. Key = the example's permanent id (chapter-section-number, e.g. 3-12-2). Never change or delete an id after it is printed. Fields: scene, params (the numbers), title, status (exact = the animation's own results reproduce an answer printed in the notes; illustration = same set-up and numbers, but no printed answer is one of the results), note, expect (answers checked by tests/check_examples.py), anchor (start of the question, to re-find the example if the notes are re-ordered), tex_line (line in M1_Master.tex when this was made).",
+ "1-2-1": {
+  "scene": "suvat-journey",
+  "title": "Notes 1.2, example 1: Train from rest to 144 km/h",
+  "status": "exact",
+  "params": {
+   "u": 0,
+   "a1": 0.25,
+   "t1": 160,
+   "t2": 0,
+   "a3": 1,
+   "v_end": 40
+  },
+  "note": "Shows the whole motion from rest. Parts (a) and (b) (post and 32 s later) are within the first 56 s.",
+  "expect": [
+   [
+    "Top speed V",
+    40
+   ],
+   [
+    "Total time",
+    160
+   ],
+   [
+    "Total distance",
+    3200
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "A train starts from rest at a station and accelerates uniformly along",
+  "tex_line": 94
+ },
+ "1-3-2": {
+  "scene": "suvat-journey",
+  "title": "Notes 1.3, example 2: Car passes A at 5 m/s and B at 21 m/s",
+  "status": "exact",
+  "params": {
+   "u": 5,
+   "a1": 2,
+   "t1": 8,
+   "t2": 0,
+   "a3": 1,
+   "v_end": 21
+  },
+  "note": "Total time is the answer (8 s).",
+  "expect": [
+   [
+    "Top speed V",
+    21
+   ],
+   [
+    "Total time",
+    8
+   ],
+   [
+    "Total distance",
+    104
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "A car passes a point $A$ with speed $u\\ \\mathrm{m\\,s^{-1}}$ and moves",
+  "tex_line": 178
+ },
+ "1-3-3": {
+  "scene": "suvat-journey",
+  "title": "Notes 1.3, example 3: Lorry from A to B, mid-point of AB",
+  "status": "exact",
+  "params": {
+   "u": 8,
+   "a1": 1,
+   "t1": 12,
+   "t2": 0,
+   "a3": 1,
+   "v_end": 20
+  },
+  "note": "Press the half-distance marker on the graph for part (c).",
+  "expect": [
+   [
+    "Top speed V",
+    20
+   ],
+   [
+    "Total distance",
+    168
+   ],
+   [
+    "Half the distance reached at",
+    7.23,
+    0.01
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "A lorry passes a point $A$ with speed $u\\ \\mathrm{m\\,s^{-1}}$. It mov",
+  "tex_line": 208
+ },
+ "1-4-1": {
+  "scene": "suvat-journey",
+  "title": "Notes 1.4, example 1: Tram between two stops",
+  "status": "exact",
+  "params": {
+   "u": 0,
+   "a1": 0.5,
+   "t1": 20,
+   "t2": 90,
+   "a3": 0.4,
+   "v_end": 0
+  },
+  "note": null,
+  "expect": [
+   [
+    "Time of stage 3",
+    25
+   ],
+   [
+    "Distance in stage 3",
+    125
+   ],
+   [
+    "Total distance",
+    1125
+   ],
+   [
+    "Average speed",
+    8.333,
+    0.01
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "A tram starts from rest at stop $R$. It accelerates uniformly over a",
+  "tex_line": 263
+ },
+ "1-4-2": {
+  "scene": "stages",
+  "title": "Notes 1.4, example 2: Car: five stages",
+  "status": "exact",
+  "params": {
+   "graph": "speed",
+   "A_stages": "12:1.5, 40:0, 8:-1.5, 20:0, 8:1.5",
+   "uA": 0,
+   "B_stages": "",
+   "startB": 0,
+   "uB": 0,
+   "x0B": 0,
+   "vmark": 0,
+   "tmark": 0
+  },
+  "note": "The last stage is T seconds in the notes; T is not given, so 8 s is used (acceleration 1.5 m/s^2).",
+  "expect": [
+   [
+    "A: stage 1 ends",
+    [
+     12,
+     18
+    ]
+   ],
+   [
+    "A: stage 3 ends",
+    [
+     60,
+     6
+    ]
+   ],
+   [
+    "A: stage 4 ends",
+    [
+     80,
+     6
+    ]
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "A car starts from rest and accelerates uniformly for 12 s until its s",
+  "tex_line": 295
+ },
+ "1-4-3": {
+  "scene": "stages",
+  "title": "Notes 1.4, example 3: Two trains leave a station",
+  "status": "exact",
+  "params": {
+   "graph": "speed",
+   "A_stages": "25:0.64, 100:0, 25:-0.64",
+   "uA": 0,
+   "B_stages": "50:0.48, 75:-0.32",
+   "startB": 25,
+   "uB": 0,
+   "x0B": 0,
+   "vmark": 0,
+   "tmark": 0
+  },
+  "note": null,
+  "expect": [
+   [
+    "A: stage 3 ends",
+    [
+     150,
+     0
+    ]
+   ],
+   [
+    "B: stage 1 ends",
+    [
+     75,
+     24
+    ]
+   ],
+   [
+    "B: stage 2 ends",
+    [
+     150,
+     0
+    ]
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "\\vspace{0pt} Two trains, $A$ and $B$, leave a station on parallel tra",
+  "tex_line": 328
+ },
+ "1-5-2": {
+  "scene": "suvat-journey",
+  "title": "Notes 1.5, example 2: Train with deceleration twice as long",
+  "status": "exact",
+  "params": {
+   "u": 0,
+   "a1": 0.5,
+   "t1": 40,
+   "t2": 240,
+   "a3": 0.25,
+   "v_end": 0
+  },
+  "note": "Acceleration 0.5 m/s^2 is the answer.",
+  "expect": [
+   [
+    "Top speed V",
+    20
+   ],
+   [
+    "Total time",
+    360
+   ],
+   [
+    "Total distance",
+    6000
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "A train starts from rest at station $A$ and accelerates uniformly unt",
+  "tex_line": 399
+ },
+ "1-5-3": {
+  "scene": "suvat-journey",
+  "title": "Notes 1.5, example 3: Train: V^2 - 80V + 1200 = 0 (V = 20)",
+  "status": "exact",
+  "params": {
+   "u": 0,
+   "a1": 0.8,
+   "t1": 25,
+   "t2": 75,
+   "a3": 0.4,
+   "v_end": 0
+  },
+  "note": "Uses V = 20 (the root that works). Part 2 (1-5-4) continues this example.",
+  "expect": [
+   [
+    "Top speed V",
+    20
+   ],
+   [
+    "Total time",
+    150
+   ],
+   [
+    "Total distance",
+    2250
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "\\textbf{Example (Level 3), Part 1:} A train starts from rest and acce",
+  "tex_line": 423
+ },
+ "1-6-2": {
+  "scene": "stages",
+  "title": "Notes 1.6, example 2: Particle with acceleration -2 m/s^2",
+  "status": "exact",
+  "params": {
+   "graph": "speed",
+   "A_stages": "5:-2",
+   "uA": 6,
+   "B_stages": "",
+   "startB": 0,
+   "uB": 0,
+   "x0B": 0,
+   "vmark": 0,
+   "tmark": 0
+  },
+  "note": null,
+  "expect": [
+   [
+    "A: turns round at t",
+    3
+   ],
+   [
+    "A: displacement",
+    5
+   ],
+   [
+    "A: distance travelled",
+    13
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "\\vspace{0pt} A particle passes a point $O$ at $t=0$ with velocity $6\\",
+  "tex_line": 523
+ },
+ "1-7-1": {
+  "scene": "stages",
+  "title": "Notes 1.7, example 1: Scooter and cyclist (acceleration-time graph)",
+  "status": "exact",
+  "params": {
+   "graph": "acceleration",
+   "A_stages": "5:2, 15:0, 4:-2.5",
+   "uA": 0,
+   "B_stages": "24:1.5",
+   "startB": 0,
+   "uB": 0,
+   "x0B": 0,
+   "vmark": 0,
+   "tmark": 0
+  },
+  "note": "The cyclist is B. T = 10 s.",
+  "expect": [
+   [
+    "B overtakes A at t",
+    10
+   ],
+   [
+    "Speeds of A and B then",
+    [
+     10,
+     15
+    ]
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "\\vspace{0pt} A scooter and a cyclist start from rest together at $t=0",
+  "tex_line": 574
+ },
+ "1-7-2": {
+  "scene": "stages",
+  "title": "Notes 1.7, example 2: Car from an acceleration-time graph",
+  "status": "exact",
+  "params": {
+   "graph": "acceleration",
+   "A_stages": "4:2.5, 12:0.5, 4:-3",
+   "uA": 0,
+   "B_stages": "",
+   "startB": 0,
+   "uB": 0,
+   "x0B": 0,
+   "vmark": 0,
+   "tmark": 0
+  },
+  "note": null,
+  "expect": [
+   [
+    "A: stage 1 ends",
+    [
+     4,
+     10
+    ]
+   ],
+   [
+    "A: stage 2 ends",
+    [
+     16,
+     16
+    ]
+   ],
+   [
+    "A: distance travelled",
+    216
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "\\vspace{0pt} A car starts from rest at $t=0$. Its acceleration-time g",
+  "tex_line": 612
+ },
+ "1-8-2": {
+  "scene": "stages",
+  "title": "Notes 1.8, example 2: Trains P and Q pass a signal together",
+  "status": "exact",
+  "params": {
+   "graph": "speed",
+   "A_stages": "10:0, 40:-0.75",
+   "uA": 30,
+   "B_stages": "40:0, 10:-2",
+   "startB": 0,
+   "uB": 20,
+   "x0B": 0,
+   "vmark": 0,
+   "tmark": 0
+  },
+  "note": "P is A and Q is B. T = 10 s.",
+  "expect": [
+   [
+    "A: displacement",
+    900
+   ],
+   [
+    "B: displacement",
+    900
+   ],
+   [
+    "A: total time",
+    50
+   ],
+   [
+    "B: total time",
+    50
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "At $t=0$ two trains, $P$ and $Q$, pass a signal $C$ side by side on p",
+  "tex_line": 710
+ },
+ "1-8-3": {
+  "scene": "overtaking",
+  "title": "Notes 1.8, example 3: Jogger and cyclist",
+  "status": "illustration",
+  "params": {
+   "u": 3,
+   "a": 1,
+   "v": 8
+  },
+  "note": "Shows part (a) only (cyclist catches jogger). The motorcyclist in part (b) is not shown.",
+  "expect": [
+   [
+    "Time to catch up",
+    6
+   ],
+   [
+    "Distance from O when caught",
+    18
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "At $t=0$ a jogger passes a point $O$ running at a constant speed of $",
+  "tex_line": 765
+ },
+ "1-8-4": {
+  "scene": "stages",
+  "title": "Notes 1.8, example 4: Car B starts 13 m behind car A",
+  "status": "exact",
+  "params": {
+   "graph": "speed",
+   "A_stages": "5:2, 20:0",
+   "uA": 0,
+   "B_stages": "25:1.5",
+   "startB": 0,
+   "uB": 0,
+   "x0B": -13,
+   "vmark": 0,
+   "tmark": 0
+  },
+  "note": null,
+  "expect": [
+   [
+    "B overtakes A at t",
+    12
+   ],
+   [
+    "Speeds of A and B then",
+    [
+     10,
+     18
+    ]
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "Two cars, $A$ and $B$, start from rest at $t=0$ on parallel tracks. C",
+  "tex_line": 790
+ },
+ "1-8-5": {
+  "scene": "stages",
+  "title": "Notes 1.8, example 5: Two trains: equal speeds",
+  "status": "exact",
+  "params": {
+   "graph": "speed",
+   "A_stages": "40:0.5, 100:0, 40:-0.5",
+   "uA": 0,
+   "B_stages": "90:0.25, 90:-0.25",
+   "startB": 0,
+   "uB": 0,
+   "x0B": 0,
+   "vmark": 6,
+   "tmark": 0
+  },
+  "note": null,
+  "expect": [
+   [
+    "A has speed 6 m/s at t",
+    [
+     12,
+     168
+    ]
+   ],
+   [
+    "The speeds are equal at t",
+    [
+     80,
+     100
+    ]
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "Two trains, $A$ and $B$, start from rest together at $t=0$ on paralle",
+  "tex_line": 816
+ },
+ "1-8-6": {
+  "scene": "stages",
+  "title": "Notes 1.8, example 6: Distance between the trains at t = 120 s",
+  "status": "exact",
+  "params": {
+   "graph": "speed",
+   "A_stages": "40:0.5, 100:0, 40:-0.5",
+   "uA": 0,
+   "B_stages": "90:0.25, 90:-0.25",
+   "startB": 0,
+   "uB": 0,
+   "x0B": 0,
+   "vmark": 0,
+   "tmark": 120
+  },
+  "note": null,
+  "expect": [
+   [
+    "Distance between the vehicles",
+    425
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "For the two trains of the example above, find the distance between th",
+  "tex_line": 858
+ },
+ "1-9-1": {
+  "scene": "vertical-projection",
+  "title": "Notes 1.9, example 1: Ball thrown up, 1.6 m above the ground",
+  "status": "exact",
+  "params": {
+   "u": 16.8,
+   "h": 0,
+   "level": 0
+  },
+  "note": null,
+  "expect": [
+   [
+    "Time to greatest height",
+    1.714,
+    0.01
+   ],
+   [
+    "Greatest height above A",
+    14.4
+   ],
+   [
+    "Time of flight T",
+    3.429,
+    0.01
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "A ball is projected vertically upwards from a point $O$ which is 1.6",
+  "tex_line": 910
+ },
+ "1-9-2": {
+  "scene": "vertical-projection",
+  "title": "Notes 1.9, example 2: Stone passes A (7.5 m up) going up at 7 m/s",
+  "status": "exact",
+  "params": {
+   "u": 14,
+   "h": 0,
+   "level": 7.5
+  },
+  "note": null,
+  "expect": [
+   [
+    "Time of flight T",
+    2.857,
+    0.01
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "A point $A$ is 7.5 m vertically above $O$. A stone is projected verti",
+  "tex_line": 933
+ },
+ "1-9-3": {
+  "scene": "vertical-projection",
+  "title": "Notes 1.9, example 3: Ball thrown up from 34.3 m above the ground",
+  "status": "exact",
+  "params": {
+   "u": 24.5,
+   "h": 34.3,
+   "level": 29.4
+  },
+  "note": "Part (c) (time to 4.9 m above the ground) is the ground-hit time shown in the graph.",
+  "expect": [
+   [
+    "Time above 29.4 m",
+    1.0
+   ],
+   [
+    "Passes 29.4 m at",
+    [
+     2,
+     3
+    ]
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "A ball is projected vertically upwards with speed $24.5\\ \\mathrm{m\\,s",
+  "tex_line": 952
+ },
+ "1-9-4": {
+  "scene": "vertical-projection",
+  "title": "Notes 1.9, example 4: Stone returns to A after 3.5 s",
+  "status": "exact",
+  "params": {
+   "u": 17.15,
+   "h": 0,
+   "level": 7.35
+  },
+  "note": null,
+  "expect": [
+   [
+    "Time of flight T",
+    3.5
+   ],
+   [
+    "Time above 7.35 m",
+    2.5
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "A stone is projected vertically upwards from $A$. It returns to $A$ a",
+  "tex_line": 981
+ },
+ "1-10-1": {
+  "scene": "vertical-projection",
+  "title": "Notes 1.10, example 1: Stone thrown up from 29.4 m above the ground",
+  "status": "exact",
+  "params": {
+   "u": 4.9,
+   "h": 29.4,
+   "level": 0
+  },
+  "note": null,
+  "expect": [
+   [
+    "Speed hitting the ground",
+    24.5
+   ],
+   [
+    "Time to reach the ground",
+    3.0
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "A stone is thrown vertically upwards with speed $4.9\\ \\mathrm{m\\,s^{-",
+  "tex_line": 1039
+ },
+ "1-10-2": {
+  "scene": "vertical-projection",
+  "title": "Notes 1.10, example 2: Ball thrown up, hits the ground after 2 s",
+  "status": "exact",
+  "params": {
+   "u": 4.2,
+   "h": 11.2,
+   "level": 0
+  },
+  "note": null,
+  "expect": [
+   [
+    "Time to reach the ground",
+    2.0
+   ],
+   [
+    "Speed hitting the ground",
+    15.4
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "A ball is thrown vertically upwards with speed $u\\ \\mathrm{m\\,s^{-1}}",
+  "tex_line": 1066
+ },
+ "1-10-3": {
+  "scene": "vertical-projection",
+  "title": "Notes 1.10, example 3: Total distance from a 12 m high point",
+  "status": "illustration",
+  "params": {
+   "u": 8.4,
+   "h": 12,
+   "level": 0
+  },
+  "note": "The total distance (19.2 m) is 3.6 + 15.6 and is not a calculated value.",
+  "expect": [
+   [
+    "Greatest height above A",
+    3.6
+   ],
+   [
+    "Greatest height above the ground",
+    15.6
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "A ball is thrown vertically upwards with speed $8.4\\ \\mathrm{m\\,s^{-1",
+  "tex_line": 1082
+ },
+ "1-11-2": {
+  "scene": "vertical-projection",
+  "title": "Notes 1.11, example 2: Stone passes A going up at 4.9 m/s",
+  "status": "illustration",
+  "params": {
+   "u": 14.7,
+   "h": 0,
+   "level": 9.8
+  },
+  "note": "The graph in the notes starts the clock at A (1 s later than this one).",
+  "expect": [
+   [
+    "Time of flight T",
+    3.0
+   ],
+   [
+    "Passes 9.8 m at",
+    [
+     1,
+     2
+    ]
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "A point $A$ is 9.8 m above $O$. A stone is projected vertically upwar",
+  "tex_line": 1151
+ },
+ "1-11-3": {
+  "scene": "bouncing-ball",
+  "title": "Notes 1.11, example 3: Ball released from 22.5 m, speed reduced by 40%",
+  "status": "exact",
+  "params": {
+   "h": 22.5,
+   "u": 0,
+   "e": 0.6,
+   "m": 0.2
+  },
+  "note": "Mass is not in the question (0.2 kg is a placeholder).",
+  "expect": [
+   [
+    "Speed hitting the floor",
+    21
+   ],
+   [
+    "Time between 1st and 2nd impact",
+    2.571,
+    0.01
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "A ball is released from rest 22.5 m above the ground. Each time it bo",
+  "tex_line": 1190
+ },
+ "1-11-4": {
+  "scene": "bouncing-ball",
+  "title": "Notes 1.11, example 4: Ball thrown up from 4.9 m, rebounds to rest at B",
+  "status": "exact",
+  "params": {
+   "h": 4.9,
+   "u": 7.35,
+   "e": 0.4,
+   "m": 0.2
+  },
+  "note": "Rebound speed 4.9 m/s means e = 0.4. Mass is a placeholder. Part 2 (1-11-5) continues this example.",
+  "expect": [
+   [
+    "Time to first hit the floor",
+    2.0
+   ],
+   [
+    "Speed hitting the floor",
+    12.25
+   ],
+   [
+    "Rebound speed",
+    4.9
+   ],
+   [
+    "Height after first bounce",
+    1.225,
+    0.01
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "\\textbf{Example (Level 3), Part 1:} A ball is projected vertically up",
+  "tex_line": 1226
+ },
+ "1-12-3": {
+  "scene": "vertical-meeting",
+  "title": "Notes 1.12, example 3: Two particles from the same point (U = 14 m/s)",
+  "status": "illustration",
+  "params": {
+   "u1": 14,
+   "h": 10,
+   "u2": 0,
+   "delay": 0
+  },
+  "note": "The example is in terms of U and g; this uses U = 14 m/s (H = 10 m). Q is shown as P and P as Q.",
+  "expect": [
+   [
+    "They meet after",
+    0.714,
+    0.01
+   ],
+   [
+    "Height where they meet",
+    7.5
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "A particle $P$ is projected vertically upwards with speed $U$ from a",
+  "tex_line": 1345
+ },
+ "1-13-1": {
+  "scene": "parachutist",
+  "title": "Notes 1.13, example 1: Free fall, then deceleration, then constant speed",
+  "status": "exact",
+  "params": {
+   "H": 266.7,
+   "t1": 3,
+   "d": 4.2,
+   "V": 12.6
+  },
+  "note": "Balloon height 266.7 m (267 m to the nearest metre).",
+  "expect": [
+   [
+    "Speed when the parachute opens",
+    29.4
+   ],
+   [
+    "Distance in free fall",
+    44.1
+   ],
+   [
+    "Total time to the ground",
+    18
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "A parachutist steps out of a balloon at rest and falls freely for 3 s",
+  "tex_line": 1382
+ },
+ "2-1-1": {
+  "scene": "hanging-strings",
+  "title": "Notes 2.1, example 1: Lamp on two strings (30 deg and 60 deg)",
+  "status": "exact",
+  "params": {
+   "W": 39.2,
+   "alpha": 30,
+   "beta": 60,
+   "second": "string"
+  },
+  "note": null,
+  "expect": [
+   [
+    "Tension in AC",
+    19.6
+   ],
+   [
+    "Tension in BC",
+    33.95,
+    0.02
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "\\vspace{0pt} A lamp of mass 4 kg hangs in equilibrium from two light",
+  "tex_line": 1499
+ },
+ "2-1-2": {
+  "scene": "hanging-strings",
+  "title": "Notes 2.1, example 2: Sign on two ropes",
+  "status": "exact",
+  "params": {
+   "W": 49,
+   "alpha": 36.86989764584402,
+   "beta": 45,
+   "second": "string"
+  },
+  "note": "AC is the rope BP (angle 36.9 deg) and BC is the rope BQ.",
+  "expect": [
+   [
+    "Tension in AC",
+    35.0,
+    0.05
+   ],
+   [
+    "Tension in BC",
+    39.6,
+    0.05
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "\\vspace{0pt} A sign of mass 5 kg hangs from two ropes $BP$ and $BQ$.",
+  "tex_line": 1558
+ },
+ "2-1-3": {
+  "scene": "hanging-strings",
+  "title": "Notes 2.1, example 3: Triangle of forces: weight 80 N",
+  "status": "exact",
+  "params": {
+   "W": 80,
+   "alpha": 50,
+   "beta": 25,
+   "second": "string"
+  },
+  "note": null,
+  "expect": [
+   [
+    "Tension in AC",
+    75.06,
+    0.02
+   ],
+   [
+    "Tension in BC",
+    53.24,
+    0.02
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "\\vspace{0pt} A particle of weight 80 N hangs in equilibrium from two",
+  "tex_line": 1636
+ },
+ "2-2-1": {
+  "scene": "hanging-strings",
+  "title": "Notes 2.2, example 1: String and a force at 20 deg above horizontal",
+  "status": "exact",
+  "params": {
+   "W": 29.4,
+   "alpha": 60,
+   "beta": 20,
+   "second": "force"
+  },
+  "note": "Shows part (c). In parts (a) and (b) the force is horizontal.",
+  "expect": [
+   [
+    "Tension in AC",
+    28.05,
+    0.05
+   ],
+   [
+    "Force F",
+    14.93,
+    0.05
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "\\vspace{0pt} A particle $P$ of mass 3 kg hangs on a light inextensibl",
+  "tex_line": 1705
+ },
+ "2-2-2": {
+  "scene": "hanging-strings",
+  "title": "Notes 2.2, example 2: String and a force perpendicular to it",
+  "status": "exact",
+  "params": {
+   "W": 39,
+   "alpha": 67.38013505195958,
+   "beta": 22.619864948040416,
+   "second": "force"
+  },
+  "note": "W = mg = 39 N. The force F is perpendicular to the string.",
+  "expect": [
+   [
+    "Tension in AC",
+    36.0,
+    0.05
+   ],
+   [
+    "Force F",
+    15.0,
+    0.05
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "\\vspace{0pt} A particle $P$ of mass $m$ kg is attached to a light ine",
+  "tex_line": 1758
+ },
+ "2-4-1": {
+  "scene": "rough-surface",
+  "title": "Notes 2.4, example 1: Box pulled at constant speed on rough ground",
+  "status": "exact",
+  "params": {
+   "angle": 0,
+   "m": 10,
+   "mu": 0.3,
+   "F1": 28.206,
+   "th1": 20,
+   "F2": 0,
+   "th2": 0,
+   "g": 9.8
+  },
+  "note": "Constant speed means about to slide. Part (b): set the angle of F1 to -35 (pushed down) to get 45.4 N.",
+  "expect": [
+   [
+    "Greatest force F1",
+    28.206,
+    0.02
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "\\vspace{0pt} A box of mass 10 kg moves in a straight line at constant",
+  "tex_line": 1976
+ },
+ "2-4-2": {
+  "scene": "rough-surface",
+  "title": "Notes 2.4, example 2: Crate with two forces on rough ground",
+  "status": "exact",
+  "params": {
+   "angle": 0,
+   "m": 25,
+   "mu": 0.35,
+   "F1": 105.87,
+   "th1": 30,
+   "F2": 150,
+   "th2": 160,
+   "g": 9.8
+  },
+  "note": "The 150 N force acts to the left at 20 deg above horizontal, which is 160 deg in this scene.",
+  "expect": [
+   [
+    "Smallest force F1",
+    105.87,
+    0.03
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "\\vspace{0pt} A crate of mass 25 kg rests on rough horizontal ground.",
+  "tex_line": 2036
+ },
+ "2-6-1": {
+  "scene": "rough-surface",
+  "title": "Notes 2.6, example 1: Parcel held by a force up a plane",
+  "status": "exact",
+  "params": {
+   "angle": 36.86989764584402,
+   "m": 5,
+   "mu": 0.5,
+   "F1": 20,
+   "th1": 0,
+   "F2": 0,
+   "th2": 0,
+   "g": 9.8
+  },
+  "note": "mu is not given in the question (0.5 is a placeholder). Part (c) (horizontal force) is not shown.",
+  "expect": [
+   [
+    "Normal reaction R",
+    39.2
+   ],
+   [
+    "Friction needed",
+    9.4
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "\\vspace{0pt} A parcel of mass 5 kg rests on a rough plane inclined at",
+  "tex_line": 2236
+ },
+ "2-6-2": {
+  "scene": "rough-surface",
+  "title": "Notes 2.6, example 2: Force at 20 deg to a plane",
+  "status": "exact",
+  "params": {
+   "angle": 25,
+   "m": 6,
+   "mu": 0.5,
+   "F1": 40,
+   "th1": 20,
+   "F2": 0,
+   "th2": 0,
+   "g": 9.8
+  },
+  "note": "mu is not given (0.5 is a placeholder). Part (b): set the angle of F1 to -20 to get 67.0 N.",
+  "expect": [
+   [
+    "Normal reaction R",
+    39.6,
+    0.05
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "\\vspace{0pt} A particle of mass 6 kg rests on a rough plane inclined",
+  "tex_line": 2282
+ },
+ "2-6-3": {
+  "scene": "slope-limiting",
+  "title": "Notes 2.6, example 3: Smooth plane held by a horizontal force",
+  "status": "exact",
+  "params": {
+   "angle": 22.61986494804043,
+   "m": 4,
+   "mu": 0,
+   "dir": "horizontal"
+  },
+  "note": "tan(alpha) = 5/12.",
+  "expect": [
+   [
+    "P when about to slide down",
+    16.33,
+    0.02
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "\\vspace{0pt} A particle of mass 4 kg is held at rest on a smooth plan",
+  "tex_line": 2342
+ },
+ "2-7-2": {
+  "scene": "slope-limiting",
+  "title": "Notes 2.7, example 2: Coefficient of friction: horizontal force 12 N",
+  "status": "exact",
+  "params": {
+   "angle": 40,
+   "m": 4,
+   "mu": 0.424,
+   "dir": "horizontal"
+  },
+  "note": "Uses the answer mu = 0.424.",
+  "expect": [
+   [
+    "P when about to slide down",
+    12.0,
+    0.1
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "\\vspace{0pt} A particle of mass 4 kg rests on a rough plane inclined",
+  "tex_line": 2440
+ },
+ "2-7-3": {
+  "scene": "rough-surface",
+  "title": "Notes 2.7, example 3: Particle pulled up a plane at constant speed",
+  "status": "exact",
+  "params": {
+   "angle": 20,
+   "m": 5,
+   "mu": 0.479,
+   "F1": 35,
+   "th1": 25,
+   "F2": 0,
+   "th2": 0,
+   "g": 9.8
+  },
+  "note": "Friction is negative because it acts down the plane. mu = 0.479 is the answer, so the particle is on the point of sliding up.",
+  "expect": [
+   [
+    "Normal reaction R",
+    31.253,
+    0.01
+   ],
+   [
+    "Friction needed",
+    -14.962,
+    0.01
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "\\vspace{0pt} A particle of mass 5 kg moves up a rough plane inclined",
+  "tex_line": 2482
+ },
+ "2-8-2": {
+  "scene": "slope-limiting",
+  "title": "Notes 2.8, example 2: Weight W with horizontal force 16 N (W = 38 N)",
+  "status": "exact",
+  "params": {
+   "angle": 36.86989764584402,
+   "m": 3.8776,
+   "mu": 0.25,
+   "dir": "horizontal"
+  },
+  "note": "tan(alpha) = 3/4, mu = 1/4, W = 38 N.",
+  "expect": [
+   [
+    "P when about to slide down",
+    16.0,
+    0.05
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "\\vspace{0pt} A particle of weight $W$ newtons is held on a rough plan",
+  "tex_line": 2586
+ },
+ "2-8-3": {
+  "scene": "rough-surface",
+  "title": "Notes 2.8, example 3: Rope pulls a box up a plane, about to slip",
+  "status": "exact",
+  "params": {
+   "angle": 20,
+   "m": 4,
+   "mu": 0.4,
+   "F1": 26.837,
+   "th1": 35,
+   "F2": 0,
+   "th2": 0,
+   "g": 9.8
+  },
+  "note": null,
+  "expect": [
+   [
+    "Greatest force F1",
+    26.84,
+    0.03
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "\\vspace{0pt} A box of mass 4 kg rests on a rough plane inclined at $2",
+  "tex_line": 2636
+ },
+ "2-9-1": {
+  "scene": "slope-limiting",
+  "title": "Notes 2.9, example 1: Greatest and least force up the plane",
+  "status": "exact",
+  "params": {
+   "angle": 16.26020470831196,
+   "m": 6,
+   "mu": 0.2,
+   "dir": "parallel"
+  },
+  "note": "tan(alpha) = 7/24. Parts (a) and (d) are not shown.",
+  "expect": [
+   [
+    "P when about to slide up",
+    27.8,
+    0.1
+   ],
+   [
+    "P when about to slide down",
+    5.17,
+    0.02
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "A particle of mass 6 kg rests on a rough plane inclined at $\\alpha$ t",
+  "tex_line": 2755
+ },
+ "2-9-2": {
+  "scene": "rough-surface",
+  "title": "Notes 2.9, example 2: Particle pushed into a plane",
+  "status": "exact",
+  "params": {
+   "angle": 30,
+   "m": 3,
+   "mu": 0.2,
+   "F1": 11.322,
+   "th1": -45,
+   "F2": 0,
+   "th2": 0,
+   "g": 9.8
+  },
+  "note": "The plane rises to the left in the question; it is drawn rising to the right here. The force makes 45 deg with the plane, into it.",
+  "expect": [
+   [
+    "Smallest force F1",
+    11.32,
+    0.03
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "\\vspace{0pt} A particle of mass 3 kg rests on a rough plane inclined",
+  "tex_line": 2832
+ },
+ "3-3-1": {
+  "scene": "suvat-journey",
+  "title": "Notes 3.3, example 1: Car: driving force 3000 N, resistance 600 N",
+  "status": "exact",
+  "params": {
+   "u": 0,
+   "a1": 2,
+   "t1": 10,
+   "t2": 0,
+   "a3": 1,
+   "v_end": 20
+  },
+  "note": "Shows parts (a) to (c). Part (d) (new driving force) is not shown.",
+  "expect": [
+   [
+    "Top speed V",
+    20
+   ],
+   [
+    "Total distance",
+    100
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "A car of mass $1200$ kg moves along a straight horizontal road. The e",
+  "tex_line": 3305
+ },
+ "3-4-1": {
+  "scene": "inclined-plane",
+  "title": "Notes 3.4, example 1: Particle released on a rough plane (25 deg)",
+  "status": "exact",
+  "params": {
+   "angle": 25,
+   "mass": 5,
+   "mu": 0.2,
+   "length": 4,
+   "u0": 0
+  },
+  "note": null,
+  "expect": [
+   [
+    "Acceleration a",
+    2.37,
+    0.01
+   ],
+   [
+    "Speed at the end",
+    4.35,
+    0.01
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "A particle of mass $5$ kg is released from rest at $A$ on a rough pla",
+  "tex_line": 3362
+ },
+ "3-4-2": {
+  "scene": "inclined-plane",
+  "title": "Notes 3.4, example 2: Held by a horizontal force, then released",
+  "status": "exact",
+  "params": {
+   "angle": 36.86989764584402,
+   "mass": 2,
+   "mu": 0.5,
+   "length": 3,
+   "u0": 0
+  },
+  "note": "Shows part (b), after the 10 N force is removed.",
+  "expect": [
+   [
+    "Speed at the end",
+    3.43,
+    0.01
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "A particle of mass $2$ kg rests on a rough plane inclined at $\\alpha$",
+  "tex_line": 3418
+ },
+ "3-6-1": {
+  "scene": "slope-up-and-back",
+  "title": "Notes 3.6, example 1: Projected up a rough plane",
+  "status": "exact",
+  "params": {
+   "angle": 22.61986494804043,
+   "u": 6,
+   "mu": 0.3,
+   "m": 4
+  },
+  "note": "tan(theta) = 5/12.",
+  "expect": [
+   [
+    "Friction (",
+    10.9,
+    0.05
+   ],
+   [
+    "Distance up the slope",
+    2.78,
+    0.01
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "A rough plane is inclined at $\\theta$, where $\\tan\\theta=\\tfrac5{12}$",
+  "tex_line": 3573
+ },
+ "3-7-2": {
+  "scene": "towing",
+  "title": "Notes 3.7, example 2: Van towing a trailer with a tow-bar",
+  "status": "exact",
+  "params": {
+   "M": 1800,
+   "m": 500,
+   "D": 1880,
+   "Rc": 350,
+   "Rt": 150,
+   "u0": 0,
+   "time": 6,
+   "link": "rod"
+  },
+  "note": "Uses the answers D = 1880 N and trailer mass 500 kg. The tow-bar is the rod.",
+  "expect": [
+   [
+    "Acceleration a",
+    0.6
+   ],
+   [
+    "Force in the rod",
+    450
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "A van of mass $1800$ kg tows a trailer of mass $M$ kg along a straigh",
+  "tex_line": 3710
+ },
+ "3-9-3": {
+  "scene": "lift",
+  "title": "Notes 3.9, example 3: Lift with 5 occupants (350 kg)",
+  "status": "illustration",
+  "params": {
+   "dir": "up",
+   "m": 350,
+   "M": 300,
+   "a1": 2.5,
+   "t1": 2,
+   "t2": 2,
+   "a3": 2
+  },
+  "note": "Shows a lift carrying 5 occupants. The 150 N resistance and the safety limit (9000 N) are not modelled.",
+  "expect": [],
+  "level": "Level 3",
+  "anchor": "A lift of mass $300$ kg is raised by a vertical cable. A constant res",
+  "tex_line": 4010
+ },
+ "3-12-2": {
+  "scene": "pulley-table",
+  "title": "Notes 3.12, example 2: Particle on a smooth table joined to a hanging particle",
+  "status": "exact",
+  "params": {
+   "m1": 3,
+   "m2": 2,
+   "mu": 0,
+   "d": 4,
+   "h": 1.5,
+   "cor": 0
+  },
+  "note": "Table length and drop height are placeholders.",
+  "expect": [
+   [
+    "Tension T",
+    11.76,
+    0.02
+   ],
+   [
+    "Acceleration a",
+    3.92,
+    0.01
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "A particle $A$ of mass $3$ kg lies on a smooth horizontal table. A li",
+  "tex_line": 4456
+ },
+ "3-12-3": {
+  "scene": "pulley-slope",
+  "title": "Notes 3.12, example 3: Smooth plane (30 deg) with a hanging particle",
+  "status": "exact",
+  "params": {
+   "angle": 30,
+   "m1": 4,
+   "m2": 3,
+   "mu": 0,
+   "run": 2,
+   "h": 1.2,
+   "cor": 0
+  },
+  "note": "Distances are placeholders.",
+  "expect": [
+   [
+    "Acceleration a",
+    1.4
+   ],
+   [
+    "Tension T",
+    25.2
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "A particle $P$ of mass $4$ kg lies on a smooth plane inclined at $30^",
+  "tex_line": 4495
+ },
+ "3-13-2": {
+  "scene": "pulley-hanging",
+  "title": "Notes 3.13, example 2: Two particles, Q hits the ground after 1.5 s",
+  "status": "exact",
+  "params": {
+   "m1": 3,
+   "m2": 2,
+   "h": 2.205,
+   "cor": 0
+  },
+  "note": "Q is shown as A (the heavier particle). Height 2.205 m comes from 1.5 s.",
+  "expect": [
+   [
+    "Acceleration a",
+    1.96
+   ],
+   [
+    "Speed of A when it lands",
+    2.94
+   ],
+   [
+    "B rises a further",
+    0.441,
+    0.002
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "Particles $P$ of mass $2$ kg and $Q$ of mass $3$ kg are joined by a l",
+  "tex_line": 4603
+ },
+ "3-14-1": {
+  "scene": "pulley-extra-mass",
+  "title": "Notes 3.14, example 1: A particle falls away",
+  "status": "exact",
+  "params": {
+   "mA": 1,
+   "mx": 2,
+   "mB": 2,
+   "d": 0.4,
+   "hA": 2
+  },
+  "note": "Take m = 1 kg. The scene \"A\" is the example's B, and C is the extra mass.",
+  "expect": [
+   [
+    "Acceleration with the extra mass",
+    1.96
+   ],
+   [
+    "Speed when the extra mass is removed",
+    1.253,
+    0.005
+   ],
+   [
+    "Acceleration afterwards",
+    -3.267,
+    0.005
+   ],
+   [
+    "A comes to rest a further",
+    0.24,
+    0.005
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "Particles $A$ of mass $2m$ and $B$ of mass $m$ are joined by a light",
+  "tex_line": 4739
+ },
+ "4-1-2": {
+  "scene": "collision",
+  "title": "Notes 4.1, example 2: Particles of mass 5m and 2m collide (u = 1 m/s)",
+  "status": "exact",
+  "params": {
+   "m1": 5,
+   "u1": 2,
+   "m2": 2,
+   "u2": -3,
+   "mode": "given",
+   "v1": 0.4
+  },
+  "note": "Take u = 1 m/s and m = 1 kg. P is A, Q is B.",
+  "expect": [
+   [
+    "Velocity of P after",
+    0.4
+   ],
+   [
+    "Velocity of Q after",
+    1.0
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "\\vspace{0pt} Two particles $A$ and $B$ have masses $5m$ and $2m$. The",
+  "tex_line": 4882
+ },
+ "4-2-2": {
+  "scene": "collision",
+  "title": "Notes 4.2, example 2: Impulse when A is reversed",
+  "status": "exact",
+  "params": {
+   "m1": 5,
+   "u1": 1,
+   "m2": 2,
+   "u2": -2,
+   "mode": "given",
+   "v1": -0.5
+  },
+  "note": "Take u = 1 m/s and m = 1 kg. Impulse 15/2 mu = 7.5 N s.",
+  "expect": [
+   [
+    "Impulse on P by Q",
+    -7.5
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "\\vspace{0pt} Particles $A$ and $B$ have masses $5m$ and $2m$. They mo",
+  "tex_line": 4981
+ },
+ "4-3-2": {
+  "scene": "collision",
+  "title": "Notes 4.3, example 2: Finding k: both particles reversed and halved",
+  "status": "exact",
+  "params": {
+   "m1": 1,
+   "u1": 3,
+   "m2": 3,
+   "u2": -1,
+   "mode": "given",
+   "v1": -1.5
+  },
+  "note": "Take u = 1 m/s and m = 1 kg (k = 3). Impulse 9/2 mu = 4.5 N s.",
+  "expect": [
+   [
+    "Impulse on P by Q",
+    -4.5
+   ],
+   [
+    "Velocity of Q after",
+    0.5
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "\\vspace{0pt} Particle $P$ of mass $m$ and particle $Q$ of mass $km$ m",
+  "tex_line": 5077
+ },
+ "4-4-1": {
+  "scene": "collision",
+  "title": "Notes 4.4, example 1: Two trucks join together",
+  "status": "exact",
+  "params": {
+   "m1": 3000,
+   "u1": 4,
+   "m2": 5000,
+   "u2": -2,
+   "mode": "coalesce"
+  },
+  "note": null,
+  "expect": [
+   [
+    "Velocity of P after",
+    0.25
+   ],
+   [
+    "Impulse on P by Q",
+    -11250
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "\\vspace{0pt} A truck $A$ of mass 3000 kg moves with speed $4\\ \\mathrm",
+  "tex_line": 5152
+ },
+ "4-5-1": {
+  "scene": "collision",
+  "title": "Notes 4.5, example 1: Impulse of 3.6 N s on P",
+  "status": "exact",
+  "params": {
+   "m1": 0.6,
+   "u1": 5,
+   "m2": 0.8,
+   "u2": -2,
+   "mode": "given",
+   "v1": -1
+  },
+  "note": "P is reversed, so its velocity after is -1 m/s.",
+  "expect": [
+   [
+    "Velocity of P after",
+    -1
+   ],
+   [
+    "Velocity of Q after",
+    2.5
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "\\vspace{0pt} Particles $P$ and $Q$ have masses 0.6 kg and 0.8 kg. The",
+  "tex_line": 5230
+ },
+ "4-5-2": {
+  "scene": "collision",
+  "title": "Notes 4.5, example 2: Impulse of (9/2)mu: speed and direction of each",
+  "status": "exact",
+  "params": {
+   "m1": 3,
+   "u1": 2,
+   "m2": 1,
+   "u2": -2,
+   "mode": "given",
+   "v1": 0.5
+  },
+  "note": "Take u = 1 m/s and m = 1 kg.",
+  "expect": [
+   [
+    "Velocity of P after",
+    0.5
+   ],
+   [
+    "Velocity of Q after",
+    2.5
+   ],
+   [
+    "Impulse on P by Q",
+    -4.5
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "\\vspace{0pt} Particle $P$ of mass $3m$ moves due east with speed $2u$",
+  "tex_line": 5279
+ },
+ "4-6-3": {
+  "scene": "collision",
+  "title": "Notes 4.6, example 3: Same direction after, speeds differ by 2.5 m/s",
+  "status": "exact",
+  "params": {
+   "m1": 3,
+   "u1": 4,
+   "m2": 2,
+   "u2": -1,
+   "mode": "given",
+   "v1": 1
+  },
+  "note": null,
+  "expect": [
+   [
+    "Velocity of P after",
+    1.0
+   ],
+   [
+    "Velocity of Q after",
+    3.5
+   ],
+   [
+    "Impulse on P by Q",
+    -9
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "Particle $P$ has mass 3 kg and particle $Q$ has mass 2 kg. They move",
+  "tex_line": 5418
+ },
+ "4-8-2": {
+  "scene": "bouncing-ball",
+  "title": "Notes 4.8, example 2: Ball dropped from 2.5 m, rebounds to 1.6 m",
+  "status": "exact",
+  "params": {
+   "h": 2.5,
+   "u": 0,
+   "e": 0.8,
+   "m": 0.25
+  },
+  "note": "e = 5.6/7 = 0.8. Parts 2 and 3 (4-8-3, 4-8-4) continue this example.",
+  "expect": [
+   [
+    "Speed hitting the floor",
+    7
+   ],
+   [
+    "Rebound speed",
+    5.6
+   ],
+   [
+    "Impulse from the floor",
+    3.15
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "\\vspace{0pt} \\textbf{Example (Level 2), Part 1:} A ball of mass 0.25",
+  "tex_line": 5597
+ },
+ "4-8-5": {
+  "scene": "wall-bounce",
+  "title": "Notes 4.8, example 5: Particle hits a wall, then slides to rest on rough ground",
+  "status": "exact",
+  "params": {
+   "m": 0.5,
+   "u": 6,
+   "mode": "speed",
+   "v": 2.8
+  },
+  "note": "Rebound speed 2.8 m/s comes from mu = 0.2 and 2 m.",
+  "expect": [
+   [
+    "Impulse from the wall",
+    4.4
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "\\vspace{0pt} A particle $P$ of mass 0.5 kg moves on rough horizontal",
+  "tex_line": 5709
+ },
+ "4-9-3": {
+  "scene": "soft-ground",
+  "title": "Notes 4.9, example 3: Blocks sink into soft ground after an impact",
+  "status": "illustration",
+  "params": {
+   "m": 8,
+   "h": 2.025,
+   "depth": 0.15
+  },
+  "note": "Shows the two blocks sinking together at 6.3 m/s (as if dropped from 2.025 m). The impact of A on B is not shown. Part 2 (4-9-4) continues this example.",
+  "expect": [
+   [
+    "Resistance R",
+    1137,
+    1
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "\\vspace{0pt} \\textbf{Example (Level 2), Part 1:} A block $A$ of mass",
+  "tex_line": 5891
+ },
+ "5-1-1": {
+  "scene": "beam",
+  "title": "Notes 5.1, example 1: Moments of three forces on a light rod",
+  "status": "exact",
+  "params": {
+   "L": 6,
+   "M": 0,
+   "G": 3,
+   "g": 9.8,
+   "n1": "C",
+   "s1": 0,
+   "k1": "none",
+   "n2": "D",
+   "s2": 0,
+   "k2": "none",
+   "m1": 1.020408,
+   "x_from": 0,
+   "x_to": 0,
+   "m2": -2.55102,
+   "x2": 2,
+   "m3": 0.816327,
+   "x3": 6,
+   "limit": 0,
+   "pivot": 2
+  },
+  "note": "Forces are given in newtons, so each mass is force / 9.8. The 25 N force at C is the upward load.",
+  "expect": [
+   [
+    "Moment of the 8 N",
+    32
+   ],
+   [
+    "Resultant moment",
+    12
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "\\\\[2pt] \\vspace{0pt} A light rod $AB$ has length $6$ m. The point $C$",
+  "tex_line": 5990
+ },
+ "5-2-1": {
+  "scene": "beam",
+  "title": "Notes 5.2, example 1: Beam hanging from two ropes, man on it",
+  "status": "exact",
+  "params": {
+   "L": 5,
+   "M": 24,
+   "G": 2.5,
+   "g": 9.8,
+   "n1": "C",
+   "s1": 1,
+   "k1": "rope",
+   "n2": "B",
+   "s2": 5,
+   "k2": "rope",
+   "m1": 50,
+   "x_from": 3,
+   "x_to": 3,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 0,
+   "pivot": -1
+  },
+  "note": "Shows part (b) (man at D). For part (a) set the man's mass to 0.",
+  "expect": [
+   [
+    "Tension in the rope at C",
+    392
+   ],
+   [
+    "Tension in the rope at B",
+    333.2
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "\\\\[2pt] \\vspace{0pt} A uniform beam $AB$ has mass $24$ kg and length",
+  "tex_line": 6063
+ },
+ "5-2-2": {
+  "scene": "beam",
+  "title": "Notes 5.2, example 2: Platform held down by a bolt",
+  "status": "exact",
+  "params": {
+   "L": 3,
+   "M": 20,
+   "G": 1.5,
+   "g": 9.8,
+   "n1": "A",
+   "s1": 0,
+   "k1": "bolt",
+   "n2": "C",
+   "s2": 0.5,
+   "k2": "support",
+   "m1": 40,
+   "x_from": 3,
+   "x_to": 3,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 0,
+   "pivot": -1
+  },
+  "note": null,
+  "expect": [
+   [
+    "Force at A (bolt)",
+    2352
+   ],
+   [
+    "Reaction at C",
+    2940
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "\\\\[2pt] \\vspace{0pt} A uniform plank $AB$, of length $3$ m and mass $",
+  "tex_line": 6120
+ },
+ "5-3-1": {
+  "scene": "beam",
+  "title": "Notes 5.3, example 1: Rod on two supports, reaction ratio 2 : 1",
+  "status": "exact",
+  "params": {
+   "L": 4,
+   "M": 6,
+   "G": 2,
+   "g": 9.8,
+   "n1": "P",
+   "s1": 0.5,
+   "k1": "support",
+   "n2": "B",
+   "s2": 4,
+   "k2": "support",
+   "m1": 3,
+   "x_from": 1,
+   "x_to": 1,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 0,
+   "pivot": -1
+  },
+  "note": "Uses the answer x = 0.5 m.",
+  "expect": [
+   [
+    "Reaction at P",
+    58.8
+   ],
+   [
+    "Reaction at B",
+    29.4
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "\\\\[2pt] \\vspace{0pt} A uniform rod $AB$ has length $4$ m and mass $6$",
+  "tex_line": 6190
+ },
+ "5-4-1": {
+  "scene": "beam",
+  "title": "Notes 5.4, example 1: Plank with a girl and two boys",
+  "status": "exact",
+  "params": {
+   "L": 6,
+   "M": 30,
+   "G": 3,
+   "g": 9.8,
+   "n1": "A",
+   "s1": 0,
+   "k1": "support",
+   "n2": "C",
+   "s2": 4,
+   "k2": "support",
+   "m1": 50,
+   "x_from": 1.4,
+   "x_to": 1.4,
+   "m2": 40,
+   "x2": 2.5,
+   "m3": 40,
+   "x3": 5,
+   "limit": 0,
+   "pivot": -1
+  },
+  "note": "Shows part (b), with x = 2.5 m. The girl is at AD = 1.4 m (part (a)).",
+  "expect": [
+   [
+    "Reaction at C",
+    1127
+   ],
+   [
+    "Reaction at A",
+    441
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "\\\\[2pt] \\vspace{0pt} A uniform plank $AB$ has length $6$ m and mass $",
+  "tex_line": 6312
+ },
+ "5-5-2": {
+  "scene": "beam",
+  "title": "Notes 5.5, example 2: Non-uniform plank, weight 80 N",
+  "status": "exact",
+  "params": {
+   "L": 6,
+   "M": 8.1633,
+   "G": 2.5,
+   "g": 9.8,
+   "n1": "A",
+   "s1": 0,
+   "k1": "support",
+   "n2": "C",
+   "s2": 4,
+   "k2": "support",
+   "m1": 2.0408,
+   "x_from": 6,
+   "x_to": 6,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 0,
+   "pivot": -1
+  },
+  "note": "Weights are in newtons, so masses are weight / 9.8. Centre of mass at 2.5 m from A.",
+  "expect": [
+   [
+    "Reaction at C",
+    80,
+    0.05
+   ],
+   [
+    "Reaction at A",
+    20,
+    0.05
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "\\\\[2pt] \\vspace{0pt} A non-uniform plank $AB$ has weight $80$ N and l",
+  "tex_line": 6442
+ },
+ "5-5-3": {
+  "scene": "beam",
+  "title": "Notes 5.5, example 3: Non-uniform beam on one support",
+  "status": "exact",
+  "params": {
+   "L": 12,
+   "M": 30,
+   "G": 4,
+   "g": 9.8,
+   "n1": "P",
+   "s1": 5,
+   "k1": "support",
+   "n2": "Q",
+   "s2": 0,
+   "k2": "none",
+   "m1": 80,
+   "x_from": 1,
+   "x_to": 1,
+   "m2": 70,
+   "x2": 10,
+   "m3": 0,
+   "x3": 0,
+   "limit": 0,
+   "pivot": -1
+  },
+  "note": "Uses the answers: the man is 70 kg and the centre of mass is 4 m from A. The beam balances.",
+  "expect": [
+   [
+    "Reaction at P",
+    1764
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "A non-uniform beam $AB$ has length $12$ m and mass $30$ kg. It is smo",
+  "tex_line": 6489
+ },
+ "5-6-2": {
+  "scene": "beam",
+  "title": "Notes 5.6, example 2: Two ropes: tension at C is four times the tension at A",
+  "status": "illustration",
+  "params": {
+   "L": 6,
+   "M": 10.2041,
+   "G": 3,
+   "g": 9.8,
+   "n1": "A",
+   "s1": 0,
+   "k1": "rope",
+   "n2": "C",
+   "s2": 5,
+   "k2": "rope",
+   "m1": 5.102,
+   "x_from": 6,
+   "x_to": 6,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 0,
+   "pivot": -1
+  },
+  "note": "The question has W in letters; this uses W = 100 N and the answer k = 0.5 (load 50 N).",
+  "expect": [
+   [
+    "Tension in the rope at C",
+    120,
+    0.05
+   ],
+   [
+    "Tension in the rope at A",
+    30,
+    0.05
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "\\\\[2pt] \\vspace{0pt} A uniform beam $AB$ has weight $W$ newtons and l",
+  "tex_line": 6611
+ },
+ "5-7-2": {
+  "scene": "plank",
+  "title": "Notes 5.7, example 2: Man walks along the beam towards B",
+  "status": "exact",
+  "params": {
+   "L": 6,
+   "M": 40,
+   "AC": 1,
+   "DB": 2,
+   "m": 80,
+   "x_from": 2,
+   "x_to": 4.5
+  },
+  "note": "He tilts it at AP = 4.5 m, 2.5 m from P (answer 2.5 m).",
+  "expect": [
+   [
+    "Plank stays level for x between",
+    [
+     0,
+     4.5
+    ]
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "\\\\[2pt] \\vspace{0pt} A uniform beam $AB$ has length $6$ m and mass $4",
+  "tex_line": 6721
+ },
+ "5-7-3": {
+  "scene": "beam",
+  "title": "Notes 5.7, example 3: Child at A and at B: tilting",
+  "status": "exact",
+  "params": {
+   "L": 7.5,
+   "M": 30,
+   "G": 3,
+   "g": 9.8,
+   "n1": "P",
+   "s1": 1,
+   "k1": "support",
+   "n2": "Q",
+   "s2": 6,
+   "k2": "support",
+   "m1": 60,
+   "x_from": 0,
+   "x_to": 7.5,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 0,
+   "pivot": -1
+  },
+  "note": "Uses the answers M = 30 kg and d = 3 m. The child walks from A to B: the beam just stays level at both ends.",
+  "expect": [
+   [
+    "Moving load is safe",
+    [
+     0,
+     7.5
+    ]
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "A non-uniform beam $AB$ has length $7.5$ m and mass $M$ kg. It rests",
+  "tex_line": 6768
+ },
+ "5-8-1": {
+  "scene": "beam",
+  "title": "Notes 5.8, example 1: Beam on two ropes: block at A, particle at B",
+  "status": "exact",
+  "params": {
+   "L": 6,
+   "M": 20,
+   "G": 3.5,
+   "g": 9.8,
+   "n1": "A",
+   "s1": 0,
+   "k1": "rope",
+   "n2": "C",
+   "s2": 5,
+   "k2": "rope",
+   "m1": 45,
+   "x_from": 6,
+   "x_to": 6,
+   "m2": 3,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 0,
+   "pivot": -1
+  },
+  "note": "Shows parts (b) and (c) with m = 3 kg: the rope at A is just slack.",
+  "expect": [
+   [
+    "Tension in the rope at C",
+    666.4
+   ],
+   [
+    "Tension in the rope at A",
+    0,
+    0.05
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "\\\\[2pt] \\vspace{0pt} A non-uniform beam $AB$ has length $6$ m and mas",
+  "tex_line": 6858
+ },
+ "5-8-2": {
+  "scene": "beam",
+  "title": "Notes 5.8, example 2: Platform: greatest child at B before the bolt breaks",
+  "status": "exact",
+  "params": {
+   "L": 3,
+   "M": 20,
+   "G": 1.5,
+   "g": 9.8,
+   "n1": "A",
+   "s1": 0,
+   "k1": "bolt",
+   "n2": "C",
+   "s2": 0.5,
+   "k2": "support",
+   "m1": 53,
+   "x_from": 3,
+   "x_to": 3,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 3000,
+   "pivot": -1
+  },
+  "note": "The answer is the greatest whole number of kg, 53.",
+  "expect": [
+   [
+    "Greatest mass of the moving load",
+    53.22,
+    0.03
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "\\\\[2pt] \\vspace{0pt} Look again at the platform in the Level 3 exampl",
+  "tex_line": 6913
+ },
+ "5-8-3": {
+  "scene": "beam",
+  "title": "Notes 5.8, example 3: Rod on two strings: range of x before a string breaks",
+  "status": "exact",
+  "params": {
+   "L": 5,
+   "M": 10.2041,
+   "G": 2,
+   "g": 9.8,
+   "n1": "A",
+   "s1": 0,
+   "k1": "rope",
+   "n2": "B",
+   "s2": 5,
+   "k2": "rope",
+   "m1": 5.102,
+   "x_from": 0,
+   "x_to": 5,
+   "m2": 0,
+   "x2": 0,
+   "m3": 0,
+   "x3": 0,
+   "limit": 80,
+   "pivot": -1
+  },
+  "note": "Weights are in newtons, so masses are weight / 9.8. Drag the scrubber to move P.",
+  "expect": [
+   [
+    "Moving load is safe",
+    [
+     3,
+     4
+    ]
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "\\\\[2pt] \\vspace{0pt} A non-uniform rod $AB$ has length $5$ m and weig",
+  "tex_line": 6961
+ },
+ "6-2-2": {
+  "scene": "vector-acceleration",
+  "title": "Notes 6.2, example 2: Boat on a bearing of 120 deg",
+  "status": "exact",
+  "params": {
+   "x0": 0,
+   "y0": 0,
+   "ux": 25.981,
+   "uy": -15,
+   "ax": 0,
+   "ay": 0,
+   "T": 2
+  },
+  "note": "The scene labels speeds in m/s; the example uses km/h.",
+  "expect": [
+   [
+    "Bearing of motion at the end",
+    120,
+    0.1
+   ],
+   [
+    "Speed at the end",
+    30
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "[$\\mathbf{i}$ and $\\mathbf{j}$ are unit vectors due east and due nort",
+  "tex_line": 7337
+ },
+ "6-7-1": {
+  "scene": "vector-acceleration",
+  "title": "Notes 6.7, example 1: Particle with constant acceleration (-i + 3j)",
+  "status": "exact",
+  "params": {
+   "x0": 0,
+   "y0": 0,
+   "ux": 5,
+   "uy": -7,
+   "ax": -1,
+   "ay": 3,
+   "T": 4
+  },
+  "note": "Shows parts (a) and (b).",
+  "expect": [
+   [
+    "Velocity at the end",
+    [
+     1,
+     5
+    ]
+   ],
+   [
+    "Speed at the end",
+    5.099,
+    0.005
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "A particle of mass 3 kg moves with constant acceleration $(-\\mathbf{i",
+  "tex_line": 7739
+ },
+ "6-7-2": {
+  "scene": "vector-acceleration",
+  "title": "Notes 6.7, example 2: Find T and u from the velocity",
+  "status": "exact",
+  "params": {
+   "x0": 0,
+   "y0": 0,
+   "ux": 3,
+   "uy": -6,
+   "ax": 2,
+   "ay": 1,
+   "T": 4
+  },
+  "note": "Uses the answers u = 3 and T = 4.",
+  "expect": [
+   [
+    "Velocity at the end",
+    [
+     11,
+     -2
+    ]
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "A particle of mass 2 kg moves under the action of a single force $(4\\",
+  "tex_line": 7764
+ },
+ "6-7-3": {
+  "scene": "vector-acceleration",
+  "title": "Notes 6.7, example 3: Constant acceleration from A to B",
+  "status": "exact",
+  "params": {
+   "x0": 0,
+   "y0": 0,
+   "ux": -2,
+   "uy": -5,
+   "ax": 1.5,
+   "ay": 2,
+   "T": 4
+  },
+  "note": "Uses the answers c = 1.5 and d = 2 (time is 4 s).",
+  "expect": [
+   [
+    "Velocity at the end",
+    [
+     4,
+     3
+    ]
+   ],
+   [
+    "Speed at the end",
+    5.0
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "A particle moves from point $A$ to point $B$ with constant accelerati",
+  "tex_line": 7780
+ },
+ "6-8-1": {
+  "scene": "vector-acceleration",
+  "title": "Notes 6.8, example 1: When is the particle moving parallel to i or j?",
+  "status": "exact",
+  "params": {
+   "x0": 0,
+   "y0": 0,
+   "ux": 6,
+   "uy": -8,
+   "ax": -1,
+   "ay": 2,
+   "T": 7
+  },
+  "note": "Parts (c) and (d) are not shown.",
+  "expect": [
+   [
+    "Moving parallel to i at",
+    4
+   ],
+   [
+    "Moving parallel to j at",
+    6
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "\\textbf{Example (Level 1/Level 2), Part 1:} [$\\mathbf{i}$ and $\\mathb",
+  "tex_line": 7822
+ },
+ "6-8-3": {
+  "scene": "vector-acceleration",
+  "title": "Notes 6.8, example 3: Particle P and a particle Q moving the same way",
+  "status": "illustration",
+  "params": {
+   "x0": 0,
+   "y0": 0,
+   "ux": 3,
+   "uy": -1,
+   "ax": -1,
+   "ay": 2,
+   "T": 8
+  },
+  "note": "Shows P only. Q has constant velocity (-2i + 6j).",
+  "expect": [
+   [
+    "Velocity at the end",
+    [
+     -5,
+     15
+    ]
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "A particle $P$ moves with constant acceleration $(-\\mathbf{i}+2\\mathb",
+  "tex_line": 7862
+ },
+ "6-9-1": {
+  "scene": "vector-acceleration",
+  "title": "Notes 6.9, example 1: Ship moving with constant velocity (4i + j) km/h",
+  "status": "exact",
+  "params": {
+   "x0": 3,
+   "y0": -2,
+   "ux": 4,
+   "uy": 1,
+   "ax": 0,
+   "ay": 0,
+   "T": 5
+  },
+  "note": "Noon to 5 pm. The scene labels say m, m/s; the example uses km and km/h.",
+  "expect": [
+   [
+    "Position at the end",
+    [
+     23,
+     3
+    ]
+   ]
+  ],
+  "level": "Level 1/Level 2",
+  "anchor": "[$\\mathbf{i}$ and $\\mathbf{j}$ are unit vectors due east and due nort",
+  "tex_line": 7923
+ },
+ "6-10-1": {
+  "scene": "vectors",
+  "title": "Notes 6.10, example 1: Ships P and Q",
+  "status": "illustration",
+  "params": {
+   "x0a": 1,
+   "y0a": 4,
+   "vxa": 3,
+   "vya": -2,
+   "x0b": 5,
+   "y0b": -2,
+   "vxb": -2,
+   "vyb": 9
+  },
+  "note": "P is A and Q is B (km and km/h in the example).",
+  "expect": [],
+  "level": "Level 1/Level 2",
+  "anchor": "[$\\mathbf{i}$ and $\\mathbf{j}$ are unit vectors due east and due nort",
+  "tex_line": 8002
+ },
+ "6-10-2": {
+  "scene": "vector-acceleration",
+  "title": "Notes 6.10, example 2: P moves until it is north-west of O",
+  "status": "illustration",
+  "params": {
+   "x0": 12,
+   "y0": 3,
+   "ux": -4,
+   "uy": 2,
+   "ax": 0,
+   "ay": 0,
+   "T": 7.5
+  },
+  "note": "The animation stops at t = 7.5 s, when P is at (-18i + 18j).",
+  "expect": [
+   [
+    "Position at the end",
+    [
+     -18,
+     18
+    ]
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "[$\\mathbf{i}$ and $\\mathbf{j}$ are unit vectors due east and due nort",
+  "tex_line": 8035
+ },
+ "6-11-1": {
+  "scene": "vectors",
+  "title": "Notes 6.11, example 1: Distance between two ships",
+  "status": "illustration",
+  "params": {
+   "x0a": 2,
+   "y0a": 1,
+   "vxa": 3,
+   "vya": 5,
+   "x0b": 8,
+   "y0b": 9,
+   "vxb": -5,
+   "vyb": 1
+  },
+  "note": "The distance at noon and at 1.30 pm is shown in the readout. P is A and Q is B.",
+  "expect": [],
+  "level": "Level 1/Level 2",
+  "anchor": "\\textbf{Example (Level 1/Level 2), Part 1:} [$\\mathbf{i}$ and $\\mathb",
+  "tex_line": 8091
+ },
+ "6-11-3": {
+  "scene": "vectors",
+  "title": "Notes 6.11, example 3: Two robots: closest distance",
+  "status": "exact",
+  "params": {
+   "x0a": 1,
+   "y0a": 2,
+   "vxa": 3,
+   "vya": 1,
+   "x0b": 7,
+   "y0b": -2,
+   "vxb": 1,
+   "vyb": 3
+  },
+  "note": "Part 2 (6-11-4) continues this example.",
+  "expect": [
+   [
+    "Least distance apart",
+    1.414,
+    0.005
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "Two robots $A$ and $B$ move on a warehouse floor and are modelled as",
+  "tex_line": 8158
+ },
+ "6-12-2": {
+  "scene": "vector-acceleration",
+  "title": "Notes 6.12, example 2: Ship at 1 pm",
+  "status": "illustration",
+  "params": {
+   "x0": -3,
+   "y0": 2,
+   "ux": 8,
+   "uy": 6,
+   "ax": 0,
+   "ay": 0,
+   "T": 1
+  },
+  "note": "Shows the ship up to 1 pm. The lighthouse is not drawn.",
+  "expect": [
+   [
+    "Position at the end",
+    [
+     5,
+     8
+    ]
+   ]
+  ],
+  "level": "Level 2",
+  "anchor": "[$\\mathbf{i}$ and $\\mathbf{j}$ are unit vectors due east and due nort",
+  "tex_line": 8242
+ },
+ "6-12-3": {
+  "scene": "vectors",
+  "title": "Notes 6.12, example 3: Boy intercepts a kicked ball",
+  "status": "exact",
+  "params": {
+   "x0a": -1,
+   "y0a": 2,
+   "vxa": 3,
+   "vya": 2,
+   "x0b": 5,
+   "y0b": -4,
+   "vxb": 0,
+   "vyb": 5
+  },
+  "note": "Boy A speed v = 5 m/s due north.",
+  "expect": [
+   [
+    "They collide at",
+    2.0
+   ]
+  ],
+  "level": "Level 3",
+  "anchor": "[$\\mathbf{i}$ and $\\mathbf{j}$ are unit vectors due east and due nort",
+  "tex_line": 8278
+ }
 }

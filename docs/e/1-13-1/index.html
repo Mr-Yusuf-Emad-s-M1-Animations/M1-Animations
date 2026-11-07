@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Parachutist: Notes 1.13, example 1: Free fall, then deceleration, then constant speed | M1 animations</title>
+  <link rel="stylesheet" href="../../static/style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="back" href="../../">All examples</a>
+    <p class="chapter">Chapter 1: Constant acceleration</p>
+    <h1>Parachutist</h1>
+    <p class="blurb">A parachutist falls freely, opens the parachute and slows down at a constant rate, then falls at a steady speed to the ground. Down is positive.</p>
+    <p class="example">Example: Notes 1.13, example 1: Free fall, then deceleration, then constant speed</p>
+    <noscript><p class="blurb">This page needs JavaScript to draw the animation.</p></noscript>
+    <p class="covers">Question types 1.25</p>
+  </header>
+  <main class="layout">
+    <section class="stage">
+      <div class="canvas-wrap">
+        <canvas id="stage" role="img" aria-label="Animation: Parachutist"></canvas>
+        <p id="loading" class="loading" hidden>Loading…</p>
+      </div>
+      <div class="readout-strip" hidden>
+        <dl id="readout"></dl>
+      </div>
+      <div class="controls">
+        <button id="load" type="button" class="quiet" title="Recalculate and redraw everything from the numbers">Load</button>
+        <button id="play" type="button">Play</button>
+        <button id="restart" type="button" class="quiet">Restart</button>
+        <label class="speed">Speed
+          <select id="speed">
+            <option value="0.25">0.25×</option>
+            <option value="0.5">0.5×</option>
+            <option value="1" selected>1×</option>
+            <option value="2">2×</option>
+          </select>
+        </label>
+        <input id="scrub" type="range" min="0" max="0" value="0" aria-label="Scrub through the animation">
+        <p class="keys">Space: play / pause · R: restart · ← →: step one frame (Shift for 10) · Load: full reset</p>
+      </div>
+    </section>
+    <section class="panel">
+      <h2>Calculated values</h2>
+      <dl id="results"></dl>
+      <h2>Your numbers</h2>
+      <form id="params" autocomplete="off" onsubmit="return false">
+        
+        <label>
+          <span>Starting height <em>(m)</em></span>
+          
+          <input name="H" type="number" step="any" inputmode="decimal" value="266.7">
+          
+          
+        </label>
+        
+        <label>
+          <span>Time in free fall <em>(s)</em></span>
+          
+          <input name="t1" type="number" step="any" inputmode="decimal" value="3">
+          
+          
+        </label>
+        
+        <label class="wide">
+          <span>Deceleration with the parachute open <em>(m/s²)</em></span>
+          
+          <input name="d" type="number" step="any" inputmode="decimal" value="4.2">
+          
+          
+        </label>
+        
+        <label>
+          <span>Steady speed to the ground <em>(m/s)</em></span>
+          
+          <input name="V" type="number" step="any" inputmode="decimal" value="12.6">
+          
+          
+        </label>
+        
+        <label>
+          <span>Gravity g <em>(m/s²)</em></span>
+          
+          <input name="g" type="number" step="any" inputmode="decimal" value="9.8">
+          
+          
+        </label>
+        
+      </form>
+      <p id="error" role="alert"></p>
+      
+      <h2>Other examples</h2>
+      <ul class="presets">
+        
+        <li><a href="../../e/parachutist-1/">Free fall for 3 s, slows at 4 m/s² to 5 m/s</a></li>
+        
+        <li><a href="../../e/parachutist-2/">Free fall for 2 s from 150 m, slows at 6 m/s² to 4 m/s</a></li>
+        
+      </ul>
+      
+    </section>
+  </main>
+  <script>window.SCENE_ID = "parachutist";</script>
+  <script src="../../static/solvers.js"></script>
+  <script src="../../static/catalog.js"></script>
+  <script src="../../static/scenes.js"></script>
+  <script src="../../static/app.js"></script>
+</body>
+</html>

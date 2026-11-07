@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Particle on a rough surface with an angled force: Pushed into the plane | M1 animations</title>
+  <link rel="stylesheet" href="../../static/style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="back" href="../../">All examples</a>
+    <p class="chapter">Chapter 2: Statics</p>
+    <h1>Particle on a rough surface with an angled force</h1>
+    <p class="blurb">Make a force on a particle bigger and watch the friction change until the particle is about to slide. The force can be at any angle to the surface.</p>
+    <p class="example">Example: Pushed into the plane</p>
+    <noscript><p class="blurb">This page needs JavaScript to draw the animation.</p></noscript>
+    <p class="covers">Question types 2.4, 2.5, 2.6, 2.7, 2.8, 2.9</p>
+  </header>
+  <main class="layout">
+    <section class="stage">
+      <div class="canvas-wrap">
+        <canvas id="stage" role="img" aria-label="Animation: Particle on a rough surface with an angled force"></canvas>
+        <p id="loading" class="loading" hidden>Loading…</p>
+      </div>
+      <div class="readout-strip" hidden>
+        <dl id="readout"></dl>
+      </div>
+      <div class="controls">
+        <button id="load" type="button" class="quiet" title="Recalculate and redraw everything from the numbers">Load</button>
+        <button id="play" type="button">Play</button>
+        <button id="restart" type="button" class="quiet">Restart</button>
+        <label class="speed">Speed
+          <select id="speed">
+            <option value="0.25">0.25×</option>
+            <option value="0.5">0.5×</option>
+            <option value="1" selected>1×</option>
+            <option value="2">2×</option>
+          </select>
+        </label>
+        <input id="scrub" type="range" min="0" max="0" value="0" aria-label="Scrub through the animation">
+        <p class="keys">Space: play / pause · R: restart · ← →: step one frame (Shift for 10) · Load: full reset</p>
+      </div>
+    </section>
+    <section class="panel">
+      <h2>Calculated values</h2>
+      <dl id="results"></dl>
+      <h2>Your numbers</h2>
+      <form id="params" autocomplete="off" onsubmit="return false">
+        
+        <label class="wide">
+          <span>Angle of the surface (0 = flat ground) <em>(°)</em></span>
+          
+          <input name="angle" type="number" step="any" inputmode="decimal" value="30">
+          
+          
+        </label>
+        
+        <label>
+          <span>Mass of the particle <em>(kg)</em></span>
+          
+          <input name="m" type="number" step="any" inputmode="decimal" value="3">
+          
+          
+        </label>
+        
+        <label>
+          <span>Coefficient of friction μ</span>
+          
+          <input name="mu" type="number" step="any" inputmode="decimal" value="0.2">
+          
+          
+        </label>
+        
+        <label>
+          <span>Force F1 (shown at this value) <em>(N)</em></span>
+          
+          <input name="F1" type="number" step="any" inputmode="decimal" value="11.322">
+          
+          
+        </label>
+        
+        <label class="wide">
+          <span>Angle of F1 to the surface (+ = up and away) <em>(°)</em></span>
+          
+          <input name="th1" type="number" step="any" inputmode="decimal" value="-45">
+          
+          
+        </label>
+        
+        <label>
+          <span>Second force F2 (0 = none) <em>(N)</em></span>
+          
+          <input name="F2" type="number" step="any" inputmode="decimal" value="0">
+          
+          
+        </label>
+        
+        <label>
+          <span>Angle of F2 to the surface <em>(°)</em></span>
+          
+          <input name="th2" type="number" step="any" inputmode="decimal" value="0">
+          
+          
+        </label>
+        
+        <label>
+          <span>Gravity g <em>(m/s²)</em></span>
+          
+          <input name="g" type="number" step="any" inputmode="decimal" value="9.8">
+          
+          
+        </label>
+        
+      </form>
+      <p id="error" role="alert"></p>
+      
+      <h2>Other examples</h2>
+      <ul class="presets">
+        
+        <li><a href="../../e/rough-surface-1/">Pulled up a rough plane: about to slip up</a></li>
+        
+        <li><a href="../../e/rough-surface-2/">Crate on flat ground, two forces</a></li>
+        
+        <li><a href="../../e/rough-surface-3/">Pushed into the plane</a></li>
+        
+      </ul>
+      
+    </section>
+  </main>
+  <script>window.SCENE_ID = "rough-surface";</script>
+  <script src="../../static/solvers.js"></script>
+  <script src="../../static/catalog.js"></script>
+  <script src="../../static/scenes.js"></script>
+  <script src="../../static/app.js"></script>
+</body>
+</html>

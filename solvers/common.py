@@ -14,7 +14,7 @@ def check(condition, message):
 
 
 def r(x, n=4):
-    return round(x + 0.0, n)
+    return round(x + 0.0, n) + 0.0      # + 0.0 turns -0.0 into 0.0
 
 
 def num(key, label, default, unit="", lo=None, hi=None, step=None):
@@ -23,6 +23,11 @@ def num(key, label, default, unit="", lo=None, hi=None, step=None):
     if lo is not None and hi is not None:
         d["slider"] = {"lo": lo, "hi": hi, "step": step or (hi - lo) / 100}
     return d
+
+
+def text(key, label, default="", unit=""):
+    """A text input (for example a list of stages such as "5:2, 15:0, 4:-2.5")."""
+    return {"key": key, "label": label, "default": default, "unit": unit, "type": "text"}
 
 
 def codes(*parts):
@@ -45,6 +50,21 @@ def sample(T, fn, fps=FPS):
     check(T <= MAX_SECONDS, f"The motion lasts {T:.0f} s, more than {MAX_SECONDS} s. Change the numbers.")
     n = max(1, int(round(T * fps)))
     return [fn(T * i / n) for i in range(n + 1)], T / n
+
+
+LAPSE_PLAYBACK = 30     # a long motion is played faster, so that it lasts at most this many seconds on screen
+LAPSE_MAX = 600         # the longest motion (in simulated seconds) that we accept
+
+
+def sample_lapse(T, fn):
+    """Like sample(), but a motion longer than LAPSE_PLAYBACK s is played as a time-lapse.
+    The frames still hold the true time t; only the playback is faster. Returns frames, dt, speed-up."""
+    check(T <= LAPSE_MAX, f"The motion lasts {T:.0f} s, more than {LAPSE_MAX} s. Change the numbers.")
+    if T <= LAPSE_PLAYBACK:
+        frames, dt = sample(T, fn)
+        return frames, dt, 1.0
+    n = LAPSE_PLAYBACK * FPS
+    return [fn(T * i / n) for i in range(n + 1)], 1 / FPS, T / LAPSE_PLAYBACK
 
 
 def choice(key, label, default, options):

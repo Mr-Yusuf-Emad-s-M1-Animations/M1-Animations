@@ -1,5 +1,5 @@
 """Chapter 1: one vehicle speeds up, cruises, then slows down (speed-time graph)."""
-from .common import check, codes, num, r, result, sample
+from .common import check, codes, num, r, result, sample_lapse
 
 SCENE = {
     "id": "suvat-journey",
@@ -58,7 +58,7 @@ def solve(p):
     t_half_d = (lo + hi) / 2
     x_half_t = state(T / 2)[0]
 
-    frames, dt = sample(T, lambda t: dict(zip(("t", "x", "v"), (r(t), *map(r, state(t))))))
+    frames, dt, speedup = sample_lapse(T, lambda t: dict(zip(("t", "x", "v"), (r(t), *map(r, state(t))))))
     res = [result("Top speed V", r(V, 3), "m/s"),
            result("Distance in stage 1", r(s1, 3), "m"),
            result("Distance at constant speed", r(s2, 3), "m"),
@@ -69,6 +69,8 @@ def solve(p):
            result("Average speed", r(D / T, 3), "m/s"),
            result("Half the distance reached at", r(t_half_d, 3), "s"),
            result("Distance at half the time", r(x_half_t, 3), "m")]
+    if speedup > 1:
+        res.append(result("Playback", f"time-lapse, {r(speedup, 1)} times faster than real time"))
     return {"dt": dt, "frames": frames, "results": res,
             "meta": {"T": r(T), "D": r(D), "V": r(V), "t1": t1, "t2": t2, "t3": r(t3),
                      "tHalfD": r(t_half_d), "xHalfT": r(x_half_t)}}
