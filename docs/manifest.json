@@ -868,39 +868,6 @@
   }
  },
  {
-  "id": "string-jerk",
-  "url": "m1/string-jerk/",
-  "scene": "string-jerk",
-  "title": "String jerks taut",
-  "kind": "scene"
- },
- {
-  "id": "string-jerk-1",
-  "url": "e/string-jerk-1/",
-  "scene": "string-jerk",
-  "title": "3 kg at 5 m/s jerks a 2 kg particle",
-  "kind": "preset",
-  "params": {
-   "m1": 3,
-   "m2": 2,
-   "u": 5,
-   "L": 1.5
-  }
- },
- {
-  "id": "string-jerk-2",
-  "url": "e/string-jerk-2/",
-  "scene": "string-jerk",
-  "title": "Light particle jerks a heavy one",
-  "kind": "preset",
-  "params": {
-   "m1": 1,
-   "m2": 4,
-   "u": 6,
-   "L": 1
-  }
- },
- {
   "id": "wall-bounce",
   "url": "m1/wall-bounce/",
   "scene": "wall-bounce",
@@ -1109,45 +1076,6 @@
    "x3": 0,
    "limit": 80,
    "pivot": -1
-  }
- },
- {
-  "id": "tilting-rod",
-  "url": "m1/tilting-rod/",
-  "scene": "tilting-rod",
-  "title": "Rod that tips over",
-  "kind": "scene"
- },
- {
-  "id": "tilting-rod-1",
-  "url": "e/tilting-rod-1/",
-  "scene": "tilting-rod",
-  "title": "Heavy package at end B: rod tips towards B",
-  "kind": "preset",
-  "params": {
-   "L": 8,
-   "M": 20,
-   "P": 3,
-   "m": 30,
-   "x": 8,
-   "maxang": 20,
-   "g": 9.8
-  }
- },
- {
-  "id": "tilting-rod-2",
-  "url": "e/tilting-rod-2/",
-  "scene": "tilting-rod",
-  "title": "Heavy package at end A: rod tips towards A",
-  "kind": "preset",
-  "params": {
-   "L": 8,
-   "M": 20,
-   "P": 5,
-   "m": 30,
-   "x": 0,
-   "maxang": 20,
-   "g": 9.8
   }
  },
  {

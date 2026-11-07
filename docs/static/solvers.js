@@ -661,25 +661,6 @@ SOLVERS["collision"] = function (p) {
   return { dt: 1 / 60, frames, results: res, meta: { m1, m2, r1: r(r1), r2: r(r2), top, u: [u1, u2], v: [r(v1), r(v2)] } };
 };
 
-SOLVERS["string-jerk"] = function (p) {
-  const { m1, m2, u, L } = p, N = 240;
-  check(m1 > 0 && m2 > 0 && u > 0 && L > 0, "Every number must be greater than 0.");
-  const v = (m1 * u) / (m1 + m2), tJerk = L / u, T = 2.2 * tJerk;
-  const frames = [];
-  for (let i = 0; i <= N; i++) {
-    const t = (T * i) / N;
-    let x1, x2, taut;
-    if (t < tJerk) { x1 = u * t; x2 = 0.0; taut = false; }
-    else { x1 = L + v * (t - tJerk); x2 = v * (t - tJerk); taut = true; }
-    frames.push({ t: r(t), x1: r(x1), x2: r(x2), taut });
-  }
-  const res = [result("Common speed after the jerk", r(v, 3), "m/s"), result("Impulse in the string", r(m2 * v, 3), "N s"),
-    result("Speed lost by P", r(u - v, 3), "m/s"),
-    result("Kinetic energy lost", r(0.5 * m1 * u * u - 0.5 * (m1 + m2) * v * v, 3), "J")];
-  return { dt: 4 / N, frames, results: res,
-    meta: { L, u, v: r(v), m1, m2, xmax: r(L + v * (T - tJerk)), tJerk: r(tJerk) } };
-};
-
 SOLVERS["wall-bounce"] = function (p) {
   const { m, u } = p, N = 200;
   check(m > 0 && u > 0, "m and u must be greater than 0.");
@@ -743,48 +724,6 @@ SOLVERS["plank"] = function (p) {
   if (lo <= 0 && hi >= L) res.push(result("Tipping", "the package cannot tip the plank anywhere on it"));
   else res.push(result("Plank stays level for x between", `${pyf(r(Math.max(lo, 0), 2))} m and ${pyf(r(Math.min(hi, L), 2))} m`));
   return { dt: 1 / 60, frames, results: res, meta: { L, M, m, g, xc, xd: r(xd) } };
-};
-
-SOLVERS["tilting-rod"] = function (p) {
-  const { L, M, P, m, x, g, maxang } = p, MAX_SIM = 20.0;
-  check(L > 0 && M > 0 && m > 0 && g > 0, "L, both masses and g must be greater than 0.");
-  check(0 < P && P < L, "The support must be on the rod, strictly between A and B.");
-  check(0 <= x && x <= L, "The package must stay on the rod (0 to L).");
-  check(0 < maxang && maxang <= 40, "Stop the tilt at an angle between 0° and 40°.");
-  const R = (M + m) * g;
-  let tau = m * (x - P) + M * (L / 2 - P);
-  const meta = { L, M, m, x, pivot: r(P), maxang };
-  if (Math.abs(tau) < 1e-9) {
-    Object.assign(meta, { mode: "level", R: r(R, 2) });
-    return { dt: 1 / FPS, frames: [{ t: 0, phi: 0, w: 0 }],
-      results: [result("Reaction at P", r(R, 2), "N"), result("Rod stays level", "yes (exactly balanced)")], meta };
-  }
-  const mode = tau > 0 ? "B" : "A", sign = mode === "B" ? 1 : -1;
-  tau = Math.abs(tau);
-  const I = (M * L * L) / 12 + M * (L / 2 - P) ** 2 + m * (x - P) ** 2;
-  const a0 = (g * tau) / I, lim = radians(maxang);
-  const dt = 1 / 1200;
-  let phi = 0.0, w = 0.0, t = 0.0, nextOut = 0.0;
-  const out = [];
-  while (phi < lim && t < MAX_SIM) {
-    if (t >= nextOut) { out.push([t, phi, w]); nextOut += 1 / FPS; }
-    const acc = a0 * cos(phi);
-    w += (acc * dt) / 2;
-    phi += w * dt;
-    w += (a0 * cos(phi) * dt) / 2;
-    t += dt;
-  }
-  check(phi >= lim, "The rod is almost balanced: it would take over 20 s to tip. Move the package further out.");
-  out.push([t, lim, w]);
-  const slow = Math.max(1.0, 3.0 / t);
-  const frames = out.map(([tt, ph, ww]) => ({ t: r(tt), phi: r(sign * ph), w: r(sign * ww) }));
-  const res = [result("Rod tips towards", mode), result("Reaction at P", r(R, 2), "N"),
-    result("Angular acceleration at the start", r(a0, 3), "rad/s²"),
-    result(`Time to tilt ${fmtg(maxang)}°`, r(t, 3), "s"), result("Angular speed at the end", r(w, 3), "rad/s")];
-  if (slow > 1) res.push(result("Shown in slow motion", `×${pyf(r(slow, 1))}`));
-  res.push(result("Note", "the turning motion uses rotation physics beyond M1; the package is fixed to the rod"));
-  Object.assign(meta, { mode, R: r(R, 2) });
-  return { dt: slow / FPS, frames, results: res, meta };
 };
 
 // ---------------------------------------------------------------- Chapter 6

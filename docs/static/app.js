@@ -74,7 +74,7 @@
   function updateButtons() {
     const atEnd = data && t >= endTime();
     playBtn.textContent = playing ? "Pause" : atEnd ? "Play again" : "Play";
-    loadBtn.textContent = dirty && data ? "Load ●" : "Load";
+    loadBtn.textContent = "Load";
   }
 
   function showReadout(lines) {
@@ -125,7 +125,7 @@
     updateButtons(); draw();
   }
 
-  loadBtn.addEventListener("click", () => { clearTimeout(debounceTimer); load(true); });
+  loadBtn.addEventListener("click", () => { clearTimeout(debounceTimer); location.reload(); });   // Load reloads the whole page
   playBtn.addEventListener("click", play);
   restartBtn.addEventListener("click", restart);
   scrub.addEventListener("input", () => { if (!data) return; playing = false; t = Number(scrub.value) * data.dt; updateButtons(); draw(); });

@@ -13,7 +13,7 @@
   </header>
   <div class="search">
     <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5.5" fill="none" stroke-width="2"/><path d="M13 13l4.5 4.5" stroke-width="2" stroke-linecap="round"/></svg>
-    <input id="search" type="search" placeholder="Search scenes: try “pulley”, “bounce” or a question type like 3.16" aria-label="Search scenes" autocomplete="off">
+    <input id="search" type="search" placeholder="Search scenes: try “pulley” or “bounce”" aria-label="Search scenes" autocomplete="off">
     <span id="search-count" class="search-count" aria-live="polite"></span>
   </div>
   <nav class="chapter-nav" aria-label="Chapters">
@@ -25,10 +25,9 @@
       <h2 class="chapter-name">{{ ch.name }} <span class="chapter-count">{{ ch.scenes|length }} scene{{ "s" if ch.scenes|length != 1 else "" }}</span></h2>
       <ul class="scene-grid">
         {% for scene in ch.scenes %}
-        <li class="scene-card" data-search="{{ (scene.title ~ ' ' ~ scene.blurb ~ ' ' ~ ch.name ~ ' ' ~ (scene.covers or [])|join(' '))|lower }}">
+        <li class="scene-card" data-search="{{ (scene.title ~ ' ' ~ home_lines[scene.id] ~ ' ' ~ ch.name)|lower }}">
           <a class="scene-link" href="{{ root }}m1/{{ scene.id }}/">{{ scene.title }}</a>
-          <p class="scene-blurb">{{ scene.blurb }}</p>
-          {% if scene.covers %}<p class="scene-codes">{% for c in scene.covers %}<span>{{ c }}</span>{% endfor %}</p>{% endif %}
+          <p class="scene-blurb">{{ home_lines[scene.id] }}</p>
           {% if scene.presets %}
           <label class="scene-preset">
             Jump to an example

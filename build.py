@@ -20,6 +20,35 @@ from solvers import SCENES
 OUT = ROOT / "docs"
 CHAPTER_COLORS = ["#2f6690", "#0f766e", "#b45309", "#6d28d9", "#b91c1c", "#15803d", "#0e7490", "#a21caf"]
 
+# One-line descriptions for the home page cards (the scene pages keep their longer text).
+HOME_LINES = {
+    "suvat-journey": "A car speeds up, cruises, then brakes, with the speed-time graph drawn as it moves.",
+    "stages": "One or two vehicles moving in stages of constant acceleration.",
+    "overtaking": "A cyclist sets off from rest and speeds up to catch a car moving at constant speed.",
+    "vertical-projection": "A stone thrown straight up and falling back, with its velocity-time graph.",
+    "bouncing-ball": "A ball falls and bounces, with each bounce shown on the velocity-time graph.",
+    "vertical-meeting": "Two particles moving vertically meet in mid-air.",
+    "parachutist": "A parachutist falls freely, opens the parachute, then falls at a steady speed.",
+    "hanging-strings": "A particle hangs in equilibrium from two strings, or from a string and a force.",
+    "slope-limiting": "A growing force P makes a particle about to slide down, then up, a rough slope.",
+    "rough-surface": "A growing force at any angle acts on a particle on a rough surface until it is about to slide.",
+    "inclined-plane": "A block slides down a rough slope, with the forces W, N and F shown.",
+    "slope-up-and-back": "A particle is projected up a rough slope and slides back, with friction changing direction.",
+    "towing": "A car pulls a trailer with a rod (tension or thrust) or a string that can go slack.",
+    "lift": "A person in a lift that speeds up, moves steadily, then slows, with the floor force R.",
+    "pulley-hanging": "Two particles over a pulley: A lands, the string goes slack and B keeps rising.",
+    "pulley-table": "A hanging particle pulls another along a rough table, then lands and bounces.",
+    "pulley-slope": "A particle on a rough slope is joined over a pulley to a hanging particle.",
+    "pulley-extra-mass": "An extra mass falls away from A, so the acceleration changes part-way.",
+    "collision": "Two particles collide directly on a smooth line.",
+    "wall-bounce": "A ball hits a wall at right angles and rebounds, with its change in momentum.",
+    "soft-ground": "An object falls onto soft ground and is stopped by a constant resistance R.",
+    "plank": "A package moves along a plank on two supports while the reactions change.",
+    "beam": "A beam on supports, ropes or a bolt with up to three loads, one of them movable.",
+    "vectors": "Two particles move with constant velocity from given position vectors, to find the closest approach.",
+    "vector-acceleration": "A particle's velocity turns as v = u + at.",
+}
+
 env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=select_autoescape(["html"]))
 env.filters["num"] = lambda v: v if isinstance(v, str) else f"{v:g}"
 
@@ -71,11 +100,14 @@ def main():
 
     # ---- home page
     chapters = {}
+    missing = set(SCENES) - set(HOME_LINES)
+    if missing:
+        raise SystemExit(f"build.py: add a one-line description to HOME_LINES for {sorted(missing)}")
     for scene in SCENES.values():
         ch = chapters.setdefault(scene["chapter"], {"name": scene["chapter"], "scenes": [],
                                                     "color": CHAPTER_COLORS[len(chapters) % len(CHAPTER_COLORS)]})
         ch["scenes"].append(scene)
-    write(OUT / "index.html", env.get_template("index.html").render(root="", chapters=chapters.values()))
+    write(OUT / "index.html", env.get_template("index.html").render(root="", chapters=chapters.values(), home_lines=HOME_LINES))
 
     scene_tpl = env.get_template("scene.html")
 

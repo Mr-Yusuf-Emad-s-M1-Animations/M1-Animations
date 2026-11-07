@@ -358,32 +358,6 @@ const SCENES = {
   },
 
   // ---------------------------------------------------------------- Chapter 5
-  "tilting-rod": {
-    draw(g, f, m) {
-      const { ctx, W, H } = g, ang = (m.maxang * Math.PI) / 180, sa = Math.sin(ang), pk = 32, th = 14;
-      const drop = m.mode === "B" ? m.L - m.pivot : m.mode === "A" ? m.pivot : 0;
-      const rise = m.mode === "B" ? m.pivot : m.mode === "A" ? m.L - m.pivot : 0;
-      const kH = (W - 90) / m.L, kV = (H - 60 - pk - th - 26 - 48) / ((rise + drop) * sa + 0.01), k = Math.min(kH, kV);
-      const left = (W - m.L * k) / 2, X = (x) => left + x * k;
-      const py = 60 + pk + rise * sa * k, floorY = py + th + drop * sa * k + 26;
-      line(g, 10, floorY, W - 10, floorY, INK, 2);
-      ctx.fillStyle = INK; ctx.beginPath(); ctx.moveTo(X(m.pivot), py + th); ctx.lineTo(X(m.pivot) - 24, floorY); ctx.lineTo(X(m.pivot) + 24, floorY); ctx.closePath(); ctx.fill();
-      text(g, "P", X(m.pivot), floorY + 16, { bold: true, align: "center" });
-      if (m.R != null) text(g, `${nf(m.R, 1)} N`, X(m.pivot), floorY + 34, { align: "center", color: RED, bold: true });
-      ctx.save(); ctx.translate(X(m.pivot), py + th); ctx.rotate(f.phi);
-      const a = -m.pivot * k, len = m.L * k;
-      ctx.fillStyle = "#e6eef6"; ctx.strokeStyle = INK; ctx.lineWidth = 2;
-      ctx.fillRect(a, -th, len, th); ctx.strokeRect(a, -th, len, th);
-      const bx = (m.x - m.pivot) * k;
-      ctx.fillStyle = BLUE_FILL; ctx.fillRect(bx - pk / 2, -th - pk, pk, pk); ctx.strokeRect(bx - pk / 2, -th - pk, pk, pk);
-      circle(g, (m.L / 2 - m.pivot) * k, -th / 2, 4, RED);
-      text(g, "A", a - 12, -th / 2, { bold: true, align: "center" }); text(g, "B", a + len + 12, -th / 2, { bold: true, align: "center" });
-      ctx.restore();
-      text(g, m.mode === "level" ? "The rod stays level" : `The rod tips towards ${m.mode}`, 14, 22, { bold: true, color: m.mode === "level" ? INK : RED, size: fontSize(W) + 3 });
-      readout(g, [`t = ${nf(f.t)} s`, `angle = ${nf(Math.abs(f.phi) * 180 / Math.PI, 1)}°`, `ω = ${nf(Math.abs(f.w), 2)} rad/s`]);
-    },
-  },
-
   // ---------------------------------------------------------------- Chapter 6
   vectors: {
     draw(g, f, m) {
@@ -702,27 +676,6 @@ Object.assign(SCENES, {
   },
 
   // ---------------------------------------------------------------- Chapter 4
-  "string-jerk": {
-    draw(g, f, m) {
-      const { W, H } = g, bw = Math.min(50, W * 0.11), gap = bw * 1.5, left = 30, gy = H * 0.62, sc = (W - 2 * left - bw - gap) / (m.xmax * 1.02);
-      const qx = left + bw / 2 + f.x2 * sc, px = left + bw / 2 + gap + f.x1 * sc, ym = gy - bw / 2;
-      line(g, 10, gy, W - 10, gy, INK, 2);
-      if (f.taut) line(g, qx + bw / 2, ym, px - bw / 2, ym, INK, 3);
-      else { const c = g.ctx; c.strokeStyle = INK; c.lineWidth = 2; c.beginPath(); c.moveTo(qx + bw / 2, ym); c.quadraticCurveTo((qx + px) / 2, ym + 26, px - bw / 2, ym); c.stroke(); }
-      box(g, qx, ym, bw, bw, RED_FILL, "Q");
-      box(g, px, ym, bw, bw, BLUE_FILL, "P");
-      text(g, `${nf(m.m2)} kg`, qx, gy + 16, { align: "center", color: MUTED });
-      text(g, `${nf(m.m1)} kg`, px, gy + 16, { align: "center", color: MUTED });
-      const vP = f.taut ? m.v : m.u, vQ = f.taut ? m.v : 0, k = 60 / m.u;
-      arrow(g, px - 10, ym - bw / 2 - 16, px - 10 + vP * k, ym - bw / 2 - 16, RED, "");
-      text(g, `${nf(vP, 2)} m/s`, px, ym - bw / 2 - 36, { align: "center", color: RED, bold: true, size: fontSize(W) - 1 });
-      if (vQ > 0) { arrow(g, qx - 10, ym - bw / 2 - 16, qx - 10 + vQ * k, ym - bw / 2 - 16, RED, ""); text(g, `${nf(vQ, 2)} m/s`, qx, ym - bw / 2 - 36, { align: "center", color: RED, bold: true, size: fontSize(W) - 1 }); }
-      text(g, f.taut ? "The string is taut: both move together" : "The string is slack: only P moves", W / 2, 22, { bold: true, align: "center", color: f.taut ? RED : INK, size: fontSize(W) + 1 });
-      text(g, "slowed down so you can see the jerk", W / 2, H - 14, { align: "center", color: MUTED, size: fontSize(W) - 1 });
-      readout(g, [`real time t = ${nf(f.t, 3)} s`, `P: ${nf(f.x1)} m`, `Q: ${nf(f.x2)} m`]);
-    },
-  },
-
   "wall-bounce": {
     draw(g, f, m) {
       const { ctx, W, H } = g, wallX = W - 46, gy = H * 0.66, rr = 14, k = (wallX - rr - 40) / 5, cx = wallX - rr - f.x * k, cy = gy - rr;

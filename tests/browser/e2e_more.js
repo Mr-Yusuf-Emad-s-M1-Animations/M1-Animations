@@ -17,12 +17,12 @@ const expect = (name, cond, extra = "") => { console.log((cond ? "ok   " : "FAIL
   let { dom, errors } = await open("m1/overtaking");
   let d = dom.window.document, w = dom.window;
   const u = d.querySelector('[name="u"]');
-  u.value = "abc"; d.getElementById("load").click();
+  u.value = "abc"; d.getElementById("params").dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
   expect("text in a number box is ignored (default is used)", d.getElementById("error").textContent === "" && d.querySelectorAll("#results dt").length > 0, d.getElementById("error").textContent);
   expect("the old picture stays (results kept)", d.querySelectorAll("#results dt").length > 0);
-  u.value = "-4"; d.getElementById("load").click();
+  u.value = "-4"; d.getElementById("params").dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
   expect("an impossible value shows the physics message", /greater than 0/.test(d.getElementById("error").textContent), d.getElementById("error").textContent);
-  u.value = "12"; d.getElementById("load").click();
+  u.value = "12"; d.getElementById("params").dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
   expect("fixing it clears the message", d.getElementById("error").textContent === "");
   const a = [...d.querySelectorAll("#results dd")].map((x) => x.textContent).join(" | ");
   expect("results change with the numbers", /Time to catch up/.test([...d.querySelectorAll("#results dt")].map((x) => x.textContent).join()), a);

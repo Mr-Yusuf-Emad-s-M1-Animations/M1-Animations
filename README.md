@@ -72,7 +72,7 @@ and presses the buttons; `node e2e_more.js` tries bad input and numbers in the a
 - No Flask, no server, no `/api`. `app.py` and `make_qr.py` are gone; the QR step will read `docs/manifest.json`.
 - All 27 solvers are ported to JavaScript and tested against the Python versions.
 - 12 scenes had a solver but no drawing: suvat-journey, bouncing-ball, vertical-meeting, parachutist, slope-limiting,
-  slope-up-and-back, lift, pulley-extra-mass, string-jerk, wall-bounce, soft-ground, vector-acceleration.
+  slope-up-and-back, lift, pulley-extra-mass, wall-bounce, soft-ground, vector-acceleration.
   They now have one, with live graphs (the README of the old version mentioned `graph()`, but it was missing).
 - One page for every preset, so each example has its own permanent address.
 - Sliders and number boxes now stay in step; Space, R and the arrow keys work as the page says.

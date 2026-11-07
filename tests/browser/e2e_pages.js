@@ -25,7 +25,7 @@ let fails = 0, ok = 0;
       d.getElementById("restart").click();
       const sl = d.querySelector('input[type=range][data-for]');
       if (sl) { sl.value = sl.max; sl.dispatchEvent(new w.Event("input", { bubbles: true })); await new Promise((r) => setTimeout(r, 330)); }
-      d.getElementById("load").click();
+      d.getElementById("params").dispatchEvent(new dom.window.KeyboardEvent("keydown", { key: "Enter", bubbles: true }));
     } catch (e) { errors.push("click: " + e.message); }
     const bad = errors.length || res === 0 || read === 0 || (err && pg.kind !== "never");
     if (bad) { fails++; console.log("FAIL", pg.url, { errors, results: res, readout: read, errorBox: err }); } else ok++;
