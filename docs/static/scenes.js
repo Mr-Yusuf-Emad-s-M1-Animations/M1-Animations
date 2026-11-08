@@ -62,6 +62,140 @@ function box(g, cx, cy, w, h, fill, label) {
   if (label) text(g, label, cx, cy, { bold: true, align: "center", size: Math.min(fontSize(g.W), Math.max(10, h * 0.32)) });
 }
 
+
+// ---------------------------------------------------------------------------------------------
+// Label layout. Scenes draw labels with text() as before, but while a frame is being drawn every
+// label is held back; LabelLayer.end() then writes them all at once, moving any label that would
+// sit on another label, a line, a box or the canvas edge to the nearest clear spot.
+// It watches the canvas calls (lines, boxes, circles, filled shapes) so no scene has to be told
+// what its labels might hit.
+const LabelLayer = (() => {
+  let ctx = null, W = 0, H = 0, k = 1, on = false, texts = [], segs = [], polys = [], path = [], cur = null;
+  const orig = {};
+  const GRIDCOL = "#dbe6f0";
+  const pt = (x, y) => { const m = ctx.getTransform(); return [(m.a * x + m.c * y + m.e) / k, (m.b * x + m.d * y + m.f) / k]; };
+  const scale = () => { const m = ctx.getTransform(); return Math.sqrt(Math.abs(m.a * m.d - m.b * m.c)) / k; };
+
+  function patch(c) {
+    if (c.__labelLayer) return; c.__labelLayer = true;
+    const P = Object.getPrototypeOf(c);
+    for (const n of ["beginPath", "moveTo", "lineTo", "quadraticCurveTo", "arc", "stroke", "fill", "fillRect", "strokeRect", "fillText", "closePath"]) orig[n] = P[n];
+    c.beginPath = function () { if (on) { path = []; cur = null; } return orig.beginPath.call(c); };
+    c.moveTo = function (x, y) { if (on) cur = pt(x, y); return orig.moveTo.call(c, x, y); };
+    c.lineTo = function (x, y) { if (on) { const p = pt(x, y); if (cur) path.push({ a: cur, b: p }); cur = p; } return orig.lineTo.call(c, x, y); };
+    c.quadraticCurveTo = function (cx, cy, x, y) { if (on) { const p = pt(x, y); if (cur) path.push({ a: cur, b: p }); cur = p; } return orig.quadraticCurveTo.call(c, cx, cy, x, y); };
+    c.closePath = function () { if (on && path.length && cur) { path.push({ a: cur, b: path[0].a }); cur = path[0].a; } return orig.closePath.call(c); };
+    c.arc = function (x, y, r, a0, a1, ccw) { if (on) { const q = pt(x, y); path.push({ circle: q, r: r * scale() }); } return orig.arc.call(c, x, y, r, a0, a1, ccw); };
+    c.stroke = function () {
+      if (on && c.lineWidth >= 1.2 && String(c.strokeStyle).toLowerCase() !== GRIDCOL && c.lineWidth * scale() >= 1.2) {
+        const dashed = c.getLineDash().length > 0;
+        for (const s of path) {
+          if (s.circle) polys.push({ box: [s.circle[0] - s.r, s.circle[1] - s.r, s.circle[0] + s.r, s.circle[1] + s.r], round: true });
+          else segs.push({ a: s.a, b: s.b, w: dashed || c.lineWidth < 1.6 ? 40 : 150 });
+        }
+      }
+      return orig.stroke.call(c);
+    };
+    c.fill = function (...a) {
+      if (on) {
+        const lines = path.filter((s) => !s.circle);
+        for (const s of path) if (s.circle) polys.push({ box: [s.circle[0] - s.r, s.circle[1] - s.r, s.circle[0] + s.r, s.circle[1] + s.r], round: true });
+        if (lines.length >= 2) {
+          const pts = lines.map((s) => s.a).concat([lines[lines.length - 1].b]);
+          const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);
+          polys.push({ pts, box: [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)] });
+        }
+      }
+      return orig.fill.apply(c, a);
+    };
+    const rectPoly = (x, y, w, h) => { const q = [pt(x, y), pt(x + w, y), pt(x + w, y + h), pt(x, y + h)]; const xs = q.map((p) => p[0]), ys = q.map((p) => p[1]); return { pts: q, box: [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)] }; };
+    c.fillRect = function (x, y, w, h) { if (on && !(x <= 0 && y <= 0 && w >= W && h >= H)) polys.push(rectPoly(x, y, w, h)); return orig.fillRect.call(c, x, y, w, h); };
+    c.strokeRect = function (x, y, w, h) { if (on) polys.push(rectPoly(x, y, w, h)); return orig.strokeRect.call(c, x, y, w, h); };
+    c.fillText = function (s, x, y) {
+      if (!on) return orig.fillText.call(c, s, x, y);
+      const m = c.getTransform();
+      texts.push({ s: String(s), x, y, m, font: c.font, fill: c.fillStyle, align: c.textAlign, base: c.textBaseline, rot: Math.abs(m.b) > 1e-6 || Math.abs(m.c) > 1e-6 });
+    };
+  }
+
+  const inter = (a, b) => Math.max(0, Math.min(a[2], b[2]) - Math.max(a[0], b[0])) * Math.max(0, Math.min(a[3], b[3]) - Math.max(a[1], b[1]));
+  function segHits(s, r, pad) {
+    const x0 = s.a[0], y0 = s.a[1], dx = s.b[0] - x0, dy = s.b[1] - y0;
+    let t0 = 0, t1 = 1;
+    const p = [-dx, dx, -dy, dy], q = [x0 - (r[0] + pad), r[2] - pad - x0, y0 - (r[1] + pad), r[3] - pad - y0];
+    for (let i = 0; i < 4; i++) {
+      if (p[i] === 0) { if (q[i] < 0) return false; } else { const t = q[i] / p[i]; if (p[i] < 0) { if (t > t1) return false; t0 = Math.max(t0, t); } else { if (t < t0) return false; t1 = Math.min(t1, t); } }
+    }
+    return t0 < t1 && (t1 - t0) * Math.hypot(dx, dy) > 3;
+  }
+  const inPoly = (p, pts) => { let c = false; for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) if ((pts[i][1] > p[1]) !== (pts[j][1] > p[1]) && p[0] < ((pts[j][0] - pts[i][0]) * (p[1] - pts[i][1])) / (pts[j][1] - pts[i][1]) + pts[i][0]) c = !c; return c; };
+
+  function cost(r, placed) {
+    let c = 0;
+    const over = Math.max(0, -r[0]) + Math.max(0, -r[1]) + Math.max(0, r[2] - W) + Math.max(0, r[3] - H);
+    if (over > 0) c += 300 + 30 * over;
+    for (const o of placed) if (inter(r, o) > 4) c += 400;
+    for (const s of segs) if (segHits(s, r, 1.5)) c += s.w;
+    for (const pg of polys) {
+      if (inter(r, pg.box) <= 8) continue;
+      const corners = [[r[0], r[1]], [r[2], r[1]], [r[2], r[3]], [r[0], r[3]]];
+      if (pg.round) { const inside = r[0] >= pg.box[0] - 1 && r[2] <= pg.box[2] + 1 && r[1] >= pg.box[1] - 1 && r[3] <= pg.box[3] + 1; if (!inside) c += 200; continue; }
+      const n = corners.filter((p) => inPoly(p, pg.pts)).length;
+      if (n === 4) continue;                                   // sits wholly on the shape (a label on its own box)
+      let touches = n > 0;
+      for (let i = 0; i < pg.pts.length && !touches; i++) touches = segHits({ a: pg.pts[i], b: pg.pts[(i + 1) % pg.pts.length] }, r, 0.5);
+      if (touches) c += 200;
+    }
+    return c;
+  }
+
+  function begin(c, w, h, scaleK) { ctx = c; W = w; H = h; k = scaleK; patch(c); texts = []; segs = []; polys = []; path = []; cur = null; on = true; }
+
+  function end() {
+    on = false;
+    const placed = [], dirs = [[0, -1], [0, 1], [-1, 0], [1, 0], [-0.7, -0.7], [0.7, -0.7], [-0.7, 0.7], [0.7, 0.7]];
+    for (const t of texts) {
+      orig.fillText && ctx.save();
+      ctx.setTransform(t.m); ctx.font = t.font; ctx.fillStyle = t.fill; ctx.textAlign = t.align; ctx.textBaseline = t.base;
+      const sz = parseFloat(/(\d+(?:\.\d+)?)px/.exec(t.font)[1]);
+      const sc = t.m.a / k, lh = sz * 1.15 * sc, maxW = W - 12;
+      // a label wider than the canvas is wrapped onto more lines
+      let rows = [t.s];
+      if (ctx.measureText(t.s).width * sc > maxW) {
+        rows = []; let line = "";
+        for (const word of t.s.split(" ")) {
+          const trial = line ? line + " " + word : word;
+          if (line && ctx.measureText(trial).width * sc > maxW) { rows.push(line); line = word; } else line = trial;
+        }
+        rows.push(line);
+      }
+      const w = Math.max(...rows.map((r) => ctx.measureText(r).width * sc)), h = lh * rows.length;
+      const [px, py] = [(t.m.a * t.x + t.m.c * t.y + t.m.e) / k, (t.m.b * t.x + t.m.d * t.y + t.m.f) / k];
+      let x0 = px, y0 = py;
+      if (t.align === "center") x0 -= w / 2; else if (t.align === "right" || t.align === "end") x0 -= w;
+      if (t.base === "middle") y0 -= h / 2; else if (t.base === "alphabetic") y0 -= lh * 0.8; else if (t.base === "bottom") y0 -= h;
+      let best = [0, 0], bc = t.rot ? 0 : cost([x0, y0, x0 + w, y0 + h], placed);
+      if (bc > 0 && !t.rot) {
+        outer: for (const rad of [6, 12, 18, 26, 36, 48]) {
+          for (const d of dirs) {
+            const dx = d[0] * rad, dy = d[1] * rad, cc = cost([x0 + dx, y0 + dy, x0 + dx + w, y0 + dy + h], placed) + rad * 0.8;
+            if (cc < bc) { bc = cc; best = [dx, dy]; }
+          }
+          if (bc < rad * 0.8 + 1) break outer;                 // a clear spot at this distance: stop looking further out
+        }
+      }
+      placed.push([x0 + best[0], y0 + best[1], x0 + best[0] + w, y0 + best[1] + h]);
+      rows.forEach((row, i) => {
+        const yy = t.y + ((best[1] + (i - (rows.length - 1) / 2) * lh * (t.base === "middle" ? 1 : 1)) * k) / t.m.d;
+        orig.fillText.call(ctx, row, t.x + (best[0] * k) / t.m.a, yy);
+      });
+      ctx.restore();
+    }
+    texts = [];
+  }
+  return { begin, end };
+})();
+
 const SCENES = {
   // ---------------------------------------------------------------- Chapter 1
   "vertical-projection": {
@@ -300,7 +434,7 @@ const SCENES = {
       const [sx, sy] = P(p0 + f.s), bcx = sx - sn * r, bcy = sy - cs * r;
       ctx.save(); ctx.translate(sx, sy); ctx.rotate(-th);
       ctx.fillStyle = BLUE_FILL; ctx.strokeStyle = INK; ctx.lineWidth = 2; ctx.fillRect(-bs / 2, -bs, bs, bs); ctx.strokeRect(-bs / 2, -bs, bs, bs);
-      ctx.fillStyle = INK; ctx.font = `600 ${Math.min(fontSize(W), 13)}px sans-serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(`${nf(m.m1)} kg`, 0, -bs / 2);
+      ctx.fillStyle = INK; ctx.font = `600 ${Math.min(fontSize(W), 13, Math.max(8, bs * 0.27))}px sans-serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(`${nf(m.m1)} kg`, 0, -bs / 2);
       ctx.restore();
       line(g, bcx, bcy, pcx, pcy, INK, 2);
       const xs = pcx + r, xb = Math.max(xs, apexX + r + 2), topB = y2 + f.drop * k;

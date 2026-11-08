@@ -22,7 +22,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .back { font-size: .9rem; color: var(--muted); }
 .chapter { margin: 8px 0 2px; color: var(--muted); font-size: .9rem; }
 .blurb { margin: 4px 0 0; color: var(--muted); }
-.layout { display: grid; gap: 20px; }
+.layout { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr); }
+.layout > * { min-width: 0; }
 @media (min-width: 900px) { .layout { grid-template-columns: minmax(0, 1.55fr) minmax(340px, 1fr); align-items: start; } }
 canvas { width: 100%; display: block; border: 2px solid var(--ink); border-radius: 4px; background: var(--paper); touch-action: none; }
 .canvas-wrap { position: relative; }
@@ -64,8 +65,9 @@ dl { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) max-content
 dt { color: var(--muted); }
 dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
 dd small { font-weight: 400; color: var(--muted); }
-#results { grid-template-columns: minmax(0, 1fr) minmax(0, auto); }
-#results dd { overflow-wrap: anywhere; }
+#results { grid-template-columns: fit-content(62%) minmax(0, 1fr); }   /* label keeps its width, a long value wraps beside it */
+#results dt { overflow-wrap: anywhere; }
+#results dd { overflow-wrap: break-word; }
 .presets { padding-left: 18px; }
 
 /* -------------------------------------------------- home page */

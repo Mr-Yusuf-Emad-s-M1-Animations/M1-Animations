@@ -39,7 +39,9 @@
     if (!data) { readoutBox.replaceChildren(); return; }
     const i = index();
     scrub.value = i;
+    LabelLayer.begin(ctx, W, H, canvas.width / W);
     scene.draw({ ctx, W, H }, data.frames[i], data.meta, data);
+    LabelLayer.end();
     showReadout(getReadout());
   }
 
