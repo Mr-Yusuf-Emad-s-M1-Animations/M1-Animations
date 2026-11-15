@@ -22,8 +22,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .back { font-size: .9rem; color: var(--muted); }
 .chapter { margin: 8px 0 2px; color: var(--muted); font-size: .9rem; }
 .blurb { margin: 4px 0 0; color: var(--muted); }
-.layout { display: grid; gap: 20px; grid-template-columns: minmax(0, 1fr); }
-.layout > * { min-width: 0; }
+.layout { display: grid; gap: 20px; }
 @media (min-width: 900px) { .layout { grid-template-columns: minmax(0, 1.55fr) minmax(340px, 1fr); align-items: start; } }
 canvas { width: 100%; display: block; border: 2px solid var(--ink); border-radius: 4px; background: var(--paper); touch-action: none; }
 .canvas-wrap { position: relative; }
@@ -65,9 +64,8 @@ dl { margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) max-content
 dt { color: var(--muted); }
 dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; font-weight: 600; }
 dd small { font-weight: 400; color: var(--muted); }
-#results { grid-template-columns: fit-content(62%) minmax(0, 1fr); }   /* label keeps its width, a long value wraps beside it */
-#results dt { overflow-wrap: anywhere; }
-#results dd { overflow-wrap: break-word; }
+#results { grid-template-columns: minmax(0, 1fr) minmax(0, auto); }
+#results dd { overflow-wrap: anywhere; }
 .presets { padding-left: 18px; }
 
 /* -------------------------------------------------- home page */
@@ -109,3 +107,13 @@ dd small { font-weight: 400; color: var(--muted); }
 form input[type=range] { width: 100%; accent-color: var(--ink); }
 #load.attention { border-color: var(--red); color: var(--red); }
 .example { margin: 6px 0 0; font-weight: 600; }
+.crumb { margin: 0 0 6px; font-size: .9rem; }
+.all-examples { display: inline-block; margin-top: 6px; font-weight: 600; }
+.exlist { list-style: none; margin: 0; padding: 0; }
+.exlist li { display: flex; flex-wrap: wrap; gap: 2px 12px; justify-content: space-between; padding: 9px 4px; border-bottom: 1px solid var(--line); }
+.exlist li[hidden] { display: none; }
+.exlist a { font-weight: 600; text-decoration: none; }
+.exlist a:hover { text-decoration: underline; }
+.exid { display: inline-block; min-width: 3.3rem; font-variant-numeric: tabular-nums; color: var(--c); }
+.exscene { font-size: .85rem; color: var(--muted); }
+.exbadge { font-style: normal; font-size: .72rem; padding: 1px 6px; border-radius: 4px; background: #f1ead9; color: #7a5b00; }

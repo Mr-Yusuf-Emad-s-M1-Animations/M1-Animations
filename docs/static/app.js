@@ -39,9 +39,7 @@
     if (!data) { readoutBox.replaceChildren(); return; }
     const i = index();
     scrub.value = i;
-    LabelLayer.begin(ctx, W, H, canvas.width / W);
     scene.draw({ ctx, W, H }, data.frames[i], data.meta, data);
-    LabelLayer.end();
     showReadout(getReadout());
   }
 
@@ -76,7 +74,7 @@
   function updateButtons() {
     const atEnd = data && t >= endTime();
     playBtn.textContent = playing ? "Pause" : atEnd ? "Play again" : "Play";
-    loadBtn.textContent = "Load";
+    loadBtn.textContent = dirty && data ? "Load ●" : "Load";
   }
 
   function showReadout(lines) {
@@ -127,7 +125,7 @@
     updateButtons(); draw();
   }
 
-  loadBtn.addEventListener("click", () => { clearTimeout(debounceTimer); location.reload(); });   // Load reloads the whole page
+  loadBtn.addEventListener("click", () => { clearTimeout(debounceTimer); load(true); });
   playBtn.addEventListener("click", play);
   restartBtn.addEventListener("click", restart);
   scrub.addEventListener("input", () => { if (!data) return; playing = false; t = Number(scrub.value) * data.dt; updateButtons(); draw(); });

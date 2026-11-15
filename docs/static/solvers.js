@@ -661,6 +661,25 @@ SOLVERS["collision"] = function (p) {
   return { dt: 1 / 60, frames, results: res, meta: { m1, m2, r1: r(r1), r2: r(r2), top, u: [u1, u2], v: [r(v1), r(v2)] } };
 };
 
+SOLVERS["string-jerk"] = function (p) {
+  const { m1, m2, u, L } = p, N = 240;
+  check(m1 > 0 && m2 > 0 && u > 0 && L > 0, "Every number must be greater than 0.");
+  const v = (m1 * u) / (m1 + m2), tJerk = L / u, T = 2.2 * tJerk;
+  const frames = [];
+  for (let i = 0; i <= N; i++) {
+    const t = (T * i) / N;
+    let x1, x2, taut;
+    if (t < tJerk) { x1 = u * t; x2 = 0.0; taut = false; }
+    else { x1 = L + v * (t - tJerk); x2 = v * (t - tJerk); taut = true; }
+    frames.push({ t: r(t), x1: r(x1), x2: r(x2), taut });
+  }
+  const res = [result("Common speed after the jerk", r(v, 3), "m/s"), result("Impulse in the string", r(m2 * v, 3), "N s"),
+    result("Speed lost by P", r(u - v, 3), "m/s"),
+    result("Kinetic energy lost", r(0.5 * m1 * u * u - 0.5 * (m1 + m2) * v * v, 3), "J")];
+  return { dt: 4 / N, frames, results: res,
+    meta: { L, u, v: r(v), m1, m2, xmax: r(L + v * (T - tJerk)), tJerk: r(tJerk) } };
+};
+
 SOLVERS["wall-bounce"] = function (p) {
   const { m, u } = p, N = 200;
   check(m > 0 && u > 0, "m and u must be greater than 0.");
@@ -724,6 +743,48 @@ SOLVERS["plank"] = function (p) {
   if (lo <= 0 && hi >= L) res.push(result("Tipping", "the package cannot tip the plank anywhere on it"));
   else res.push(result("Plank stays level for x between", `${pyf(r(Math.max(lo, 0), 2))} m and ${pyf(r(Math.min(hi, L), 2))} m`));
   return { dt: 1 / 60, frames, results: res, meta: { L, M, m, g, xc, xd: r(xd) } };
+};
+
+SOLVERS["tilting-rod"] = function (p) {
+  const { L, M, P, m, x, g, maxang } = p, MAX_SIM = 20.0;
+  check(L > 0 && M > 0 && m > 0 && g > 0, "L, both masses and g must be greater than 0.");
+  check(0 < P && P < L, "The support must be on the rod, strictly between A and B.");
+  check(0 <= x && x <= L, "The package must stay on the rod (0 to L).");
+  check(0 < maxang && maxang <= 40, "Stop the tilt at an angle between 0° and 40°.");
+  const R = (M + m) * g;
+  let tau = m * (x - P) + M * (L / 2 - P);
+  const meta = { L, M, m, x, pivot: r(P), maxang };
+  if (Math.abs(tau) < 1e-9) {
+    Object.assign(meta, { mode: "level", R: r(R, 2) });
+    return { dt: 1 / FPS, frames: [{ t: 0, phi: 0, w: 0 }],
+      results: [result("Reaction at P", r(R, 2), "N"), result("Rod stays level", "yes (exactly balanced)")], meta };
+  }
+  const mode = tau > 0 ? "B" : "A", sign = mode === "B" ? 1 : -1;
+  tau = Math.abs(tau);
+  const I = (M * L * L) / 12 + M * (L / 2 - P) ** 2 + m * (x - P) ** 2;
+  const a0 = (g * tau) / I, lim = radians(maxang);
+  const dt = 1 / 1200;
+  let phi = 0.0, w = 0.0, t = 0.0, nextOut = 0.0;
+  const out = [];
+  while (phi < lim && t < MAX_SIM) {
+    if (t >= nextOut) { out.push([t, phi, w]); nextOut += 1 / FPS; }
+    const acc = a0 * cos(phi);
+    w += (acc * dt) / 2;
+    phi += w * dt;
+    w += (a0 * cos(phi) * dt) / 2;
+    t += dt;
+  }
+  check(phi >= lim, "The rod is almost balanced: it would take over 20 s to tip. Move the package further out.");
+  out.push([t, lim, w]);
+  const slow = Math.max(1.0, 3.0 / t);
+  const frames = out.map(([tt, ph, ww]) => ({ t: r(tt), phi: r(sign * ph), w: r(sign * ww) }));
+  const res = [result("Rod tips towards", mode), result("Reaction at P", r(R, 2), "N"),
+    result("Angular acceleration at the start", r(a0, 3), "rad/s²"),
+    result(`Time to tilt ${fmtg(maxang)}°`, r(t, 3), "s"), result("Angular speed at the end", r(w, 3), "rad/s")];
+  if (slow > 1) res.push(result("Shown in slow motion", `×${pyf(r(slow, 1))}`));
+  res.push(result("Note", "the turning motion uses rotation physics beyond M1; the package is fixed to the rod"));
+  Object.assign(meta, { mode, R: r(R, 2) });
+  return { dt: slow / FPS, frames, results: res, meta };
 };
 
 // ---------------------------------------------------------------- Chapter 6
@@ -1059,6 +1120,77 @@ SOLVERS["beam"] = function (p) {
   return { dt: 1 / 60, frames, results: res,
     meta: { L, G, M, g, n, limit, fmax: r(fmax, 3), sup: sup.map((s) => ({ name: s.name, pos: s.pos, kind: s.kind })),
       loads: [[m2, x2], [m3, x3]].filter(([m]) => m !== 0).map(([m, x]) => ({ m, x })), m1, pivot } };
+};
+
+
+// ---- vector-sum
+const vbearing = (x, y) => pymod(degrees(Math.atan2(x, y)), 360);
+const vangle = (ax, ay, bx, by) => degrees(Math.acos(Math.max(-1.0, Math.min(1.0, (ax * bx + ay * by) / (Math.hypot(ax, ay) * Math.hypot(bx, by))))));
+const vvec = (x, y) => `(${pyf(r(x, 3))}i + ${pyf(r(y, 3))}j)`;
+SOLVERS["vector-sum"] = function (p) {
+  const raw = [[p.v1i, p.v1j], [p.v2i, p.v2j], [p.v3i, p.v3j]];
+  const use = raw.map((v, k) => [k + 1, v]).filter(([, v]) => Math.abs(v[0]) > 1e-12 || Math.abs(v[1]) > 1e-12);
+  check(use.length >= 1, "Give at least one vector (its i and j parts cannot both be 0).");
+  check(p.mass >= 0, "The mass cannot be negative.");
+  const di = p.dir_i, dj = p.dir_j, adding = p.show_sum === "yes", N = 120, res = [];
+  for (const [k, [x, y]] of use) {
+    res.push(result(`Vector ${k}: magnitude`, r(Math.hypot(x, y), 3)));
+    res.push(result(`Vector ${k}: bearing`, r(vbearing(x, y), 2), "°"));
+    res.push(result(`Vector ${k}: angle with j`, r(vangle(x, y, 0, 1), 2), "°"));
+    res.push(result(`Vector ${k}: angle with i`, r(vangle(x, y, 1, 0), 2), "°"));
+  }
+  if (use.length >= 2) {
+    const [ka, a] = use[0], [kb, b] = use[1];
+    res.push(result(`Angle between vector ${ka} and vector ${kb}`, r(vangle(a[0], a[1], b[0], b[1]), 2), "°"));
+  }
+  const Rx = use.reduce((s, [, v]) => s + v[0], 0), Ry = use.reduce((s, [, v]) => s + v[1], 0), zero = Math.hypot(Rx, Ry) < 1e-9;
+  if (adding && use.length >= 2) {
+    if (zero) res.push(result("Resultant", "(0i + 0j): the particle is in equilibrium"));
+    else {
+      res.push(result("Resultant", vvec(Rx, Ry)));
+      res.push(result("Resultant: magnitude", r(Math.hypot(Rx, Ry), 3)));
+      res.push(result("Resultant: bearing", r(vbearing(Rx, Ry), 2), "°"));
+      const [k1, v1] = use[0];
+      if (Math.hypot(v1[0], v1[1]) > 0) res.push(result(`Resultant: angle with vector ${k1}`, r(vangle(Rx, Ry, v1[0], v1[1]), 2), "°"));
+    }
+  }
+  const [tx, ty, name] = adding ? [Rx, Ry, "The resultant"] : [use[0][1][0], use[0][1][1], `Vector ${use[0][0]}`];
+  if (Math.abs(di) > 1e-12 || Math.abs(dj) > 1e-12) {
+    const cross = tx * dj - ty * di;
+    if (Math.abs(cross) <= 1e-6 * Math.max(1.0, Math.abs(tx * dj) + Math.abs(ty * di))) {
+      const k = Math.abs(di) > 1e-12 ? tx / di : ty / dj;
+      res.push(result(`${name} is parallel to (${fmtg(di)}i + ${fmtg(dj)}j)`, `yes: it is ${pyf(r(k, 3))} times (${fmtg(di)}i + ${fmtg(dj)}j)`));
+    } else res.push(result(`${name} is parallel to (${fmtg(di)}i + ${fmtg(dj)}j)`, "no"));
+  }
+  if (p.mass > 0) {
+    const ax = tx / p.mass, ay = ty / p.mass;
+    res.push(result("Acceleration", vvec(ax, ay)));
+    res.push(result("Acceleration: magnitude", r(Math.hypot(ax, ay), 3)));
+  }
+  const frames = []; for (let i = 0; i < N; i++) frames.push({ k: r(i / (N - 1)) });
+  return { dt: 1 / 45, frames, results: res,
+    meta: { vecs: use.map(([, v]) => [v[0], v[1]]), ids: use.map(([k]) => k), adding: adding && use.length >= 2, R: [r(Rx), r(Ry)], dir: [di, dj], mass: p.mass } };
+};
+
+// ---- rings-on-wire
+SOLVERS["rings-on-wire"] = function (p) {
+  const { m, beta, mu, g } = p, N = 300;
+  check(m > 0 && g > 0 && mu >= 0, "m and g must be greater than 0, and μ cannot be negative.");
+  check(0 < beta && beta < 90, "The angle β must be between 0° and 90°.");
+  const at = (b) => { const t = (m * g) / sin(radians(b)); return [t, 2 * m * g, t * cos(radians(b))]; };
+  const [T, R, need] = at(beta), lim = mu * R, tol = Math.max(0.005 * lim, 1e-6);
+  const state = need < lim - tol ? "stay at rest" : Math.abs(need - lim) <= tol ? "are on the point of sliding towards each other" : "slide towards each other";
+  const frames = [];
+  for (let i = 0; i <= N; i++) {
+    const b = 80 - (70 * i) / N, [t, Rb, nd] = at(b), lm = mu * Rb;
+    frames.push({ b: r(b, 3), T: r(t, 3), F: r(Math.min(nd, lm), 3), need: r(nd, 3), lim: r(lm, 3), state: nd <= lm + 1e-9 ? "rest" : "slide" });
+  }
+  const res = [result("Tension in each part of the string", r(T, 3), "N"), result("Normal reaction on each ring", r(R, 3), "N"),
+    result("Friction needed on each ring", r(need, 3), "N"), result("Greatest friction μR", r(lim, 3), "N"), result("The rings", state)];
+  let crit = null;
+  if (mu > 0) { res.push(result("On the point of sliding when tan β =", r(1 / (2 * mu), 4))); crit = r(degrees(Math.atan(1 / (2 * mu))), 3); }
+  else res.push(result("Smooth wire", "no friction: the rings cannot stay at rest"));
+  return { dt: 6 / N, frames, results: res, meta: { m, g, mu, beta, crit, Tmax: r(at(10)[0]) } };
 };
 
 // One entry point for the page and for the tests.

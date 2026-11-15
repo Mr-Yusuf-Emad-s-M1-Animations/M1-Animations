@@ -62,140 +62,6 @@ function box(g, cx, cy, w, h, fill, label) {
   if (label) text(g, label, cx, cy, { bold: true, align: "center", size: Math.min(fontSize(g.W), Math.max(10, h * 0.32)) });
 }
 
-
-// ---------------------------------------------------------------------------------------------
-// Label layout. Scenes draw labels with text() as before, but while a frame is being drawn every
-// label is held back; LabelLayer.end() then writes them all at once, moving any label that would
-// sit on another label, a line, a box or the canvas edge to the nearest clear spot.
-// It watches the canvas calls (lines, boxes, circles, filled shapes) so no scene has to be told
-// what its labels might hit.
-const LabelLayer = (() => {
-  let ctx = null, W = 0, H = 0, k = 1, on = false, texts = [], segs = [], polys = [], path = [], cur = null;
-  const orig = {};
-  const GRIDCOL = "#dbe6f0";
-  const pt = (x, y) => { const m = ctx.getTransform(); return [(m.a * x + m.c * y + m.e) / k, (m.b * x + m.d * y + m.f) / k]; };
-  const scale = () => { const m = ctx.getTransform(); return Math.sqrt(Math.abs(m.a * m.d - m.b * m.c)) / k; };
-
-  function patch(c) {
-    if (c.__labelLayer) return; c.__labelLayer = true;
-    const P = Object.getPrototypeOf(c);
-    for (const n of ["beginPath", "moveTo", "lineTo", "quadraticCurveTo", "arc", "stroke", "fill", "fillRect", "strokeRect", "fillText", "closePath"]) orig[n] = P[n];
-    c.beginPath = function () { if (on) { path = []; cur = null; } return orig.beginPath.call(c); };
-    c.moveTo = function (x, y) { if (on) cur = pt(x, y); return orig.moveTo.call(c, x, y); };
-    c.lineTo = function (x, y) { if (on) { const p = pt(x, y); if (cur) path.push({ a: cur, b: p }); cur = p; } return orig.lineTo.call(c, x, y); };
-    c.quadraticCurveTo = function (cx, cy, x, y) { if (on) { const p = pt(x, y); if (cur) path.push({ a: cur, b: p }); cur = p; } return orig.quadraticCurveTo.call(c, cx, cy, x, y); };
-    c.closePath = function () { if (on && path.length && cur) { path.push({ a: cur, b: path[0].a }); cur = path[0].a; } return orig.closePath.call(c); };
-    c.arc = function (x, y, r, a0, a1, ccw) { if (on) { const q = pt(x, y); path.push({ circle: q, r: r * scale() }); } return orig.arc.call(c, x, y, r, a0, a1, ccw); };
-    c.stroke = function () {
-      if (on && c.lineWidth >= 1.2 && String(c.strokeStyle).toLowerCase() !== GRIDCOL && c.lineWidth * scale() >= 1.2) {
-        const dashed = c.getLineDash().length > 0;
-        for (const s of path) {
-          if (s.circle) polys.push({ box: [s.circle[0] - s.r, s.circle[1] - s.r, s.circle[0] + s.r, s.circle[1] + s.r], round: true });
-          else segs.push({ a: s.a, b: s.b, w: dashed || c.lineWidth < 1.6 ? 40 : 150 });
-        }
-      }
-      return orig.stroke.call(c);
-    };
-    c.fill = function (...a) {
-      if (on) {
-        const lines = path.filter((s) => !s.circle);
-        for (const s of path) if (s.circle) polys.push({ box: [s.circle[0] - s.r, s.circle[1] - s.r, s.circle[0] + s.r, s.circle[1] + s.r], round: true });
-        if (lines.length >= 2) {
-          const pts = lines.map((s) => s.a).concat([lines[lines.length - 1].b]);
-          const xs = pts.map((p) => p[0]), ys = pts.map((p) => p[1]);
-          polys.push({ pts, box: [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)] });
-        }
-      }
-      return orig.fill.apply(c, a);
-    };
-    const rectPoly = (x, y, w, h) => { const q = [pt(x, y), pt(x + w, y), pt(x + w, y + h), pt(x, y + h)]; const xs = q.map((p) => p[0]), ys = q.map((p) => p[1]); return { pts: q, box: [Math.min(...xs), Math.min(...ys), Math.max(...xs), Math.max(...ys)] }; };
-    c.fillRect = function (x, y, w, h) { if (on && !(x <= 0 && y <= 0 && w >= W && h >= H)) polys.push(rectPoly(x, y, w, h)); return orig.fillRect.call(c, x, y, w, h); };
-    c.strokeRect = function (x, y, w, h) { if (on) polys.push(rectPoly(x, y, w, h)); return orig.strokeRect.call(c, x, y, w, h); };
-    c.fillText = function (s, x, y) {
-      if (!on) return orig.fillText.call(c, s, x, y);
-      const m = c.getTransform();
-      texts.push({ s: String(s), x, y, m, font: c.font, fill: c.fillStyle, align: c.textAlign, base: c.textBaseline, rot: Math.abs(m.b) > 1e-6 || Math.abs(m.c) > 1e-6 });
-    };
-  }
-
-  const inter = (a, b) => Math.max(0, Math.min(a[2], b[2]) - Math.max(a[0], b[0])) * Math.max(0, Math.min(a[3], b[3]) - Math.max(a[1], b[1]));
-  function segHits(s, r, pad) {
-    const x0 = s.a[0], y0 = s.a[1], dx = s.b[0] - x0, dy = s.b[1] - y0;
-    let t0 = 0, t1 = 1;
-    const p = [-dx, dx, -dy, dy], q = [x0 - (r[0] + pad), r[2] - pad - x0, y0 - (r[1] + pad), r[3] - pad - y0];
-    for (let i = 0; i < 4; i++) {
-      if (p[i] === 0) { if (q[i] < 0) return false; } else { const t = q[i] / p[i]; if (p[i] < 0) { if (t > t1) return false; t0 = Math.max(t0, t); } else { if (t < t0) return false; t1 = Math.min(t1, t); } }
-    }
-    return t0 < t1 && (t1 - t0) * Math.hypot(dx, dy) > 3;
-  }
-  const inPoly = (p, pts) => { let c = false; for (let i = 0, j = pts.length - 1; i < pts.length; j = i++) if ((pts[i][1] > p[1]) !== (pts[j][1] > p[1]) && p[0] < ((pts[j][0] - pts[i][0]) * (p[1] - pts[i][1])) / (pts[j][1] - pts[i][1]) + pts[i][0]) c = !c; return c; };
-
-  function cost(r, placed) {
-    let c = 0;
-    const over = Math.max(0, -r[0]) + Math.max(0, -r[1]) + Math.max(0, r[2] - W) + Math.max(0, r[3] - H);
-    if (over > 0) c += 300 + 30 * over;
-    for (const o of placed) if (inter(r, o) > 4) c += 400;
-    for (const s of segs) if (segHits(s, r, 1.5)) c += s.w;
-    for (const pg of polys) {
-      if (inter(r, pg.box) <= 8) continue;
-      const corners = [[r[0], r[1]], [r[2], r[1]], [r[2], r[3]], [r[0], r[3]]];
-      if (pg.round) { const inside = r[0] >= pg.box[0] - 1 && r[2] <= pg.box[2] + 1 && r[1] >= pg.box[1] - 1 && r[3] <= pg.box[3] + 1; if (!inside) c += 200; continue; }
-      const n = corners.filter((p) => inPoly(p, pg.pts)).length;
-      if (n === 4) continue;                                   // sits wholly on the shape (a label on its own box)
-      let touches = n > 0;
-      for (let i = 0; i < pg.pts.length && !touches; i++) touches = segHits({ a: pg.pts[i], b: pg.pts[(i + 1) % pg.pts.length] }, r, 0.5);
-      if (touches) c += 200;
-    }
-    return c;
-  }
-
-  function begin(c, w, h, scaleK) { ctx = c; W = w; H = h; k = scaleK; patch(c); texts = []; segs = []; polys = []; path = []; cur = null; on = true; }
-
-  function end() {
-    on = false;
-    const placed = [], dirs = [[0, -1], [0, 1], [-1, 0], [1, 0], [-0.7, -0.7], [0.7, -0.7], [-0.7, 0.7], [0.7, 0.7]];
-    for (const t of texts) {
-      orig.fillText && ctx.save();
-      ctx.setTransform(t.m); ctx.font = t.font; ctx.fillStyle = t.fill; ctx.textAlign = t.align; ctx.textBaseline = t.base;
-      const sz = parseFloat(/(\d+(?:\.\d+)?)px/.exec(t.font)[1]);
-      const sc = t.m.a / k, lh = sz * 1.15 * sc, maxW = W - 12;
-      // a label wider than the canvas is wrapped onto more lines
-      let rows = [t.s];
-      if (ctx.measureText(t.s).width * sc > maxW) {
-        rows = []; let line = "";
-        for (const word of t.s.split(" ")) {
-          const trial = line ? line + " " + word : word;
-          if (line && ctx.measureText(trial).width * sc > maxW) { rows.push(line); line = word; } else line = trial;
-        }
-        rows.push(line);
-      }
-      const w = Math.max(...rows.map((r) => ctx.measureText(r).width * sc)), h = lh * rows.length;
-      const [px, py] = [(t.m.a * t.x + t.m.c * t.y + t.m.e) / k, (t.m.b * t.x + t.m.d * t.y + t.m.f) / k];
-      let x0 = px, y0 = py;
-      if (t.align === "center") x0 -= w / 2; else if (t.align === "right" || t.align === "end") x0 -= w;
-      if (t.base === "middle") y0 -= h / 2; else if (t.base === "alphabetic") y0 -= lh * 0.8; else if (t.base === "bottom") y0 -= h;
-      let best = [0, 0], bc = t.rot ? 0 : cost([x0, y0, x0 + w, y0 + h], placed);
-      if (bc > 0 && !t.rot) {
-        outer: for (const rad of [6, 12, 18, 26, 36, 48]) {
-          for (const d of dirs) {
-            const dx = d[0] * rad, dy = d[1] * rad, cc = cost([x0 + dx, y0 + dy, x0 + dx + w, y0 + dy + h], placed) + rad * 0.8;
-            if (cc < bc) { bc = cc; best = [dx, dy]; }
-          }
-          if (bc < rad * 0.8 + 1) break outer;                 // a clear spot at this distance: stop looking further out
-        }
-      }
-      placed.push([x0 + best[0], y0 + best[1], x0 + best[0] + w, y0 + best[1] + h]);
-      rows.forEach((row, i) => {
-        const yy = t.y + ((best[1] + (i - (rows.length - 1) / 2) * lh * (t.base === "middle" ? 1 : 1)) * k) / t.m.d;
-        orig.fillText.call(ctx, row, t.x + (best[0] * k) / t.m.a, yy);
-      });
-      ctx.restore();
-    }
-    texts = [];
-  }
-  return { begin, end };
-})();
-
 const SCENES = {
   // ---------------------------------------------------------------- Chapter 1
   "vertical-projection": {
@@ -434,7 +300,7 @@ const SCENES = {
       const [sx, sy] = P(p0 + f.s), bcx = sx - sn * r, bcy = sy - cs * r;
       ctx.save(); ctx.translate(sx, sy); ctx.rotate(-th);
       ctx.fillStyle = BLUE_FILL; ctx.strokeStyle = INK; ctx.lineWidth = 2; ctx.fillRect(-bs / 2, -bs, bs, bs); ctx.strokeRect(-bs / 2, -bs, bs, bs);
-      ctx.fillStyle = INK; ctx.font = `600 ${Math.min(fontSize(W), 13, Math.max(8, bs * 0.27))}px sans-serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(`${nf(m.m1)} kg`, 0, -bs / 2);
+      ctx.fillStyle = INK; ctx.font = `600 ${Math.min(fontSize(W), 13)}px sans-serif`; ctx.textAlign = "center"; ctx.textBaseline = "middle"; ctx.fillText(`${nf(m.m1)} kg`, 0, -bs / 2);
       ctx.restore();
       line(g, bcx, bcy, pcx, pcy, INK, 2);
       const xs = pcx + r, xb = Math.max(xs, apexX + r + 2), topB = y2 + f.drop * k;
@@ -492,6 +358,32 @@ const SCENES = {
   },
 
   // ---------------------------------------------------------------- Chapter 5
+  "tilting-rod": {
+    draw(g, f, m) {
+      const { ctx, W, H } = g, ang = (m.maxang * Math.PI) / 180, sa = Math.sin(ang), pk = 32, th = 14;
+      const drop = m.mode === "B" ? m.L - m.pivot : m.mode === "A" ? m.pivot : 0;
+      const rise = m.mode === "B" ? m.pivot : m.mode === "A" ? m.L - m.pivot : 0;
+      const kH = (W - 90) / m.L, kV = (H - 60 - pk - th - 26 - 48) / ((rise + drop) * sa + 0.01), k = Math.min(kH, kV);
+      const left = (W - m.L * k) / 2, X = (x) => left + x * k;
+      const py = 60 + pk + rise * sa * k, floorY = py + th + drop * sa * k + 26;
+      line(g, 10, floorY, W - 10, floorY, INK, 2);
+      ctx.fillStyle = INK; ctx.beginPath(); ctx.moveTo(X(m.pivot), py + th); ctx.lineTo(X(m.pivot) - 24, floorY); ctx.lineTo(X(m.pivot) + 24, floorY); ctx.closePath(); ctx.fill();
+      text(g, "P", X(m.pivot), floorY + 16, { bold: true, align: "center" });
+      if (m.R != null) text(g, `${nf(m.R, 1)} N`, X(m.pivot), floorY + 34, { align: "center", color: RED, bold: true });
+      ctx.save(); ctx.translate(X(m.pivot), py + th); ctx.rotate(f.phi);
+      const a = -m.pivot * k, len = m.L * k;
+      ctx.fillStyle = "#e6eef6"; ctx.strokeStyle = INK; ctx.lineWidth = 2;
+      ctx.fillRect(a, -th, len, th); ctx.strokeRect(a, -th, len, th);
+      const bx = (m.x - m.pivot) * k;
+      ctx.fillStyle = BLUE_FILL; ctx.fillRect(bx - pk / 2, -th - pk, pk, pk); ctx.strokeRect(bx - pk / 2, -th - pk, pk, pk);
+      circle(g, (m.L / 2 - m.pivot) * k, -th / 2, 4, RED);
+      text(g, "A", a - 12, -th / 2, { bold: true, align: "center" }); text(g, "B", a + len + 12, -th / 2, { bold: true, align: "center" });
+      ctx.restore();
+      text(g, m.mode === "level" ? "The rod stays level" : `The rod tips towards ${m.mode}`, 14, 22, { bold: true, color: m.mode === "level" ? INK : RED, size: fontSize(W) + 3 });
+      readout(g, [`t = ${nf(f.t)} s`, `angle = ${nf(Math.abs(f.phi) * 180 / Math.PI, 1)}°`, `ω = ${nf(Math.abs(f.w), 2)} rad/s`]);
+    },
+  },
+
   // ---------------------------------------------------------------- Chapter 6
   vectors: {
     draw(g, f, m) {
@@ -810,6 +702,27 @@ Object.assign(SCENES, {
   },
 
   // ---------------------------------------------------------------- Chapter 4
+  "string-jerk": {
+    draw(g, f, m) {
+      const { W, H } = g, bw = Math.min(50, W * 0.11), gap = bw * 1.5, left = 30, gy = H * 0.62, sc = (W - 2 * left - bw - gap) / (m.xmax * 1.02);
+      const qx = left + bw / 2 + f.x2 * sc, px = left + bw / 2 + gap + f.x1 * sc, ym = gy - bw / 2;
+      line(g, 10, gy, W - 10, gy, INK, 2);
+      if (f.taut) line(g, qx + bw / 2, ym, px - bw / 2, ym, INK, 3);
+      else { const c = g.ctx; c.strokeStyle = INK; c.lineWidth = 2; c.beginPath(); c.moveTo(qx + bw / 2, ym); c.quadraticCurveTo((qx + px) / 2, ym + 26, px - bw / 2, ym); c.stroke(); }
+      box(g, qx, ym, bw, bw, RED_FILL, "Q");
+      box(g, px, ym, bw, bw, BLUE_FILL, "P");
+      text(g, `${nf(m.m2)} kg`, qx, gy + 16, { align: "center", color: MUTED });
+      text(g, `${nf(m.m1)} kg`, px, gy + 16, { align: "center", color: MUTED });
+      const vP = f.taut ? m.v : m.u, vQ = f.taut ? m.v : 0, k = 60 / m.u;
+      arrow(g, px - 10, ym - bw / 2 - 16, px - 10 + vP * k, ym - bw / 2 - 16, RED, "");
+      text(g, `${nf(vP, 2)} m/s`, px, ym - bw / 2 - 36, { align: "center", color: RED, bold: true, size: fontSize(W) - 1 });
+      if (vQ > 0) { arrow(g, qx - 10, ym - bw / 2 - 16, qx - 10 + vQ * k, ym - bw / 2 - 16, RED, ""); text(g, `${nf(vQ, 2)} m/s`, qx, ym - bw / 2 - 36, { align: "center", color: RED, bold: true, size: fontSize(W) - 1 }); }
+      text(g, f.taut ? "The string is taut: both move together" : "The string is slack: only P moves", W / 2, 22, { bold: true, align: "center", color: f.taut ? RED : INK, size: fontSize(W) + 1 });
+      text(g, "slowed down so you can see the jerk", W / 2, H - 14, { align: "center", color: MUTED, size: fontSize(W) - 1 });
+      readout(g, [`real time t = ${nf(f.t, 3)} s`, `P: ${nf(f.x1)} m`, `Q: ${nf(f.x2)} m`]);
+    },
+  },
+
   "wall-bounce": {
     draw(g, f, m) {
       const { ctx, W, H } = g, wallX = W - 46, gy = H * 0.66, rr = 14, k = (wallX - rr - 40) / 5, cx = wallX - rr - f.x * k, cy = gy - rr;
@@ -1008,3 +921,68 @@ Object.assign(SCENES, {
   },
 });
 SCENES["stages"].aspectNarrow = 1.3;
+
+// ======================================================================
+// vector-sum and rings-on-wire
+// ======================================================================
+Object.assign(SCENES, {
+  "vector-sum": {
+    draw(g, f, m) {
+      const { ctx, W, H } = g, pad = 46, vs = m.vecs, colors = [BLUE, "#2e8b57", "#a05a2c"];
+      const pts = [[0, 0]];
+      if (m.adding) vs.forEach((v) => { const q = pts[pts.length - 1]; pts.push([q[0] + v[0], q[1] + v[1]]); });
+      const xs = [0].concat(m.adding ? pts.map((q) => q[0]) : vs.map((v) => v[0])), ys = [0].concat(m.adding ? pts.map((q) => q[1]) : vs.map((v) => v[1]));
+      const x0 = Math.min(...xs), x1 = Math.max(...xs), y0 = Math.min(...ys), y1 = Math.max(...ys);
+      const px = (x1 - x0) * 0.18 + 1, py = (y1 - y0) * 0.18 + 1;
+      const k = Math.min((W - 2 * pad) / (x1 - x0 + 2 * px), (H - 2 * pad - 30) / (y1 - y0 + 2 * py));
+      const X = (x) => W / 2 + (x - (x0 + x1) / 2) * k, Y = (y) => H / 2 + 10 - (y - (y0 + y1) / 2) * k;
+      line(g, 12, Y(0), W - 12, Y(0), MUTED, 1.2); line(g, X(0), 40, X(0), H - 10, MUTED, 1.2);
+      text(g, "i (east)", W - 14, Y(0) - 12, { align: "right", color: MUTED }); text(g, "j (north)", X(0) + 8, 44, { color: MUTED });
+      const n = vs.length + (m.adding ? 1 : 0), t = f.k * n, fmt = (v) => `(${nf(v[0], 2)}i + ${nf(v[1], 2)}j)`;
+      vs.forEach((v, i) => {
+        const s = Math.min(Math.max(t - i, 0), 1);
+        if (s <= 0.001) return;
+        const st = m.adding ? pts[i] : [0, 0];
+        arrow(g, X(st[0]), Y(st[1]), X(st[0] + v[0] * s), Y(st[1] + v[1] * s), colors[i % 3], s > 0.95 ? `v${m.ids[i]} = ${fmt(v)}` : "");
+      });
+      let msg = m.adding ? "Vectors added tip to tail" : "Each vector from the same point";
+      if (m.adding) {
+        const s = Math.min(Math.max(t - vs.length, 0), 1), Rx = m.R[0], Ry = m.R[1];
+        if (s > 0.001 && Math.hypot(Rx, Ry) > 1e-9) {
+          ctx.setLineDash([7, 5]); arrow(g, X(0), Y(0), X(Rx * s), Y(Ry * s), RED, s > 0.95 ? `R = ${fmt(m.R)}` : ""); ctx.setLineDash([]);
+        }
+        if (s > 0.95 && Math.hypot(Rx, Ry) < 1e-9) msg = "The vectors close up: the resultant is zero (equilibrium)";
+      }
+      text(g, msg, W / 2, 20, { bold: true, align: "center", size: fontSize(W) + 1, color: msg.startsWith("The vectors close") ? RED : INK });
+      const bear = (v) => (((Math.atan2(v[0], v[1]) * 180) / Math.PI) % 360 + 360) % 360;
+      const lines = m.adding && Math.hypot(m.R[0], m.R[1]) > 1e-9
+        ? [`R = ${fmt(m.R)}`, `|R| = ${nf(Math.hypot(m.R[0], m.R[1]), 3)}`, `bearing of R = ${nf(bear(m.R), 1)}°`]
+        : m.adding ? ["R = (0i + 0j)"] : vs.map((v, i) => `v${m.ids[i]}: size ${nf(Math.hypot(v[0], v[1]), 2)}, bearing ${nf(bear(v), 1)}°`);
+      readout(g, lines);
+    },
+  },
+
+  "rings-on-wire": {
+    draw(g, f, m) {
+      const { ctx, W, H } = g, b = (f.b * Math.PI) / 180, wy = Math.round(H * 0.26);
+      const half = Math.min(W * 0.32, (H * 0.4) / Math.tan(b)), depth = half * Math.tan(b), cx = W / 2, ax = cx - half, bx = cx + half, cy = wy + depth;
+      line(g, 16, wy, W - 16, wy, INK, 4);
+      line(g, ax, wy, cx, cy, INK, 2); line(g, bx, wy, cx, cy, INK, 2);
+      circle(g, ax, wy, 11, BLUE_FILL); circle(g, bx, wy, 11, BLUE_FILL); circle(g, cx, cy, 14, RED_FILL);
+      text(g, "A", ax, wy - 26, { bold: true, align: "center" }); text(g, "B", bx, wy - 26, { bold: true, align: "center" });
+      text(g, "C", cx + 24, cy, { bold: true }); text(g, `${nf(f.b, 1)}°`, ax + 42, wy + 18, { color: MUTED, align: "center" });
+      const sc = 90 / (m.Tmax || 1), wlen = Math.min(70, 2 * m.m * m.g * sc * 2);
+      arrow(g, cx, cy + 14, cx, cy + 14 + Math.min(60, 2 * m.m * m.g * sc), INK, "2mg");
+      if (f.F * sc > 3) { arrow(g, ax - 14, wy, ax - 14 - f.F * sc, wy, RED, "F"); arrow(g, bx + 14, wy, bx + 14 + f.F * sc, wy, RED, "F"); }
+      const msg = f.state === "rest" ? "The rings stay at rest: the friction can hold them" : "The rings slide towards each other: friction is not enough";
+      text(g, msg, W / 2, 20, { bold: true, align: "center", size: fontSize(W) + 1, color: f.state === "rest" ? INK : RED });
+      const x0 = 34, x1 = W - 34, yb = H - 26, PX = (v) => x0 + ((80 - v) / 70) * (x1 - x0);
+      ctx.fillStyle = "#f3c6c3"; ctx.fillRect(x0, yb - 7, x1 - x0, 14);
+      if (m.crit != null) { ctx.fillStyle = "#c6e5cf"; ctx.fillRect(x0, yb - 7, PX(Math.min(Math.max(m.crit, 10), 80)) - x0, 14); }
+      ctx.strokeStyle = INK; ctx.lineWidth = 1.5; ctx.strokeRect(x0, yb - 7, x1 - x0, 14);
+      line(g, PX(m.beta), yb - 11, PX(m.beta), yb + 11, BLUE, 2); line(g, PX(f.b), yb - 13, PX(f.b), yb + 13, RED, 3);
+      text(g, "angle β (steep on the left, flat on the right):  green = stays at rest,  red = slides,  blue tick = your β", x0, yb - 20, { color: MUTED, size: fontSize(W) - 1 });
+      readout(g, [`β = ${nf(f.b, 1)}°`, `friction needed = ${nf(f.need, 1)} N`, `largest friction μR = ${nf(f.lim, 1)} N`]);
+    },
+  },
+});

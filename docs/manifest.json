@@ -476,6 +476,52 @@
   }
  },
  {
+  "id": "rings-on-wire",
+  "url": "m1/rings-on-wire/",
+  "scene": "rings-on-wire",
+  "title": "Two rings on a wire",
+  "kind": "scene"
+ },
+ {
+  "id": "rings-on-wire-1",
+  "url": "e/rings-on-wire-1/",
+  "scene": "rings-on-wire",
+  "title": "Rough wire: rings on the point of sliding (tan β = 3/4)",
+  "kind": "preset",
+  "params": {
+   "m": 1,
+   "beta": 36.87,
+   "mu": 0.667,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "rings-on-wire-2",
+  "url": "e/rings-on-wire-2/",
+  "scene": "rings-on-wire",
+  "title": "Rings stay at rest on a rough wire",
+  "kind": "preset",
+  "params": {
+   "m": 2,
+   "beta": 60,
+   "mu": 0.5,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "rings-on-wire-3",
+  "url": "e/rings-on-wire-3/",
+  "scene": "rings-on-wire",
+  "title": "Smooth wire",
+  "kind": "preset",
+  "params": {
+   "m": 1,
+   "beta": 45,
+   "mu": 0,
+   "g": 9.8
+  }
+ },
+ {
   "id": "inclined-plane",
   "url": "m1/inclined-plane/",
   "scene": "inclined-plane",
@@ -868,6 +914,39 @@
   }
  },
  {
+  "id": "string-jerk",
+  "url": "m1/string-jerk/",
+  "scene": "string-jerk",
+  "title": "String jerks taut",
+  "kind": "scene"
+ },
+ {
+  "id": "string-jerk-1",
+  "url": "e/string-jerk-1/",
+  "scene": "string-jerk",
+  "title": "3 kg at 5 m/s jerks a 2 kg particle",
+  "kind": "preset",
+  "params": {
+   "m1": 3,
+   "m2": 2,
+   "u": 5,
+   "L": 1.5
+  }
+ },
+ {
+  "id": "string-jerk-2",
+  "url": "e/string-jerk-2/",
+  "scene": "string-jerk",
+  "title": "Light particle jerks a heavy one",
+  "kind": "preset",
+  "params": {
+   "m1": 1,
+   "m2": 4,
+   "u": 6,
+   "L": 1
+  }
+ },
+ {
   "id": "wall-bounce",
   "url": "m1/wall-bounce/",
   "scene": "wall-bounce",
@@ -1076,6 +1155,109 @@
    "x3": 0,
    "limit": 80,
    "pivot": -1
+  }
+ },
+ {
+  "id": "tilting-rod",
+  "url": "m1/tilting-rod/",
+  "scene": "tilting-rod",
+  "title": "Rod that tips over",
+  "kind": "scene"
+ },
+ {
+  "id": "tilting-rod-1",
+  "url": "e/tilting-rod-1/",
+  "scene": "tilting-rod",
+  "title": "Heavy package at end B: rod tips towards B",
+  "kind": "preset",
+  "params": {
+   "L": 8,
+   "M": 20,
+   "P": 3,
+   "m": 30,
+   "x": 8,
+   "maxang": 20,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "tilting-rod-2",
+  "url": "e/tilting-rod-2/",
+  "scene": "tilting-rod",
+  "title": "Heavy package at end A: rod tips towards A",
+  "kind": "preset",
+  "params": {
+   "L": 8,
+   "M": 20,
+   "P": 5,
+   "m": 30,
+   "x": 0,
+   "maxang": 20,
+   "g": 9.8
+  }
+ },
+ {
+  "id": "vector-sum",
+  "url": "m1/vector-sum/",
+  "scene": "vector-sum",
+  "title": "Vectors in i and j: resultant, size and direction",
+  "kind": "scene"
+ },
+ {
+  "id": "vector-sum-1",
+  "url": "e/vector-sum-1/",
+  "scene": "vector-sum",
+  "title": "Two forces and their resultant",
+  "kind": "preset",
+  "params": {
+   "v1i": 5,
+   "v1j": -3,
+   "v2i": -2,
+   "v2j": 9,
+   "v3i": 0,
+   "v3j": 0,
+   "show_sum": "yes",
+   "dir_i": 0,
+   "dir_j": 0,
+   "mass": 0
+  }
+ },
+ {
+  "id": "vector-sum-2",
+  "url": "e/vector-sum-2/",
+  "scene": "vector-sum",
+  "title": "Three forces in equilibrium",
+  "kind": "preset",
+  "params": {
+   "v1i": 6,
+   "v1j": -8,
+   "v2i": -2,
+   "v2j": 3,
+   "v3i": -4,
+   "v3j": 5,
+   "show_sum": "yes",
+   "dir_i": 0,
+   "dir_j": 0,
+   "mass": 0
+  }
+ },
+ {
+  "id": "vector-sum-3",
+  "url": "e/vector-sum-3/",
+  "scene": "vector-sum",
+  "title": "Resultant parallel to (2i + 5j)",
+  "kind": "preset",
+  "params": {
+   "v1i": 3,
+   "v1j": -4,
+   "v2i": 3,
+   "v2j": 19,
+   "v3i": 0,
+   "v3j": 0,
+   "show_sum": "yes",
+   "dir_i": 2,
+   "dir_j": 5,
+   "mass": 0
   }
  },
  {
@@ -1648,6 +1830,19 @@
   }
  },
  {
+  "id": "2-3-2",
+  "url": "e/2-3-2/",
+  "scene": "rings-on-wire",
+  "title": "Notes 2.3, example 2: Rings on a wire with a hanging particle",
+  "kind": "example",
+  "params": {
+   "m": 1,
+   "beta": 45,
+   "mu": 0.5,
+   "g": 9.8
+  }
+ },
+ {
   "id": "2-4-1",
   "url": "e/2-4-1/",
   "scene": "rough-surface",
@@ -1792,6 +1987,19 @@
   }
  },
  {
+  "id": "2-8-4",
+  "url": "e/2-8-4/",
+  "scene": "rings-on-wire",
+  "title": "Notes 2.8, example 4: Rough wire: rings on the point of sliding",
+  "kind": "example",
+  "params": {
+   "m": 1,
+   "beta": 36.86989764584402,
+   "mu": 0.666667,
+   "g": 9.8
+  }
+ },
+ {
   "id": "2-9-1",
   "url": "e/2-9-1/",
   "scene": "slope-limiting",
@@ -1820,6 +2028,44 @@
    "F2": 0,
    "th2": 0,
    "g": 9.8
+  }
+ },
+ {
+  "id": "3-1-2",
+  "url": "e/3-1-2/",
+  "scene": "vector-sum",
+  "title": "Notes 3.1, example 2: Two forces at 120 degrees: the resultant",
+  "kind": "example",
+  "params": {
+   "v1i": 8,
+   "v1j": 0,
+   "v2i": -1.5,
+   "v2j": 2.598076,
+   "v3i": 0,
+   "v3j": 0,
+   "show_sum": "yes",
+   "dir_i": 0,
+   "dir_j": 0,
+   "mass": 0
+  }
+ },
+ {
+  "id": "3-2-2",
+  "url": "e/3-2-2/",
+  "scene": "vector-sum",
+  "title": "Notes 3.2, example 2: Force F1 east and a resultant on bearing 150",
+  "kind": "example",
+  "params": {
+   "v1i": 6,
+   "v1j": 0,
+   "v2i": -1,
+   "v2j": -8.660254,
+   "v3i": 0,
+   "v3j": 0,
+   "show_sum": "yes",
+   "dir_i": 0,
+   "dir_j": 0,
+   "mass": 0
   }
  },
  {
@@ -2477,6 +2723,44 @@
   }
  },
  {
+  "id": "6-1-1",
+  "url": "e/6-1-1/",
+  "scene": "vector-sum",
+  "title": "Notes 6.1, example 1: Two forces F1 and F2: resultant R",
+  "kind": "example",
+  "params": {
+   "v1i": 5,
+   "v1j": -3,
+   "v2i": -2,
+   "v2j": 9,
+   "v3i": 0,
+   "v3j": 0,
+   "show_sum": "yes",
+   "dir_i": 0,
+   "dir_j": 0,
+   "mass": 0
+  }
+ },
+ {
+  "id": "6-2-1",
+  "url": "e/6-2-1/",
+  "scene": "vector-sum",
+  "title": "Notes 6.2, example 1: Bearings of three vectors",
+  "kind": "example",
+  "params": {
+   "v1i": 7,
+   "v1j": 4,
+   "v2i": -8,
+   "v2j": -3,
+   "v3i": -5,
+   "v3j": 3,
+   "show_sum": "no",
+   "dir_i": 0,
+   "dir_j": 0,
+   "mass": 0
+  }
+ },
+ {
   "id": "6-2-2",
   "url": "e/6-2-2/",
   "scene": "vector-acceleration",
@@ -2490,6 +2774,139 @@
    "ax": 0,
    "ay": 0,
    "T": 2
+  }
+ },
+ {
+  "id": "6-3-1",
+  "url": "e/6-3-1/",
+  "scene": "vector-sum",
+  "title": "Notes 6.3, example 1: Angle of a force with j",
+  "kind": "example",
+  "params": {
+   "v1i": 7,
+   "v1j": 10,
+   "v2i": 4,
+   "v2j": -7,
+   "v3i": 0,
+   "v3j": 0,
+   "show_sum": "no",
+   "dir_i": 0,
+   "dir_j": 0,
+   "mass": 0
+  }
+ },
+ {
+  "id": "6-3-2",
+  "url": "e/6-3-2/",
+  "scene": "vector-sum",
+  "title": "Notes 6.3, example 2: Angle between a force and (i + j)",
+  "kind": "example",
+  "params": {
+   "v1i": 2,
+   "v1j": 7,
+   "v2i": 1,
+   "v2j": 1,
+   "v3i": 0,
+   "v3j": 0,
+   "show_sum": "no",
+   "dir_i": 0,
+   "dir_j": 0,
+   "mass": 0
+  }
+ },
+ {
+  "id": "6-4-1",
+  "url": "e/6-4-1/",
+  "scene": "vector-sum",
+  "title": "Notes 6.4, example 1: Three forces in equilibrium",
+  "kind": "example",
+  "params": {
+   "v1i": 6,
+   "v1j": -8,
+   "v2i": -2,
+   "v2j": 3,
+   "v3i": -4,
+   "v3j": 5,
+   "show_sum": "yes",
+   "dir_i": 0,
+   "dir_j": 0,
+   "mass": 0
+  }
+ },
+ {
+  "id": "6-5-1",
+  "url": "e/6-5-1/",
+  "scene": "vector-sum",
+  "title": "Notes 6.5, example 1: Resultant parallel to (2i + 5j)",
+  "kind": "example",
+  "params": {
+   "v1i": 3,
+   "v1j": -4,
+   "v2i": 3,
+   "v2j": 19,
+   "v3i": 0,
+   "v3j": 0,
+   "show_sum": "yes",
+   "dir_i": 2,
+   "dir_j": 5,
+   "mass": 0
+  }
+ },
+ {
+  "id": "6-5-3",
+  "url": "e/6-5-3/",
+  "scene": "vector-sum",
+  "title": "Notes 6.5, example 3: F2 along (i + j): the resultant is along (2i + 3j)",
+  "kind": "example",
+  "params": {
+   "v1i": -4,
+   "v1j": 1,
+   "v2i": 14,
+   "v2j": 14,
+   "v3i": 0,
+   "v3j": 0,
+   "show_sum": "yes",
+   "dir_i": 2,
+   "dir_j": 3,
+   "mass": 0
+  }
+ },
+ {
+  "id": "6-5-4",
+  "url": "e/6-5-4/",
+  "scene": "vector-sum",
+  "title": "Notes 6.5, example 4: Resolving F into two given directions",
+  "kind": "example",
+  "params": {
+   "v1i": 9,
+   "v1j": -3,
+   "v2i": 2,
+   "v2j": 4,
+   "v3i": 0,
+   "v3j": 0,
+   "show_sum": "yes",
+   "dir_i": 0,
+   "dir_j": 0,
+   "mass": 0
+  }
+ },
+ {
+  "id": "6-6-1",
+  "url": "e/6-6-1/",
+  "scene": "vector-sum",
+  "title": "Notes 6.6, example 1: Acceleration from a single force",
+  "kind": "example",
+  "params": {
+   "v1i": 4,
+   "v1j": -3,
+   "v2i": 0,
+   "v2j": 0,
+   "v3i": 0,
+   "v3j": 0,
+   "show_sum": "yes",
+   "dir_i": 0,
+   "dir_j": 0,
+   "mass": 0.5
   }
  },
  {

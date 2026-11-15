@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vectors in i and j: resultant, size and direction: Resultant parallel to (2i + 5j) | M1 animations</title>
+  <link rel="stylesheet" href="../../static/style.css">
+</head>
+<body>
+  <header class="top">
+    <a class="back" href="../../">All examples</a>
+    <p class="chapter">Chapter 6: Vectors</p>
+    <h1>Vectors in i and j: resultant, size and direction</h1>
+    <p class="blurb">Up to three vectors given by their i and j parts. They are added tip to tail. Find the resultant, its size and bearing, the angle between vectors, whether the resultant is parallel to a direction, and the acceleration.</p>
+    <p class="example">Example: Resultant parallel to (2i + 5j)</p>
+    <noscript><p class="blurb">This page needs JavaScript to draw the animation.</p></noscript>
+    <p class="covers">Question types 3.1, 3.2, 6.1, 6.2, 6.3, 6.4, 6.5, 6.6</p>
+  </header>
+  <main class="layout">
+    <section class="stage">
+      <div class="canvas-wrap">
+        <canvas id="stage" role="img" aria-label="Animation: Vectors in i and j: resultant, size and direction"></canvas>
+        <p id="loading" class="loading" hidden>Loading…</p>
+      </div>
+      <div class="readout-strip" hidden>
+        <dl id="readout"></dl>
+      </div>
+      <div class="controls">
+        <button id="load" type="button" class="quiet" title="Recalculate and redraw everything from the numbers">Load</button>
+        <button id="play" type="button">Play</button>
+        <button id="restart" type="button" class="quiet">Restart</button>
+        <label class="speed">Speed
+          <select id="speed">
+            <option value="0.25">0.25×</option>
+            <option value="0.5">0.5×</option>
+            <option value="1" selected>1×</option>
+            <option value="2">2×</option>
+          </select>
+        </label>
+        <input id="scrub" type="range" min="0" max="0" value="0" aria-label="Scrub through the animation">
+        <p class="keys">Space: play / pause · R: restart · ← →: step one frame (Shift for 10) · Load: full reset</p>
+      </div>
+    </section>
+    <section class="panel">
+      <h2>Calculated values</h2>
+      <dl id="results"></dl>
+      <h2>Your numbers</h2>
+      <form id="params" autocomplete="off" onsubmit="return false">
+        
+        <label>
+          <span>Vector 1: i part</span>
+          
+          <input name="v1i" type="number" step="any" inputmode="decimal" value="3">
+          
+          
+        </label>
+        
+        <label>
+          <span>Vector 1: j part</span>
+          
+          <input name="v1j" type="number" step="any" inputmode="decimal" value="-4">
+          
+          
+        </label>
+        
+        <label>
+          <span>Vector 2: i part</span>
+          
+          <input name="v2i" type="number" step="any" inputmode="decimal" value="3">
+          
+          
+        </label>
+        
+        <label>
+          <span>Vector 2: j part</span>
+          
+          <input name="v2j" type="number" step="any" inputmode="decimal" value="19">
+          
+          
+        </label>
+        
+        <label class="wide">
+          <span>Vector 3: i part (0 and 0 = not used)</span>
+          
+          <input name="v3i" type="number" step="any" inputmode="decimal" value="0">
+          
+          
+        </label>
+        
+        <label>
+          <span>Vector 3: j part</span>
+          
+          <input name="v3j" type="number" step="any" inputmode="decimal" value="0">
+          
+          
+        </label>
+        
+        <label class="wide">
+          <span>Add the vectors to find a resultant?</span>
+          
+          <select name="show_sum">
+            
+            <option value="yes" selected>Yes, add them</option>
+            
+            <option value="no" >No, show each one on its own</option>
+            
+          </select>
+          
+        </label>
+        
+        <label class="wide">
+          <span>Is the resultant parallel to this direction? i part (0 and 0 = no check)</span>
+          
+          <input name="dir_i" type="number" step="any" inputmode="decimal" value="2">
+          
+          
+        </label>
+        
+        <label>
+          <span>Direction: j part</span>
+          
+          <input name="dir_j" type="number" step="any" inputmode="decimal" value="5">
+          
+          
+        </label>
+        
+        <label class="wide">
+          <span>Mass of the particle (0 = none): finds acceleration = resultant ÷ mass <em>(kg)</em></span>
+          
+          <input name="mass" type="number" step="any" inputmode="decimal" value="0">
+          
+          
+        </label>
+        
+      </form>
+      <p id="error" role="alert"></p>
+      
+      <h2>Other examples</h2>
+      <ul class="presets">
+        
+        <li><a href="../../e/vector-sum-1/">Two forces and their resultant</a></li>
+        
+        <li><a href="../../e/vector-sum-2/">Three forces in equilibrium</a></li>
+        
+        <li><a href="../../e/vector-sum-3/">Resultant parallel to (2i + 5j)</a></li>
+        
+      </ul>
+      
+    </section>
+  </main>
+  <script>window.SCENE_ID = "vector-sum";</script>
+  <script src="../../static/solvers.js"></script>
+  <script src="../../static/catalog.js"></script>
+  <script src="../../static/scenes.js"></script>
+  <script src="../../static/app.js"></script>
+</body>
+</html>
